@@ -4,7 +4,7 @@
 #include "lu.h"
 #include "types.h"
 
-void swap_row(f64 **A, usize N, usize i, usize j) {
+static void swap_row(f64 **A, usize N, usize i, usize j) {
     if (i == j) return;
 
     for (usize k = 0; k < N; k++) {
@@ -15,7 +15,7 @@ void swap_row(f64 **A, usize N, usize i, usize j) {
 }
 
 
-void lu_decompose(f64 **A, usize N, usize *p) {
+static void lu_decompose(f64 **A, usize N, usize *p) {
     for (usize j = 0; j < N - 1; j++) {
         f64 biggest = 0;
 
@@ -39,7 +39,7 @@ void lu_decompose(f64 **A, usize N, usize *p) {
 }
 
 
-void low_solve(f64 **L, usize N, f64 *B, usize *p) {
+static void low_solve(f64 **L, usize N, f64 *B, usize *p) {
     for (usize k = 0; k < N - 1; k++) {
         f64 temp = B[k];
         B[k] = B[p[k]];
@@ -54,8 +54,8 @@ void low_solve(f64 **L, usize N, f64 *B, usize *p) {
 }
 
 
-void upp_solve(f64 **U, usize N, f64 *Y) {
-    for (usize i = N - 1; i > -1; i--) {
+static void upp_solve(f64 **U, usize N, f64 *Y) {
+    for (usize i = N - 1; i < N && i >= 0; i--) {
         for (usize j = i + 1; j < N; j++)
             Y[i] -= U[i][j] * Y[j];
         Y[i] /= U[i][i];

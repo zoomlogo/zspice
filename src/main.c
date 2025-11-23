@@ -12,7 +12,22 @@ i32 main(void) {
         A[i][i] = 1;
     }
 
-    M_PRINT((f64 *) A, N);
+    A[0][0] = 2, A[0][1] = 3;
+    A[1][0] = 1, A[1][1] = 4;
+
+    f64 b[] = {5, 6};
+
+    V_PRINT(b, N);
+    M_PRINT(A, N);
+
+    solve(A, N, b);
+
+    V_PRINT(b, N);
+    M_PRINT(A, N);
+
+    for (usize i = 0; i < N; i++)
+        free(A[i]);
+    free(A);
 
     return 0;
 }
