@@ -5,17 +5,19 @@
 
 node_t *new_node() {
     node_t *node = (node_t *) malloc(sizeof(node_t));
-    m_init(&node->node_map);
-    node->is_grounded = false;
-    return node;
-}
+    if (node == NULL) goto err_0;
 
-node_t *new_grounded_node() {
-    node_t *node = (node_t *) malloc(sizeof(node_t));
-    m_init(&node->node_map);
-    node->is_grounded = true;
+    i32 err = m_init(&node->node_map);
+    if (err) goto err_1;
+
+    node->is_grounded = false;
     node->potential = 0;
     return node;
+
+err_1:
+    free(node);
+err_0:
+    return NULL;
 }
 
 void del_node(node_t *node) {
