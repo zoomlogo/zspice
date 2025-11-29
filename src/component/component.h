@@ -1,4 +1,6 @@
 #pragma once
+#include "voltage_source.h"
+#include "resistor.h"
 #include "types.h"
 
 #define ARR_MAX 32
@@ -9,9 +11,11 @@ enum ctype {
 
 typedef struct {
     enum ctype type;
-    f64 properties[ARR_MAX];
+
+    union {
+        struct resistor R;
+        struct voltage_source V;
+    };
 } component_t;
 
 component_t *new_component(enum ctype type);
-void p_set(component_t *component, char *p, f64 v);
-f64 p_get(component_t *component, char *p);

@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "component.h"
+#include "component/component.h"
 
 typedef struct {
     usize capacity;

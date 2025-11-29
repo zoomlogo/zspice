@@ -12,6 +12,9 @@ node_t *new_node() {
 
     node->is_grounded = false;
     node->potential = 0;
+    node->id = 0;
+    node->solver_id = 0;
+
     return node;
 
 err_1:

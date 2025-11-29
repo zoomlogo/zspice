@@ -4,8 +4,9 @@
 
 typedef struct {
     map_t node_map;
-    usize id;  // TODO initialize this
+    usize id;
 
+    i64 solver_id;
     f64 potential;
     bool is_grounded;
 } node_t;

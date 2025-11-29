@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "map.h"
-#include "component.h"
+#include "component/component.h"
 #include "types.h"
 
 i32 m_init(map_t *map) {
@@ -28,14 +28,12 @@ void del_map(map_t *map) {
     for (usize i = 0; i < map->N; i++)
         free(map->connections[i].components);
     free(map->connections);
-
-    free(map);
 }
 
 i32 m_insert(map_t *map, usize id, component_t *component) {
     // search
     i64 ii = -1;
-    for (usize i = 0; i < map->N; i++)
+    for (usize i = 0; i < map->n; i++)
         if (map->key[i] == id) ii = i;
 
     if (ii != -1) {
@@ -44,7 +42,7 @@ i32 m_insert(map_t *map, usize id, component_t *component) {
 
         if (connection->count >= connection->capacity) {
             // increase size
-            usize new_capacity = connection->capacity = connection->capacity == 0 ? 2 : connection->capacity * 2;
+            usize new_capacity = connection->capacity == 0 ? 2 : connection->capacity * 2;
 
             component_t *components = (component_t *) realloc(connection->components, new_capacity * sizeof(component_t));
             if (components == NULL) return -1;
@@ -52,6 +50,8 @@ i32 m_insert(map_t *map, usize id, component_t *component) {
             connection->components = components;
             connection->capacity = new_capacity;
         }
+
+        connection->components[connection->count++] = *component;
 
         return 0;
     } else {
@@ -79,7 +79,18 @@ i32 m_insert(map_t *map, usize id, component_t *component) {
 
         // add new component
         map->key[map->n] = id;
-        map->n++;
+        ii = map->n++;
+        connections_t *connection = &map->connections[ii];
+
+        const usize new_capacity = 2;
+
+        component_t *components = (component_t *) realloc(connection->components, new_capacity * sizeof(component_t));
+        if (components == NULL) return -1;
+
+        connection->components = components;
+        connection->capacity = new_capacity;
+
+        connection->components[connection->count++] = *component;
 
         return 0;
 
