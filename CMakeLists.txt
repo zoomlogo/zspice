@@ -9,8 +9,12 @@ include(CTest)
 
 include_directories(src)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
 add_executable(spice src/main.c src/lu.c)
 target_link_libraries(spice)
 
-add_executable(lu.test tests/test_lu.c src/lu.c)
-add_test(NAME test_lu COMMAND lu.test)
+add_executable(test_lu tests/test_lu.c src/lu.c)
+add_test(NAME test_lu COMMAND test_lu)

@@ -14,8 +14,7 @@ CMakeUserPresets.json
 .cache
 
 # Application
+bin/
 *.tcl
 *.a
 *.so
-spice
-*.test
