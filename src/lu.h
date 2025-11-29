@@ -1,6 +1,9 @@
 #pragma once
 #include "types.h"
 
+// TODO error handling
+
+/*
 #define V_PRINT(v,N) \
     ({ f64 *v_ = (v); const usize N_ = (N); \
        printf("vector(%lu):\n", N_); \
@@ -11,6 +14,7 @@
        for (usize i = 0; i < N_; i++) { \
            printf("["); for (usize j = 0; j < N_ - 1; j++) printf("%.3lf ", m_[i][j]); printf("%.3lf]\n", m_[i][N_ - 1]); \
        }})
+*/
 
 // void swap_row(f64 **A, usize N, usize i, usize j);
 // void lu_decompose(f64 **A, usize N, usize *p);

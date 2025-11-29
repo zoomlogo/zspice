@@ -1,10 +1,11 @@
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "lu.h"
 #include "types.h"
 
-int main() {
+#include "test.h"
+
+int main(void) {
     const usize N = 2;
     f64 **A = (f64 **) calloc(N, sizeof(f64));
     for (usize i = 0; i < N; i++) {
@@ -18,14 +19,11 @@ int main() {
     f64 b[] = {5, 6};
 
     solve(A, N, b);
+    ASSERT(b[0] == 0.4 && b[1] == 1.4);
 
     for (usize i = 0; i < N; i++)
         free(A[i]);
     free(A);
 
-    if (b[0] == 0.4 && b[1] == 1.4) {
-        return -1;
-    } else {
-        return 0;
-    }
+    return 0;
 }

@@ -34,7 +34,10 @@ i32 m_insert(map_t *map, usize id, component_t *component) {
     // search
     i64 ii = -1;
     for (usize i = 0; i < map->n; i++)
-        if (map->key[i] == id) ii = i;
+        if (map->key[i] == id) {
+            ii = i;
+            break;
+        }
 
     if (ii != -1) {
         // insert component into where id was found
@@ -59,10 +62,10 @@ i32 m_insert(map_t *map, usize id, component_t *component) {
 
         if (map->n >= map->N) {
             usize new_N = 2 * map->N;
-            key = (usize *) realloc(map->key, map->N);
+            key = (usize *) realloc(map->key, new_N * sizeof(usize));
             if (key == NULL) goto err_0;
 
-            connections_t *connections = (connections_t *) realloc(map->connections, map->N);
+            connections_t *connections = (connections_t *) realloc(map->connections, new_N * sizeof(connections_t));
             if (connections == NULL) goto err_1;
 
             for (usize i = map->n; i < new_N; i++) {

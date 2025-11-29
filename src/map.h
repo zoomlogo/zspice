@@ -16,7 +16,6 @@ typedef struct {
     connections_t *connections;
 } map_t;
 
-map_t *new_map();
 i32 m_init(map_t *map);
 void del_map(map_t *map);
 
