@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
+project(spice)
 
 option(ASAN "Enable Debugging with Address Sanitizer." OFF)
+if(ASAN)
+    message(STATUS "Building with Address sanitizer...")
+    add_compile_options(-g -fsanitize=address -fno-omit-frame-pointer)
+    add_link_options(-fsanitize=address)
+endif()
 
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-project(spice)
-
-include(CTest)
 
 include_directories(src)
 
@@ -15,18 +18,26 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-add_executable(spice src/main.c src/lu.c src/node.c src/circuit.c src/component/component.c src/map.c)
+set(MAIN_SOURCES
+    src/lu.c
+    src/node.c
+    src/map.c
+    src/circuit.c
+)
+set(COMPONENT_SOURCES
+    src/component/component.c
+)
+set(TEST_SOURCES
+    tests/test_lu.c
+    tests/test_map.c
+)
 
-if(ASAN)
-    message(STATUS "Building with Address sanitizer...")
-    target_compile_options(spice PRIVATE -g -fsanitize=address -fno-omit-frame-pointer)
-    target_link_options(spice PRIVATE -fsanitize=address)
-endif()
+add_library(core ${COMPONENT_SOURCES} ${MAIN_SOURCES})
+target_link_libraries(core PRIVATE m)
 
-target_link_libraries(spice)
+add_executable(spice src/main.c)
 
-add_executable(test_lu tests/test_lu.c src/lu.c)
-add_test(NAME test_lu COMMAND test_lu)
+target_link_libraries(spice PRIVATE core)
 
-add_executable(test_map tests/test_map.c src/map.c src/component/component.c)
-add_test(NAME test_map COMMAND test_map)
+add_executable(test_run tests/test.c ${TEST_SOURCES})
+target_link_libraries(test_run PRIVATE core)

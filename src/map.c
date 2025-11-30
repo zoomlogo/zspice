@@ -104,10 +104,6 @@ err_0:
     }
 }
 
-/* Get all the components connected with node id by
- * copying the length into r_len and copying the pointer
- * to the components to r_components.
- */
 i32 m_retrieve(map_t *map, usize id, connections_t *r_connections) {
     // search
     i64 ii = -1;

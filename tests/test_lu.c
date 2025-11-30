@@ -4,8 +4,11 @@
 #include "types.h"
 
 #include "test.h"
+#include "test_def.h"
 
-int main(void) {
+void test_lu(void) {
+    BEGIN_TEST();
+
     const usize N = 2;
     f64 **A = (f64 **) calloc(N, sizeof(f64));
     for (usize i = 0; i < N; i++) {
@@ -19,11 +22,15 @@ int main(void) {
     f64 b[] = {5, 6};
 
     solve(A, N, b);
-    ASSERT(b[0] == 0.4 && b[1] == 1.4);
+
+    f64 b0 = b[0] - 0.4;
+    f64 b1 = b[1] - 1.4;
+    ASSERT(-EPSILON < b0 && b0 < EPSILON);
+    ASSERT(-EPSILON < b1 && b1 < EPSILON);
 
     for (usize i = 0; i < N; i++)
         free(A[i]);
     free(A);
 
-    return 0;
+    END_TEST();
 }
