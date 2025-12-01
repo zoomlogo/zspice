@@ -1,8 +1,6 @@
 #pragma once
 #include "types.h"
 
-// TODO error handling
-
 /*
 #define V_PRINT(v,N) \
     ({ f64 *v_ = (v); const usize N_ = (N); \
@@ -22,4 +20,6 @@
 // void low_solve(f64 **L, usize N, f64 *B, usize *p);
 // void upp_solve(f64 **U, usize N, f64 *Y);
 
-void solve(f64 **A, usize N, f64 *B);
+#define LU_TOLERANCE 1e-12
+
+i32 solve(f64 **A, usize N, f64 *B);

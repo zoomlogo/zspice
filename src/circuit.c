@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "circuit.h"
+#include "error.h"
 #include "node.h"
 #include "types.h"
 
@@ -38,14 +39,14 @@ void del_circuit(circuit_t *circuit) {
 }
 
 i32 c_add_node(circuit_t *circuit, node_t *node) {
-    if (circuit == NULL || node == NULL) return -1;
+    if (circuit == NULL || node == NULL) return ERR_INVALID_ARG;
 
-    if (circuit->_n >= circuit->N) return -1;
+    if (circuit->_n >= circuit->N) return ERR_NODE_OVERFLOW;
 
     circuit->nodes[circuit->_n] = *node;
     circuit->nodes[circuit->_n].id = circuit->_n;
 
     circuit->_n++;
 
-    return 0;
+    return OK;
 }

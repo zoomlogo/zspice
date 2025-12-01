@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include "error.h"
 #include "lu.h"
 #include "types.h"
 
@@ -15,7 +16,11 @@ static void swap_row(f64 **A, usize N, usize i, usize j) {
 }
 
 
-static void lu_decompose(f64 **A, usize N, usize *p) {
+static i32 lu_decompose(f64 **A, usize N, usize *p) {
+    for (usize j = 0; j < N - 1; j++) {
+        p[j] = j;
+    }
+
     for (usize j = 0; j < N - 1; j++) {
         f64 biggest = 0;
 
@@ -23,12 +28,20 @@ static void lu_decompose(f64 **A, usize N, usize *p) {
             f64 sum = 0;
             for (usize l = j; l < N; l++)
                 sum += fabs(A[k][l]);
+
+            if (sum < LU_TOLERANCE) return -2;
+
             f64 current = fabs(A[k][j]) / sum;
             if (current > biggest)
                 biggest = current, p[j] = k;
+
         }
 
+        if (biggest < LU_TOLERANCE) return ERR_SINGULAR;
+
         swap_row(A, N, j, p[j]);
+
+        if (fabs(A[j][j]) < LU_TOLERANCE) return ERR_SINGULAR;
 
         for (usize i = j + 1; i < N; i++) {
             A[i][j] /= A[j][j];
@@ -36,6 +49,10 @@ static void lu_decompose(f64 **A, usize N, usize *p) {
                 A[i][k] -= A[i][j] * A[j][k];
         }
     }
+
+    if (fabs(A[N - 1][N - 1]) < LU_TOLERANCE) return ERR_SINGULAR;
+
+    return OK;
 }
 
 
@@ -54,19 +71,31 @@ static void low_solve(f64 **L, usize N, f64 *B, usize *p) {
 }
 
 
-static void upp_solve(f64 **U, usize N, f64 *Y) {
+static i32 upp_solve(f64 **U, usize N, f64 *Y) {
     for (usize i = N - 1; i < N && i >= 0; i--) {
         for (usize j = i + 1; j < N; j++)
             Y[i] -= U[i][j] * Y[j];
+
+        if (fabs(U[i][i]) < LU_TOLERANCE) return ERR_SINGULAR;
+
         Y[i] /= U[i][i];
     }
+
+    return OK;
 }
 
 
-void solve(f64 **A, usize N, f64 *B) {
+i32 solve(f64 **A, usize N, f64 *B) {
     usize *p = (usize *) malloc((N - 1) * sizeof(usize));
-    lu_decompose(A, N, p);
+    if (p == NULL) return ERR_MEM_ALLOC;
+
+    i32 err = lu_decompose(A, N, p);
+    if (err != 0) goto err_0;
+
     low_solve(A, N, B, p);
-    upp_solve(A, N, B);
+    err = upp_solve(A, N, B);
+
+err_0:
     free(p);
+    return err;
 }

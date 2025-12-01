@@ -23,6 +23,7 @@ set(MAIN_SOURCES
     src/node.c
     src/map.c
     src/circuit.c
+    src/error.c
 )
 set(COMPONENT_SOURCES
     src/component/component.c

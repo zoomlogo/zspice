@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "error.h"
 #include "lu.h"
 #include "types.h"
 
@@ -19,7 +20,8 @@ static inline void test_lu_simple_1(void) {
 
     f64 b[] = {5, 6};
 
-    solve(A, N, b);
+    i32 err = solve(A, N, b);
+    ASSERT(err == OK);
 
     f64 b0 = b[0] - 0.4;
     f64 b1 = b[1] - 1.4;
@@ -44,7 +46,8 @@ static inline void test_lu_simple_2(void) {
 
     f64 b[] = {5, 7};
 
-    solve(A, N, b);
+    i32 err = solve(A, N, b);
+    ASSERT(err == OK);
 
     f64 b0 = b[0] - 3.0;
     f64 b1 = b[1] - 2.0;
@@ -69,7 +72,8 @@ static inline void test_lu_pivoting(void) {
 
     f64 b[] = {5, 7};
 
-    solve(A, N, b);
+    i32 err = solve(A, N, b);
+    ASSERT(err == OK);
 
     f64 b0 = b[0] - 7.0;
     f64 b1 = b[1] - 5.0;
@@ -94,13 +98,8 @@ static inline void test_lu_singular(void) {
 
     f64 b[] = {5, 10};
 
-    // TODO singular fix
-    solve(A, N, b);
-
-    f64 b0 = b[0] - 7.0;
-    f64 b1 = b[1] - 5.0;
-    ASSERT(-EPSILON < b0 && b0 < EPSILON);
-    ASSERT(-EPSILON < b1 && b1 < EPSILON);
+    i32 err = solve(A, N, b);
+    ASSERT(err == ERR_SINGULAR);
 
     for (usize i = 0; i < N; i++)
         free(A[i]);

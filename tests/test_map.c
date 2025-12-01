@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "component/component.h"
+#include "error.h"
 #include "map.h"
 #include "types.h"
 
@@ -12,7 +13,8 @@ void test_map(void) {
 
     i32 err;
     map_t map;
-    m_init(&map);
+    err = m_init(&map);
+    ASSERT(err == OK);
 
     component_t *c1 = new_component(RESISTOR);
     component_t *c2 = new_component(RESISTOR);
@@ -38,9 +40,9 @@ void test_map(void) {
     // retrieval
     connections_t conn;
     err = m_retrieve(&map, 10, &conn);
-    ASSERT(err == -1);
+    ASSERT(err == ERR_NOT_FOUND);
     err = m_retrieve(&map, 4, &conn);
-    ASSERT(err == 0);
+    ASSERT(err == OK);
     ASSERT(conn.count == 3);
     ASSERT(conn.components[0].type == RESISTOR);
     ASSERT(conn.components[2].type == VOLTAGE_SOURCE);

@@ -1,0 +1,17 @@
+#pragma once
+
+#define ERRORS(X) \
+    X(OK, "ok: operation successful") \
+    X(ERR_INVALID_ARG, "arg: invalid arguments supplied") \
+    X(ERR_MEM_ALLOC, "mem_alloc: failed to allocate sufficient memory") \
+    X(ERR_NODE_OVERFLOW, "node_overflow: excess amount of nodes added to circuit") \
+    X(ERR_SINGULAR, "singular: matrix was singular") \
+    X(ERR_NOT_FOUND, "not_found: node with given id not found in map")
+
+typedef enum {
+#define X(n, m) n,
+    ERRORS(X)
+#undef X
+} error_t;
+
+const char *err_str(error_t error);

@@ -2,10 +2,11 @@
 
 #include "map.h"
 #include "component/component.h"
+#include "error.h"
 #include "types.h"
 
 i32 m_init(map_t *map) {
-    if (map == NULL) goto err_0;
+    if (map == NULL) goto err_inv;
 
     map->N = 2;
     map->n = 0;
@@ -16,12 +17,15 @@ i32 m_init(map_t *map) {
     map->key = (usize *) calloc(map->N, sizeof(usize));
     if (map->key == NULL) goto err_1;
 
-    return 0;
+    return OK;
 
 err_1:
     free(map->connections);
 err_0:
-    return -1;
+    return ERR_MEM_ALLOC;
+
+err_inv:
+    return ERR_INVALID_ARG;
 }
 
 void del_map(map_t *map) {
@@ -35,7 +39,7 @@ void del_map(map_t *map) {
 }
 
 i32 m_insert(map_t *map, usize id, component_t *component) {
-    if (map == NULL || component == NULL) return -1;
+    if (map == NULL || component == NULL) return ERR_INVALID_ARG;
 
     // search
     i64 ii = -1;
@@ -54,7 +58,7 @@ i32 m_insert(map_t *map, usize id, component_t *component) {
             usize new_capacity = connection->capacity == 0 ? 2 : connection->capacity * 2;
 
             component_t *components = (component_t *) realloc(connection->components, new_capacity * sizeof(component_t));
-            if (components == NULL) return -1;
+            if (components == NULL) return ERR_MEM_ALLOC;
 
             connection->components = components;
             connection->capacity = new_capacity;
@@ -62,7 +66,7 @@ i32 m_insert(map_t *map, usize id, component_t *component) {
 
         connection->components[connection->count++] = *component;
 
-        return 0;
+        return OK;
     } else {
         usize *key;
 
@@ -94,33 +98,33 @@ i32 m_insert(map_t *map, usize id, component_t *component) {
         const usize new_capacity = 2;
 
         component_t *components = (component_t *) realloc(connection->components, new_capacity * sizeof(component_t));
-        if (components == NULL) return -1;
+        if (components == NULL) goto err_1;
 
         connection->components = components;
         connection->capacity = new_capacity;
 
         connection->components[connection->count++] = *component;
 
-        return 0;
+        return OK;
 
 err_1:
         free(key);
 err_0:
-        return -1;
+        return ERR_MEM_ALLOC;
     }
 }
 
 i32 m_retrieve(map_t *map, usize id, connections_t *r_connections) {
-    if (map == NULL || r_connections == NULL) return -1;
+    if (map == NULL || r_connections == NULL) return ERR_INVALID_ARG;
 
     // search
     i64 ii = -1;
     for (usize i = 0; i < map->N; i++)
         if (map->key[i] == id) ii = i;
 
-    if (ii == -1) return -1;
+    if (ii == -1) return ERR_NOT_FOUND;
 
     *r_connections = map->connections[ii];
 
-    return 0;
+    return OK;
 }
