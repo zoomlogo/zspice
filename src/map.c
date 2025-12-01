@@ -5,6 +5,8 @@
 #include "types.h"
 
 i32 m_init(map_t *map) {
+    if (map == NULL) goto err_0;
+
     map->N = 2;
     map->n = 0;
 
@@ -23,6 +25,8 @@ err_0:
 }
 
 void del_map(map_t *map) {
+    if (map == NULL) return;
+
     free(map->key);
 
     for (usize i = 0; i < map->N; i++)
@@ -31,6 +35,8 @@ void del_map(map_t *map) {
 }
 
 i32 m_insert(map_t *map, usize id, component_t *component) {
+    if (map == NULL || component == NULL) return -1;
+
     // search
     i64 ii = -1;
     for (usize i = 0; i < map->n; i++)
@@ -105,6 +111,8 @@ err_0:
 }
 
 i32 m_retrieve(map_t *map, usize id, connections_t *r_connections) {
+    if (map == NULL || r_connections == NULL) return -1;
+
     // search
     i64 ii = -1;
     for (usize i = 0; i < map->N; i++)

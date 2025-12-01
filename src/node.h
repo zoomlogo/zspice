@@ -2,8 +2,6 @@
 #include "map.h"
 #include "types.h"
 
-// TODO error on arg checking
-
 typedef struct {
     map_t node_map;
     usize id;

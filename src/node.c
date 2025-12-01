@@ -24,6 +24,8 @@ err_0:
 }
 
 void del_node(node_t *node) {
+    if (node == NULL) return;
+
     del_map(&node->node_map);
     free(node);
 }

@@ -5,6 +5,8 @@
 #include "types.h"
 
 circuit_t *new_circuit(usize N) {
+    if (N < 2) goto err_0; // minimum 2 nodes for a circuit
+
     circuit_t *circuit = (circuit_t *) malloc(sizeof(circuit_t));
     if (circuit == NULL) goto err_0;
 
@@ -23,12 +25,21 @@ err_0:
 }
 
 void del_circuit(circuit_t *circuit) {
-    // TODO free the components
+    if (circuit == NULL) return;
+
+    for (usize i = 0; i < circuit->_n; i++) {
+        free(circuit->nodes[i].node_map.connections->components);
+        free(circuit->nodes[i].node_map.connections);
+        free(circuit->nodes[i].node_map.key);
+    }
+
     free(circuit->nodes);
     free(circuit);
 }
 
 i32 c_add_node(circuit_t *circuit, node_t *node) {
+    if (circuit == NULL || node == NULL) return -1;
+
     if (circuit->_n >= circuit->N) return -1;
 
     circuit->nodes[circuit->_n] = *node;

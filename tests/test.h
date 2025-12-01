@@ -10,7 +10,7 @@ extern usize test_num, passed;
     ({ test_num++; \
     if ( cond ) passed++; \
     else { \
-        printf("test failed @ %s:%d || (%s)\n", __FILE__, __LINE__, #cond); \
+        printf("\033[31mtest failed\033[0m @ \033[34m%s\033[0m:\033[35m%d\033[0m || (%s)\n", __FILE__, __LINE__, #cond); \
     } })
 #define BEGIN_TEST() printf("entering %s...\n", __FILE__); test_num = 0, passed = 0
-#define END_TEST() printf("%lu / %lu passed.\n", passed, test_num)
+#define END_TEST() printf("\033[32m%lu / %lu passed.\033[0m\n", passed, test_num)
