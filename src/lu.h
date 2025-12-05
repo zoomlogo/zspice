@@ -14,12 +14,13 @@
        }})
 */
 
-// void swap_row(f64 **A, usize N, usize i, usize j);
-// void lu_decompose(f64 **A, usize N, usize *p);
+// void swap_row(f64 *A, usize N, usize i, usize j);
+// void lu_decompose(f64 *A, usize N, usize *p);
 
-// void low_solve(f64 **L, usize N, f64 *B, usize *p);
-// void upp_solve(f64 **U, usize N, f64 *Y);
+// void low_solve(f64 *L, usize N, f64 *B, usize *p);
+// void upp_solve(f64 *U, usize N, f64 *Y);
 
 #define LU_TOLERANCE 1e-12
+#define MI(a, i, j, n) (a)[(n) * (i) + (j)]
 
-i32 solve(f64 **A, usize N, f64 *B);
+i32 lu_solve(f64 *A, usize N, f64 *B);

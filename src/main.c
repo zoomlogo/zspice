@@ -43,7 +43,7 @@ i32 main(void) {
         printf("node id(%lu):\n  ", n->id);
 
         for (usize j = 0; j < n->node_map.n; j++) {
-            printf("|| %d: ", n->node_map.key[j]);
+            printf("|| %lu: ", n->node_map.key[j]);
             printf("%lu", n->node_map.connections->count);
             printf(" ||\n");
         }
@@ -51,8 +51,8 @@ i32 main(void) {
 
     // free memory
     del_circuit(circuit);
-    del_node(a);
-    del_node(b);
+    free(a);
+    free(b);
 
     free(resistor);
     free(source);
