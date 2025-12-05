@@ -5,7 +5,7 @@
 #include "error.h"
 #include "types.h"
 
-i32 m_init(map_t *map) {
+error_t m_init(map_t *map) {
     if (map == NULL) goto err_inv;
 
     map->N = 2;
@@ -38,7 +38,7 @@ void del_map(map_t *map) {
     free(map->connections);
 }
 
-i32 m_insert(map_t *map, usize id, component_t *component) {
+error_t m_insert(map_t *map, usize id, component_t *component) {
     if (map == NULL || component == NULL) return ERR_INVALID_ARG;
 
     // search
@@ -114,7 +114,7 @@ err_0:
     }
 }
 
-i32 m_retrieve(map_t *map, usize id, connections_t *r_connections) {
+error_t m_retrieve(map_t *map, usize id, connections_t *r_connections) {
     if (map == NULL || r_connections == NULL) return ERR_INVALID_ARG;
 
     // search

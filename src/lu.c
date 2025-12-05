@@ -20,7 +20,7 @@ static void swap_row(f64 *A, usize N, usize i, usize j) {
 }
 
 
-static i32 lu_decompose(f64 *A, usize N, usize *p) {
+static error_t lu_decompose(f64 *A, usize N, usize *p) {
     for (usize j = 0; j < N - 1; j++) {
         p[j] = j;
     }
@@ -75,7 +75,7 @@ static void low_solve(f64 *L, usize N, f64 *B, usize *p) {
 }
 
 
-static i32 upp_solve(f64 *U, usize N, f64 *Y) {
+static error_t upp_solve(f64 *U, usize N, f64 *Y) {
     for (usize i = N - 1; i < N && i >= 0; i--) {
         for (usize j = i + 1; j < N; j++)
             Y[i] -= U(i, j) * Y[j];
@@ -89,7 +89,7 @@ static i32 upp_solve(f64 *U, usize N, f64 *Y) {
 }
 
 
-i32 lu_solve(f64 *A, usize N, f64 *B) {
+error_t lu_solve(f64 *A, usize N, f64 *B) {
     usize *p = (usize *) malloc((N - 1) * sizeof(usize));
     if (p == NULL) return ERR_MEM_ALLOC;
 

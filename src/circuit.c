@@ -38,7 +38,7 @@ void del_circuit(circuit_t *circuit) {
     free(circuit);
 }
 
-i32 c_add_node(circuit_t *circuit, node_t *node) {
+error_t c_add_node(circuit_t *circuit, node_t *node) {
     if (circuit == NULL || node == NULL) return ERR_INVALID_ARG;
 
     if (circuit->_n >= circuit->N) return ERR_NODE_OVERFLOW;
