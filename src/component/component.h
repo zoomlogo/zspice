@@ -12,6 +12,9 @@ enum ctype {
 typedef struct {
     enum ctype type;
 
+    usize id0; // positive connection
+    usize id1; // negative connection
+
     union {
         struct resistor R;
         struct voltage_source V;

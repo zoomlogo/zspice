@@ -20,8 +20,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 set(MAIN_SOURCES
     src/lu.c
-    src/node.c
-    src/map.c
     src/circuit.c
     src/error.c
 )
@@ -30,8 +28,6 @@ set(COMPONENT_SOURCES
 )
 set(TEST_SOURCES
     tests/test_lu.c
-    tests/test_map.c
-    tests/test_node.c
     tests/test_circuit.c
 )
 
