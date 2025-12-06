@@ -4,9 +4,8 @@
     X(OK, "ok: operation successful") \
     X(ERR_INVALID_ARG, "arg: invalid arguments supplied") \
     X(ERR_MEM_ALLOC, "mem_alloc: failed to allocate sufficient memory") \
-    X(ERR_NODE_OVERFLOW, "node_overflow: excess amount of nodes added to circuit") \
     X(ERR_SINGULAR, "singular: matrix was singular") \
-    X(ERR_NOT_FOUND, "not_found: node with given id not found in map")
+    X(ERR_NOT_INIT, "not_init: circuit solver matrix not initialized")
 
 typedef enum {
 #define X(n, m) n,

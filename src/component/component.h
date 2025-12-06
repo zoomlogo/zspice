@@ -1,14 +1,21 @@
 #pragma once
-#include "voltage_source.h"
-#include "resistor.h"
 #include "types.h"
 
-#define ARR_MAX 32
-
+// enum declaration
 enum ctype {
-    RESISTOR, VOLTAGE_SOURCE
+#define COMPONENT(en, sn, av, p) en,
+#include "component.def"
+#undef COMPONENT
 };
 
+// individual component declaration
+#define P(x) f64 x;
+#define COMPONENT(en, sn, av, p) struct sn { p };
+#include "component.def"
+#undef COMPONENT
+#undef P
+
+// main component struct declaration
 typedef struct {
     enum ctype type;
 
@@ -16,8 +23,9 @@ typedef struct {
     usize id1; // negative connection
 
     union {
-        struct resistor R;
-        struct voltage_source V;
+#define COMPONENT(en, sn, av, p) struct sn av;
+#include "component.def"
+#undef COMPONENT
     };
 } component_t;
 

@@ -1,0 +1,9 @@
+// Define each component using macros, so that all component data is here.
+COMPONENT(RESISTOR, resistor, R,
+    P(resistance)
+    P(conductance)
+)
+
+COMPONENT(VOLTAGE_SOURCE, voltage_source, V,
+    P(potential)
+)
