@@ -69,4 +69,24 @@ error_t c_add_connection(circuit_t *circuit, const component_t *component) {
     return OK;
 }
 
-error_t c_init_solver_matrix(circuit_t *circuit);
+error_t c_init_solver_matrix(circuit_t *circuit) {
+    // get voltage source count for MNA.
+    usize v_src = 0;
+    for (usize i = 0; i < circuit->component_count; i++)
+        if (circuit->components[i].type == VOLTAGE_SOURCE)
+            v_src++;
+
+    circuit->dim = circuit->node_count + v_src;
+    circuit->A = (f64 *) calloc(circuit->dim * circuit->dim, sizeof(f64));
+    if (circuit->A == NULL) goto err_0;
+
+    circuit->b = (f64 *) calloc(circuit->dim, sizeof(f64));
+    if (circuit->b == NULL) goto err_1;
+
+    return OK;
+
+err_1:
+    free(circuit->A);
+err_0:
+    return ERR_MEM_ALLOC;
+}

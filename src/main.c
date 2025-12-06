@@ -7,5 +7,16 @@
 #include "types.h"
 
 i32 main(void) {
+    // make a very simple circuit for testing
+    circuit_t *circuit = new_circuit();
+
+    component_t r = { RESISTOR, 0, 1, .R.resistance = 5000, .R.conductance = 1 / 5000. };
+    component_t v = { VOLTAGE_SOURCE, 0, 1, .V.potential = 5 };
+    c_add_connection(circuit, &r);
+    c_add_connection(circuit, &v);
+
+    c_init_solver_matrix(circuit);
+
+    del_circuit(circuit);
     return 0;
 }
