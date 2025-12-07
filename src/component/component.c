@@ -11,3 +11,10 @@ component_t *new_component(enum ctype type) {
     component->type = type;
     return component;
 }
+
+// dc analysis: LUT
+const dc_stamp_f DC_STAMPS[_C_LEN] = {
+#define COMPONENT(en, sn, av, p) [en] = dc_stamp_##sn,
+#include "component.def"
+#undef COMPONENT
+};

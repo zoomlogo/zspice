@@ -3,6 +3,7 @@
 #include "dc.h"
 #include "component/component.h"
 #include "error.h"
+#include "lu.h"
 
 error_t dc_solve(circuit_t *circuit) {
     if (circuit->dim == 0) return ERR_NOT_INIT;
@@ -13,6 +14,19 @@ error_t dc_solve(circuit_t *circuit) {
 
     // setup matrix
     for (usize i = 0; i < circuit->component_count; i++) {
+        component_t *c = &circuit->components[i];
+        error_t err = DC_STAMPS[c->type](circuit->dim, circuit->A, circuit->b, c);
+
+        if (err != OK) return err;
+    }
+
+    // solve
+    error_t err = lu_solve(circuit->A, circuit->dim, circuit->b);
+
+    // copy voltage values back into the nodes and cleanup
+    if (err != OK) return err;
+    for (usize i = 0; i < circuit->node_count; i++) {
+        circuit->nodes[i].potential = circuit->b[i];
     }
 
     return OK;

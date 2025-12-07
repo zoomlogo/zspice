@@ -5,6 +5,6 @@ const char *err_str(error_t error) {
 #define X(n, m) case n: return m;
         ERRORS(X)
 #undef X
-        default: return "unknown error code\n";
+        default: return "unknown error code";
     }
 }

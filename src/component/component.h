@@ -1,15 +1,17 @@
 #pragma once
 #include "types.h"
+#include "error.h"
 
 // enum declaration
 enum ctype {
 #define COMPONENT(en, sn, av, p) en,
 #include "component.def"
 #undef COMPONENT
+    _C_LEN
 };
 
 // individual component declaration
-#define P(x) f64 x;
+#define P(t, x) t x;
 #define COMPONENT(en, sn, av, p) struct sn { p };
 #include "component.def"
 #undef COMPONENT
@@ -30,3 +32,12 @@ typedef struct {
 } component_t;
 
 component_t *new_component(enum ctype type);
+
+// dc analysis: stamp functions
+typedef error_t (*dc_stamp_f)(usize, f64 *, f64 *, component_t *);
+#define COMPONENT(en, sn, av, p) error_t dc_stamp_##sn(usize dim, f64 *A, f64 *b, component_t *c);
+#include "component.def"
+#undef COMPONENT
+
+// dc analysis: LUT
+extern const dc_stamp_f DC_STAMPS[_C_LEN];

@@ -1,0 +1,10 @@
+analog circuit simulator
+
+resources:
+= https://ngspice.sourceforge.io/docs/ngspice-45-manual.pdf
+= https://en.wikipedia.org/wiki/Modified_nodal_analysis
+= https://www2.eecs.berkeley.edu/Pubs/TechRpts/1973/ERL-m-382.pdf
+= https://cheever.domains.swarthmore.edu/Ref/mna/MNA_All.html
+= https://guitorri.github.io/qucs-web/docs/technical.pdf
+= https://cheever.domains.swarthmore.edu/Ref/mna/MNA3.html
+
