@@ -25,8 +25,9 @@ error_t dc_solve(circuit_t *circuit) {
 
     // copy voltage values back into the nodes and cleanup
     if (err != OK) return err;
-    for (usize i = 0; i < circuit->node_count; i++) {
-        circuit->nodes[i].potential = circuit->b[i];
+    circuit->nodes[0].potential = 0;
+    for (usize i = 1; i < circuit->node_count; i++) {
+        circuit->nodes[i].potential = circuit->b[i - 1];
     }
 
     return OK;

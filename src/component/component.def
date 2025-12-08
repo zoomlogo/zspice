@@ -6,4 +6,5 @@ COMPONENT(RESISTOR, resistor, R,
 
 COMPONENT(VOLTAGE_SOURCE, voltage_source, V,
     P(f64, potential)
+    P(usize, solver_id)
 )

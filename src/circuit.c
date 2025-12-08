@@ -36,6 +36,9 @@ err_0:
 void del_circuit(circuit_t *circuit) {
     if (circuit == NULL) return;
 
+    if (circuit->A != NULL) free(circuit->A);
+    if (circuit->b != NULL) free(circuit->b);
+
     free(circuit->nodes);
     free(circuit->components);
     free(circuit);
@@ -73,10 +76,12 @@ error_t c_init_solver_matrix(circuit_t *circuit) {
     // get voltage source count for MNA.
     usize v_src = 0;
     for (usize i = 0; i < circuit->component_count; i++)
-        if (circuit->components[i].type == VOLTAGE_SOURCE)
-            v_src++;
+        if (circuit->components[i].type == VOLTAGE_SOURCE) {
+            circuit->components[i].V.solver_id = circuit->node_count - 1 + v_src++;
+        }
 
-    circuit->dim = circuit->node_count + v_src;
+    // minus one as node id zero is always considered ground
+    circuit->dim = circuit->node_count + v_src - 1;
     circuit->A = (f64 *) calloc(circuit->dim * circuit->dim, sizeof(f64));
     if (circuit->A == NULL) goto err_0;
 

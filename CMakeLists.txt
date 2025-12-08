@@ -22,9 +22,12 @@ set(MAIN_SOURCES
     src/lu.c
     src/circuit.c
     src/error.c
+    src/dc.c
 )
 set(COMPONENT_SOURCES
     src/component/component.c
+    src/component/resistor.c
+    src/component/voltage_source.c
 )
 set(TEST_SOURCES
     tests/test_lu.c
