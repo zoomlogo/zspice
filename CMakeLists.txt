@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(spice)
+project(zspice)
 
 option(ASAN "Enable Debugging with Address Sanitizer." OFF)
 if(ASAN)
@@ -37,9 +37,8 @@ set(TEST_SOURCES
 add_library(core ${COMPONENT_SOURCES} ${MAIN_SOURCES})
 target_link_libraries(core PRIVATE m)
 
-add_executable(spice src/main.c)
-
-target_link_libraries(spice PRIVATE core)
+add_executable(zspice src/main.c)
+target_link_libraries(zspice PRIVATE core)
 
 add_executable(test_run tests/test.c ${TEST_SOURCES})
 target_link_libraries(test_run PRIVATE core)

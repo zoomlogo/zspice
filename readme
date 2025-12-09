@@ -1,5 +1,13 @@
 analog circuit simulator
 
+build instructions:
+git clone https://codeberg.org/zoomlogo/zspice
+cd zspice
+cmake .
+make
+./bin/test_run           # to run the tests
+./bin/zspice             # actual program
+
 resources:
 = https://ngspice.sourceforge.io/docs/ngspice-45-manual.pdf
 = https://en.wikipedia.org/wiki/Modified_nodal_analysis
