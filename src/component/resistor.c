@@ -9,7 +9,7 @@ error_t dc_stamp_resistor(usize dim, f64 *A, f64 *b, component_t *c) {
     usize n0 = c->id0;
     usize n1 = c->id1;
 
-    if (c->R.conductance == NAN)
+    if (isnan(c->R.conductance))
         c->R.conductance = 1 / c->R.resistance;
 
     f64 G = c->R.conductance;
