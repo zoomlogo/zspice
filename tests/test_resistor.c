@@ -1,0 +1,30 @@
+#include "component/component.h"
+#include "error.h"
+#include "test.h"
+#include "test_def.h"
+
+#include "circuit.h"
+#include <math.h>
+
+static void test_dc_stamp_resistor(void) {
+    f64 A[4] = {0, 0, 0, 0};
+    f64 b[2] = {0, 0};
+    error_t err;
+
+    component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
+    err = dc_stamp_resistor(2, A, b, &r);
+    ASSERT(err == OK);
+    ASSERT(b[0] == 0 && b[1] == 0);
+    ASSERTF(A[0], 0.01);
+    ASSERT(A[1] == 0 && A[2] == 0 && A[3] == 0);
+
+    // TODO test erroring
+}
+
+void test_resistor(void) {
+    BEGIN_TEST();
+
+    test_dc_stamp_resistor();
+
+    END_TEST();
+}
