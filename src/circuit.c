@@ -77,7 +77,7 @@ error_t c_init_solver_matrix(circuit_t *circuit) {
     usize v_src = 0;
     for (usize i = 0; i < circuit->component_count; i++)
         if (circuit->components[i].type == VOLTAGE_SOURCE) {
-            circuit->components[i].V.solver_id = circuit->node_count - 1 + v_src++;
+            circuit->components[i].solver_id = circuit->node_count - 1 + v_src++;
         }
 
     // minus one as node id zero is always considered ground

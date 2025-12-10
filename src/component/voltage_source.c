@@ -9,7 +9,7 @@
 error_t dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c) {
     usize n0 = c->id0;
     usize n1 = c->id1;
-    usize nn = c->V.solver_id;
+    usize nn = c->solver_id;
 
     if (n0 > 0) {
         A(n0 - 1, nn) += 1;

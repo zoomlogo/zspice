@@ -21,8 +21,18 @@ enum ctype {
 typedef struct {
     enum ctype type;
 
-    usize id0; // positive connection
-    usize id1; // negative connection
+    // connections, proper node id
+    // the real solver_id is id - 1
+    // since id = 0 is ALWAYS ground
+    usize id0; // generally the positive connection
+    usize id1; // generally the negative connection
+
+    // for multiple terminal devices
+    usize id2;
+    usize id3;
+
+    // for components which require access to the C/B/D matrices
+    usize solver_id;
 
     union {
 #define COMPONENT(en, sn, av, p) struct sn av;
