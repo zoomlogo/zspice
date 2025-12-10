@@ -9,8 +9,8 @@ error_t dc_stamp_resistor(usize dim, f64 *A, f64 *b, component_t *c) {
     usize n0 = c->id0;
     usize n1 = c->id1;
 
-    if (c->R.resistance == 0) return ERR_INVALID_PARAM;
-    if (n0 == n1) return ERR_INVALID_PARAM;
+    if (c->R.resistance == 0 || n0 == n1)
+        return ERR_INVALID_PARAM;
 
     if (isnan(c->R.conductance))
         c->R.conductance = 1 / c->R.resistance;
