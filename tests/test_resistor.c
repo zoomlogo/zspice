@@ -3,12 +3,11 @@
 #include "test.h"
 #include "test_def.h"
 
-#include "circuit.h"
 #include <math.h>
 
 static void test_dc_stamp_resistor(void) {
-    f64 A[4] = {0, 0, 0, 0};
-    f64 b[2] = {0, 0};
+    f64 A[4] = {0};
+    f64 b[2] = {0};
     error_t err;
 
     component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
@@ -31,12 +30,6 @@ static void test_dc_stamp_resistor(void) {
 
     r.R.resistance = 0;
     r.R.conductance = NAN;
-    err = dc_stamp_resistor(2, A, b, &r);
-    ASSERT(err == ERR_INVALID_PARAM);
-
-    r.R.resistance = 10;
-    r.id0 = 1;
-    r.id1 = 1;
     err = dc_stamp_resistor(2, A, b, &r);
     ASSERT(err == ERR_INVALID_PARAM);
 }

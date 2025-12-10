@@ -3,7 +3,8 @@
 #define TESTS(X) \
     X(test_lu) \
     X(test_circuit) \
-    X(test_resistor)
+    X(test_resistor) \
+    X(test_voltage_source)
 
 
 // define the functions

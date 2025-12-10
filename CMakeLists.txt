@@ -33,6 +33,7 @@ set(TEST_SOURCES
     tests/test_lu.c
     tests/test_circuit.c
     tests/test_resistor.c
+    tests/test_voltage_source.c
 )
 
 add_library(core ${COMPONENT_SOURCES} ${MAIN_SOURCES})
