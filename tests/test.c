@@ -14,5 +14,7 @@ i32 main(void) {
 #undef X
     if (net_failed > 0)
         printf("\033[31mtotal failed: %lu\033[0m\n", net_failed);
+    else
+        printf("\033[32m======= ALL PASSED! =======\033[0m\n");
     return 0;
 }

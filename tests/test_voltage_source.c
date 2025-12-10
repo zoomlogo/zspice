@@ -1,9 +1,9 @@
+#include <math.h>
+
 #include "component/component.h"
 #include "error.h"
 #include "test.h"
 #include "test_def.h"
-
-#include <math.h>
 
 void test_dc_stamp_voltage_source(void) {
     f64 A[9] = {0};

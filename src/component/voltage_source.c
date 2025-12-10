@@ -1,8 +1,9 @@
+#include <math.h>
+
 #include "component.h"
 #include "error.h"
 #include "lu.h"
 #include "types.h"
-#include <math.h>
 
 #define A(i, j) MI(A, (i), (j), dim)
 error_t dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c) {

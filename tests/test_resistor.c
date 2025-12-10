@@ -1,9 +1,9 @@
+#include <math.h>
+
 #include "component/component.h"
 #include "error.h"
 #include "test.h"
 #include "test_def.h"
-
-#include <math.h>
 
 static void test_dc_stamp_resistor(void) {
     f64 A[4] = {0};
