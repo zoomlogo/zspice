@@ -7,8 +7,6 @@
 #include "lu.h"
 #include "types.h"
 
-// TODO testing for component/*.c
-
 i32 main(void) {
     circuit_t *circuit = new_circuit();
 
