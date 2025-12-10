@@ -4,6 +4,7 @@
     X(test_lu) \
     X(test_resistor) \
     X(test_voltage_source) \
+    X(test_current_source) \
     X(test_circuit) \
     X(test_dc)
 

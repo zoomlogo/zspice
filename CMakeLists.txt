@@ -28,6 +28,7 @@ set(COMPONENT_SOURCES
     src/component/component.c
     src/component/resistor.c
     src/component/voltage_source.c
+    src/component/current_source.c
 )
 set(TEST_SOURCES
     tests/test_lu.c
@@ -35,6 +36,7 @@ set(TEST_SOURCES
     tests/test_dc.c
     tests/test_resistor.c
     tests/test_voltage_source.c
+    tests/test_current_source.c
 )
 
 add_library(core ${COMPONENT_SOURCES} ${MAIN_SOURCES})
