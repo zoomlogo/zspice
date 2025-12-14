@@ -73,15 +73,17 @@ error_t c_add_connection(circuit_t *circuit, const component_t *component) {
 }
 
 error_t c_init_solver_matrix(circuit_t *circuit) {
-    // get voltage source count for MNA.
-    usize v_src = 0;
+    // certain components require the current flowing through a given branch
+    // so that introduces an unknown
+    // example: voltage sources / inductors
+    usize unknwns = 0;
     for (usize i = 0; i < circuit->component_count; i++)
-        if (circuit->components[i].type == VOLTAGE_SOURCE) {
-            circuit->components[i].solver_id = circuit->node_count - 1 + v_src++;
-        }
+        if (circuit->components[i].type == VOLTAGE_SOURCE)
+            circuit->components[i].solver_id = circuit->node_count - 1 + unknwns++;
 
-    // minus one as node id zero is always considered ground
-    circuit->dim = circuit->node_count + v_src - 1;
+    // net dimension is node_count + unknwns minus one as node id
+    // zero is always considered ground
+    circuit->dim = circuit->node_count + unknwns - 1;
     circuit->A = (f64 *) calloc(circuit->dim * circuit->dim, sizeof(f64));
     if (circuit->A == NULL) goto err_0;
 
