@@ -1,9 +1,6 @@
 // Define each component using macros, so that all component data is here.
-COMPONENT(RESISTOR, resistor, R,
-    P(f64, resistance)
-    P(f64, conductance)
-)
 
+// Sources:
 COMPONENT(VOLTAGE_SOURCE, voltage_source, V,
     P(f64, potential)
 )
@@ -11,3 +8,19 @@ COMPONENT(VOLTAGE_SOURCE, voltage_source, V,
 COMPONENT(CURRENT_SOURCE, current_source, I,
     P(f64, current)
 )
+
+
+// Passive components
+COMPONENT(RESISTOR, resistor, R,
+    P(f64, resistance)
+    P(f64, conductance)
+)
+
+COMPONENT(CAPACITOR, capacitor, C,
+    P(f64, capacitance)
+)
+
+COMPONENT(INDUCTOR, inductor, L,
+    P(f64, inductance)
+)
+

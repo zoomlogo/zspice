@@ -18,7 +18,7 @@ i32 main(void) {
 
     c_init_solver_matrix(circuit);
 
-    dc_solve(circuit);
+    dc_solve_linear(circuit);
     for (usize i = 0; i < circuit->node_count; i++)
         printf("%lu: %lf\n", i, circuit->nodes[i].potential);
 

@@ -26,9 +26,11 @@ set(MAIN_SOURCES
 )
 set(COMPONENT_SOURCES
     src/component/component.c
-    src/component/resistor.c
     src/component/voltage_source.c
     src/component/current_source.c
+    src/component/resistor.c
+    src/component/capacitor.c
+    src/component/inductor.c
 )
 set(TEST_SOURCES
     tests/test_lu.c

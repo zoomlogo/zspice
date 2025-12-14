@@ -5,7 +5,7 @@
 #include "error.h"
 #include "lu.h"
 
-error_t dc_solve(circuit_t *circuit) {
+error_t dc_solve_linear(circuit_t *circuit) {
     if (circuit->dim == 0) return ERR_NOT_INIT;
 
     // reset memory
