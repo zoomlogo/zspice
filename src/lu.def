@@ -1,0 +1,107 @@
+// lu solver template
+// so code isn't repeated twice
+// because we need two versions
+// 1. for DC solving (using f64)
+// 2. for AC solving (using complex - c64) - NOT COMMODORE 64
+#define A(i, j) MI(A, i, j, N)
+#define L(i, j) MI(L, i, j, N)
+#define U(i, j) MI(U, i, j, N)
+
+static inline void FUNC(swap_row)(TYPE *A, usize N, usize i, usize j) {
+    if (i == j) return;
+
+    for (usize k = 0; k < N; k++) {
+        TYPE temp = A(i, k);
+        A(i, k) = A(j, k);
+        A(j, k) = temp;
+    }
+}
+
+
+static inline error_t FUNC(lu_decompose)(TYPE *A, usize N, usize *p) {
+    for (usize j = 0; j < N - 1; j++) {
+        p[j] = j;
+    }
+
+    for (usize j = 0; j < N - 1; j++) {
+        f64 biggest = 0;
+
+        for (usize k = j; k < N; k++) {
+            f64 sum = 0;
+            for (usize l = j; l < N; l++)
+                sum += ABS(A(k, l));
+
+            if (sum < LU_TOLERANCE) return -2;
+
+            f64 current = ABS(A(k, j)) / sum;
+            if (current > biggest)
+                biggest = current, p[j] = k;
+
+        }
+
+        if (biggest < LU_TOLERANCE) return ERR_SINGULAR;
+
+        FUNC(swap_row)(A, N, j, p[j]);
+
+        if (ABS(A(j, j)) < LU_TOLERANCE) return ERR_SINGULAR;
+
+        for (usize i = j + 1; i < N; i++) {
+            A(i, j) /= A(j, j);
+            for (usize k = j + 1; k < N; k++)
+                A(i, k) -= A(i, j) * A(j, k);
+        }
+    }
+
+    if (ABS(A(N - 1, N - 1)) < LU_TOLERANCE) return ERR_SINGULAR;
+
+    return OK;
+}
+
+
+static inline void FUNC(low_solve)(TYPE *L, usize N, TYPE *B, usize *p) {
+    for (usize k = 0; k < N - 1; k++) {
+        TYPE temp = B[k];
+        B[k] = B[p[k]];
+        B[p[k]] = temp;
+    }
+
+    for (usize i = 1; i < N; i++) {
+        for (usize j = 0; j < i; j++) {
+            B[i] -= L(i, j) * B[j];
+        }
+    }
+}
+
+
+static inline error_t FUNC(upp_solve)(TYPE *U, usize N, TYPE *Y) {
+    for (usize i = N - 1; i < N && i >= 0; i--) {
+        for (usize j = i + 1; j < N; j++)
+            Y[i] -= U(i, j) * Y[j];
+
+        if (ABS(U(i, i)) < LU_TOLERANCE) return ERR_SINGULAR;
+
+        Y[i] /= U(i, i);
+    }
+
+    return OK;
+}
+
+
+error_t FUNC(lu_solve)(TYPE *A, usize N, TYPE *B) {
+    usize *p = (usize *) malloc((N - 1) * sizeof(usize));
+    if (p == NULL) return ERR_MEM_ALLOC;
+
+    error_t err = FUNC(lu_decompose)(A, N, p);
+    if (err != 0) goto err_0;
+
+    FUNC(low_solve)(A, N, B, p);
+    err = FUNC(upp_solve)(A, N, B);
+
+err_0:
+    free(p);
+    return err;
+}
+
+#undef A
+#undef L
+#undef U

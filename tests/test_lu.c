@@ -16,7 +16,7 @@ static inline void test_lu_simple_1(void) {
 
     f64 b[] = {5, 6};
 
-    i32 err = lu_solve(A, N, b);
+    i32 err = r_lu_solve(A, N, b);
     ASSERT(err == OK);
 
     ASSERTF(b[0], 0.4);
@@ -34,7 +34,7 @@ static inline void test_lu_simple_2(void) {
 
     f64 b[] = {5, 7};
 
-    i32 err = lu_solve(A, N, b);
+    i32 err = r_lu_solve(A, N, b);
     ASSERT(err == OK);
 
     ASSERTF(b[0], 3);
@@ -52,7 +52,7 @@ static inline void test_lu_pivoting(void) {
 
     f64 b[] = {5, 7};
 
-    i32 err = lu_solve(A, N, b);
+    i32 err = r_lu_solve(A, N, b);
     ASSERT(err == OK);
 
     ASSERTF(b[0], 7.0);
@@ -70,7 +70,7 @@ static inline void test_lu_singular(void) {
 
     f64 b[] = {5, 10};
 
-    i32 err = lu_solve(A, N, b);
+    i32 err = r_lu_solve(A, N, b);
     ASSERT(err == ERR_SINGULAR);
 
     free(A);

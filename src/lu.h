@@ -24,4 +24,5 @@
 #define LU_TOLERANCE 1e-12
 #define MI(a, i, j, n) (a)[(n) * (i) + (j)]
 
-error_t lu_solve(f64 *A, usize N, f64 *B);
+error_t r_lu_solve(f64 *A, usize N, f64 *B);
+error_t c_lu_solve(c64 *A, usize N, c64 *B);

@@ -1,4 +1,7 @@
 #pragma once
+#include <complex.h>
+#define J I
+#undef I
 #include <stddef.h>
 #include <stdint.h>
 
@@ -14,5 +17,8 @@ typedef uint64_t u64;
 
 typedef float  f32;
 typedef double f64;
+
+typedef complex float c32;
+typedef complex double c64;
 
 typedef size_t usize;

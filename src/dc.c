@@ -21,7 +21,7 @@ error_t dc_solve_linear(circuit_t *circuit) {
     }
 
     // solve
-    error_t err = lu_solve(circuit->A, circuit->dim, circuit->b);
+    error_t err = r_lu_solve(circuit->A, circuit->dim, circuit->b);
 
     // copy voltage values back into the nodes and cleanup
     if (err != OK) return err;
