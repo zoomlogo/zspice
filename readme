@@ -1,7 +1,9 @@
 analog circuit simulator
 
+for the mock-up version check https://codeberg.page/zoomlogo/aacs
+
 build instructions:
-git clone https://codeberg.org/zoomlogo/zspice
+git clone https://github.com/zoomlogo/zspice
 cd zspice
 cmake .
 make
