@@ -3,6 +3,8 @@
 #define TESTS(X) \
     X(test_lu) \
     X(test_resistor) \
+    X(test_capacitor) \
+    X(test_inductor) \
     X(test_voltage_source) \
     X(test_current_source) \
     X(test_circuit) \

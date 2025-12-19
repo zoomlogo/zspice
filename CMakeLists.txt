@@ -37,6 +37,8 @@ set(TEST_SOURCES
     tests/test_circuit.c
     tests/test_dc.c
     tests/test_resistor.c
+    tests/test_capacitor.c
+    tests/test_inductor.c
     tests/test_voltage_source.c
     tests/test_current_source.c
 )

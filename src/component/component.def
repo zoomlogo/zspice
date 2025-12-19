@@ -10,7 +10,7 @@ COMPONENT(CURRENT_SOURCE, current_source, I,
 )
 
 
-// Passive components
+// Passive components:
 COMPONENT(RESISTOR, resistor, R,
     P(f64, resistance)
     P(f64, conductance)

@@ -2,6 +2,20 @@ analog circuit simulator
 
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
+todo:
+- ac analysis
+- non linear dc analysis
+ - diode
+ - bjt
+ - fet
+ - etc.
+- transient analysis
+
+- file io
+
+- netlist parsing
+- custom netlist parsing
+
 build instructions:
 git clone https://github.com/zoomlogo/zspice
 cd zspice
