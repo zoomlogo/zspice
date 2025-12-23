@@ -18,3 +18,10 @@ const dc_stamp_f DC_STAMPS[_C_LEN] = {
 #include "component.def"
 #undef COMPONENT
 };
+
+// ac analysis: LUT
+const ac_stamp_f AC_STAMPS[_C_LEN] = {
+#define COMPONENT(en, sn, av, p) [en] = ac_stamp_##sn,
+#include "component.def"
+#undef COMPONENT
+};

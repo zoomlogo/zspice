@@ -11,4 +11,8 @@ error_t dc_stamp_capacitor(usize dim, f64 *A, f64 *b, component_t *c) {
     // as DC equivalent of capacitor is an open circuit
     return OK;
 }
+
+error_t ac_stamp_capacitor(usize dim, c64 *A, c64 *b, component_t *c) {
+    return ERR_UNIMPL;
+}
 #undef A

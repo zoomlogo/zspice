@@ -6,4 +6,4 @@ typedef enum {
     AC,
     DC,        // both linear and non-linear
     TRANISENT
-} analysis_t;
+} analysis_e;

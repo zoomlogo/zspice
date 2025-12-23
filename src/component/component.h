@@ -51,3 +51,12 @@ typedef error_t (*dc_stamp_f)(usize, f64 *, f64 *, component_t *);
 
 // dc analysis: LUT
 extern const dc_stamp_f DC_STAMPS[_C_LEN];
+
+// ac analysis: stamp functions
+typedef error_t (*ac_stamp_f)(usize, c64 *, c64 *, component_t *);
+#define COMPONENT(en, sn, av, p) error_t ac_stamp_##sn(usize dim, c64 *A, c64 *b, component_t *c);
+#include "component.def"
+#undef COMPONENT
+
+// ac analysis: LUT
+extern const ac_stamp_f AC_STAMPS[_C_LEN];
