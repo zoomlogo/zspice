@@ -3,6 +3,9 @@
 // Sources:
 COMPONENT(VOLTAGE_SOURCE, voltage_source, V,
     P(f64, max_voltage)
+    // P(f64, dc_offset)
+    P(f64, frequency)
+    P(f64, phase_offset)
 )
 
 COMPONENT(CURRENT_SOURCE, current_source, I,

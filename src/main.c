@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "analysis.h"
 #include "circuit.h"
 #include "component/component.h"
 #include "dc.h"
@@ -23,7 +24,7 @@ i32 main(void) {
     c_add_connection(circuit, &l1);
     c_add_connection(circuit, &c1);
 
-    c_init_solver_matrix(circuit);
+    c_init_solver_matrix(circuit, DC);
 
     dc_solve_linear(circuit);
     for (usize i = 0; i < circuit->node_count; i++)

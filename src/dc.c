@@ -9,26 +9,29 @@
 error_t dc_solve_linear(circuit_t *circuit) {
     if (circuit->dim == 0) return ERR_NOT_INIT;
 
+    f64 *A = (f64 *) circuit->A;
+    f64 *b = (f64 *) circuit->b;
+
     // reset memory
-    memset(circuit->A, 0, circuit->dim * circuit->dim * sizeof(f64));
-    memset(circuit->b, 0, circuit->dim * sizeof(f64));
+    memset(A, 0, circuit->dim * circuit->dim * sizeof(f64));
+    memset(b, 0, circuit->dim * sizeof(f64));
 
     // setup matrix
     for (usize i = 0; i < circuit->component_count; i++) {
         component_t *c = &circuit->components[i];
-        error_t err = DC_STAMPS[c->type](circuit->dim, circuit->A, circuit->b, c);
+        error_t err = DC_STAMPS[c->type](circuit->dim, A, b, c);
 
         if (err != OK) return err;
     }
 
     // solve
-    error_t err = r_lu_solve(circuit->A, circuit->dim, circuit->b);
+    error_t err = r_lu_solve(A, circuit->dim, b);
 
     // copy voltage values back into the nodes and cleanup
     if (err != OK) return err;
     circuit->nodes[0].potential = 0;
     for (usize i = 1; i < circuit->node_count; i++) {
-        circuit->nodes[i].potential = circuit->b[i - 1];
+        circuit->nodes[i].potential = b[i - 1];
     }
 
     return OK;

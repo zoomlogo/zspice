@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "analysis.h"
 #include "circuit.h"
 #include "component/component.h"
 #include "error.h"
@@ -72,7 +73,7 @@ error_t c_add_connection(circuit_t *circuit, const component_t *component) {
     return OK;
 }
 
-error_t c_init_solver_matrix(circuit_t *circuit) {
+error_t c_init_solver_matrix(circuit_t *circuit, analysis_t analysis) {
     // certain components require the current flowing through a given branch
     // so that introduces an unknown
     // example: voltage sources / inductors
@@ -86,11 +87,22 @@ error_t c_init_solver_matrix(circuit_t *circuit) {
     // net dimension is node_count + unknwns minus one as node id
     // zero is always considered ground
     circuit->dim = circuit->node_count + unknwns - 1;
-    circuit->A = (f64 *) calloc(circuit->dim * circuit->dim, sizeof(f64));
-    if (circuit->A == NULL) goto err_0;
 
-    circuit->b = (f64 *) calloc(circuit->dim, sizeof(f64));
-    if (circuit->b == NULL) goto err_1;
+    switch (analysis) {
+    case AC:
+        circuit->A = calloc(circuit->dim * circuit->dim, sizeof(c64));
+        if (circuit->A == NULL) goto err_0;
+
+        circuit->b = calloc(circuit->dim, sizeof(c64));
+        if (circuit->b == NULL) goto err_1;
+    break;
+    default:
+        circuit->A = calloc(circuit->dim * circuit->dim, sizeof(f64));
+        if (circuit->A == NULL) goto err_0;
+
+        circuit->b = calloc(circuit->dim, sizeof(f64));
+        if (circuit->b == NULL) goto err_1;
+    }
 
     return OK;
 

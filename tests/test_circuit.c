@@ -51,7 +51,7 @@ static void test_init_matrix(void) {
     ASSERT(circuit->component_count == 5);
     ASSERT(circuit->node_count == 4);
 
-    err = c_init_solver_matrix(circuit);
+    err = c_init_solver_matrix(circuit, DC);
     ASSERT(err == OK);
     ASSERT(circuit->dim == 5);
     ASSERT(circuit->A != NULL);

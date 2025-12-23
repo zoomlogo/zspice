@@ -39,7 +39,7 @@ static void test_simple_circuit(void) {
     err = dc_solve_linear(circuit);
     ASSERT(err == ERR_NOT_INIT);
 
-    err = c_init_solver_matrix(circuit); if (err != OK) goto err;
+    err = c_init_solver_matrix(circuit, DC); if (err != OK) goto err;
 
     err = dc_solve_linear(circuit);
     ASSERT(err == OK);
