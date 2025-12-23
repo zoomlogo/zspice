@@ -17,7 +17,7 @@ static void test_circuit_instance(void) {
 
 static void test_adding_components(void) {
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
-    error_t err;
+    error_e err;
 
     component_t comp = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = 0.01 };
     err = c_add_connection(circuit, &comp); if (err != OK) goto err;
@@ -36,7 +36,7 @@ err:
 
 static void test_init_matrix(void) {
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
-    error_t err;
+    error_e err;
 
     component_t r1 = { RESISTOR, 0, 1, .R.resistance = 5000, .R.conductance = 1 / 5000. };
     component_t r2 = { RESISTOR, 1, 2, .R.resistance = 5000, .R.conductance = 1 / 5000. };

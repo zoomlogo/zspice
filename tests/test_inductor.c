@@ -8,7 +8,7 @@
 void test_dc_stamp_inductor(void) {
     f64 A[9] = {0};
     f64 b[3] = {0};
-    error_t err;
+    error_e err;
 
     component_t l = { INDUCTOR, 1, 0, .solver_id = 2, .L.inductance = 1 };
     err = dc_stamp_inductor(3, A, b, &l);

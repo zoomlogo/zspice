@@ -8,7 +8,7 @@
 void test_dc_stamp_voltage_source(void) {
     f64 A[9] = {0};
     f64 b[3] = {0};
-    error_t err;
+    error_e err;
 
     component_t v = { VOLTAGE_SOURCE, 1, 0, .solver_id = 2, .V.max_voltage = 5 };
     err = dc_stamp_voltage_source(3, A, b, &v);

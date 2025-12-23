@@ -6,7 +6,7 @@
 #include "error.h"
 #include "lu.h"
 
-error_t dc_solve_linear(circuit_t *circuit) {
+error_e dc_solve_linear(circuit_t *circuit) {
     if (circuit->dim == 0) return ERR_NOT_INIT;
 
     f64 *A = (f64 *) circuit->A;
@@ -19,13 +19,13 @@ error_t dc_solve_linear(circuit_t *circuit) {
     // setup matrix
     for (usize i = 0; i < circuit->component_count; i++) {
         component_t *c = &circuit->components[i];
-        error_t err = DC_STAMPS[c->type](circuit->dim, A, b, c);
+        error_e err = DC_STAMPS[c->type](circuit->dim, A, b, c);
 
         if (err != OK) return err;
     }
 
     // solve
-    error_t err = r_lu_solve(A, circuit->dim, b);
+    error_e err = r_lu_solve(A, circuit->dim, b);
 
     // copy voltage values back into the nodes and cleanup
     if (err != OK) return err;
@@ -37,6 +37,6 @@ error_t dc_solve_linear(circuit_t *circuit) {
     return OK;
 }
 
-error_t dc_solve_non_linear(circuit_t *circuit) {
+error_e dc_solve_non_linear(circuit_t *circuit) {
     return ERR_UNIMPL;
 }

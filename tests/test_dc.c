@@ -8,7 +8,7 @@
 static void test_simple_circuit(void) {
     // make a simple circuit for testing
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
-    error_t err;
+    error_e err;
 
     // 0----[- +]----1
     // |      v1     |

@@ -6,13 +6,13 @@
 #include "types.h"
 
 #define A(i, j) MI(A, (i), (j), dim)
-error_t dc_stamp_capacitor(usize dim, f64 *A, f64 *b, component_t *c) {
+error_e dc_stamp_capacitor(usize dim, f64 *A, f64 *b, component_t *c) {
     // do nothing
     // as DC equivalent of capacitor is an open circuit
     return OK;
 }
 
-error_t ac_stamp_capacitor(usize dim, c64 *A, c64 *b, component_t *c) {
+error_e ac_stamp_capacitor(usize dim, c64 *A, c64 *b, component_t *c) {
     return ERR_UNIMPL;
 }
 #undef A

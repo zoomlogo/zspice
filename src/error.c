@@ -1,6 +1,6 @@
 #include "error.h"
 
-const char *err_str(error_t error) {
+const char *err_str(error_e error) {
     switch (error) {
 #define X(n, m) case n: return m;
         ERRORS(X)

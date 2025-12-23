@@ -6,7 +6,7 @@
 #include "types.h"
 
 #define A(i, j) MI(A, (i), (j), dim)
-error_t dc_stamp_current_source(usize dim, f64 *A, f64 *b, component_t *c) {
+error_e dc_stamp_current_source(usize dim, f64 *A, f64 *b, component_t *c) {
     usize n0 = c->id0;
     usize n1 = c->id1;
 
@@ -18,7 +18,7 @@ error_t dc_stamp_current_source(usize dim, f64 *A, f64 *b, component_t *c) {
     return OK;
 }
 
-error_t ac_stamp_current_source(usize dim, c64 *A, c64 *b, component_t *c) {
+error_e ac_stamp_current_source(usize dim, c64 *A, c64 *b, component_t *c) {
     return ERR_UNIMPL;
 }
 #undef A

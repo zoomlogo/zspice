@@ -8,7 +8,7 @@
 static void test_dc_stamp_capacitor(void) {
     f64 A[4] = {0};
     f64 b[2] = {0};
-    error_t err;
+    error_e err;
 
     component_t c = { CAPACITOR, 0, 1, .C.capacitance = 0.01 };
     err = dc_stamp_capacitor(2, A, b, &c);

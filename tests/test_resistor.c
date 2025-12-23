@@ -8,7 +8,7 @@
 static void test_dc_stamp_resistor(void) {
     f64 A[4] = {0};
     f64 b[2] = {0};
-    error_t err;
+    error_e err;
 
     component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
     err = dc_stamp_resistor(2, A, b, &r);

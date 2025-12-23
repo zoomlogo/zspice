@@ -14,6 +14,6 @@ typedef enum {
 #define X(n, m) n,
     ERRORS(X)
 #undef X
-} error_t;
+} error_e;
 
-const char *err_str(error_t error);
+const char *err_str(error_e error);

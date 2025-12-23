@@ -8,7 +8,7 @@
 void test_dc_stamp_current_source(void) {
     f64 A[4] = {0};
     f64 b[2] = {0};
-    error_t err;
+    error_e err;
 
     component_t i = { CURRENT_SOURCE, 1, 0, .I.current = 5 };
     err = dc_stamp_current_source(2, A, b, &i);

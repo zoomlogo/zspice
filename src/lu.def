@@ -18,7 +18,7 @@ static inline void FUNC(swap_row)(TYPE *A, usize N, usize i, usize j) {
 }
 
 
-static inline error_t FUNC(lu_decompose)(TYPE *A, usize N, usize *p) {
+static inline error_e FUNC(lu_decompose)(TYPE *A, usize N, usize *p) {
     for (usize j = 0; j < N - 1; j++) {
         p[j] = j;
     }
@@ -73,7 +73,7 @@ static inline void FUNC(low_solve)(TYPE *L, usize N, TYPE *B, usize *p) {
 }
 
 
-static inline error_t FUNC(upp_solve)(TYPE *U, usize N, TYPE *Y) {
+static inline error_e FUNC(upp_solve)(TYPE *U, usize N, TYPE *Y) {
     for (usize i = N - 1; i < N && i >= 0; i--) {
         for (usize j = i + 1; j < N; j++)
             Y[i] -= U(i, j) * Y[j];
@@ -87,11 +87,11 @@ static inline error_t FUNC(upp_solve)(TYPE *U, usize N, TYPE *Y) {
 }
 
 
-error_t FUNC(lu_solve)(TYPE *A, usize N, TYPE *B) {
+error_e FUNC(lu_solve)(TYPE *A, usize N, TYPE *B) {
     usize *p = (usize *) malloc((N - 1) * sizeof(usize));
     if (p == NULL) return ERR_MEM_ALLOC;
 
-    error_t err = FUNC(lu_decompose)(A, N, p);
+    error_e err = FUNC(lu_decompose)(A, N, p);
     if (err != 0) goto err_0;
 
     FUNC(low_solve)(A, N, B, p);

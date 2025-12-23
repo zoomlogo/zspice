@@ -22,5 +22,5 @@ typedef struct {
 circuit_t *new_circuit(void);
 void del_circuit(circuit_t *circuit);
 
-error_t c_add_connection(circuit_t *circuit, const component_t *component);
-error_t c_init_solver_matrix(circuit_t *circuit, analysis_e analysis);
+error_e c_add_connection(circuit_t *circuit, const component_t *component);
+error_e c_init_solver_matrix(circuit_t *circuit, analysis_e analysis);
