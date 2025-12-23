@@ -25,7 +25,7 @@ error_e dc_stamp_inductor(usize dim, f64 *A, f64 *b, component_t *c) {
     return OK;
 }
 
-error_e ac_stamp_inductor(usize dim, c64 *A, c64 *b, component_t *c) {
+error_e ac_stamp_inductor(usize dim, c64 *A, c64 *b, component_t *c, f64 w) {
     return ERR_UNIMPL;
 }
 #undef A

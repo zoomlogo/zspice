@@ -53,8 +53,8 @@ typedef error_e (*dc_stamp_f)(usize, f64 *, f64 *, component_t *);
 extern const dc_stamp_f DC_STAMPS[_C_LEN];
 
 // ac analysis: stamp functions
-typedef error_e (*ac_stamp_f)(usize, c64 *, c64 *, component_t *);
-#define COMPONENT(en, sn, av, p) error_e ac_stamp_##sn(usize dim, c64 *A, c64 *b, component_t *c);
+typedef error_e (*ac_stamp_f)(usize, c64 *, c64 *, component_t *, f64);
+#define COMPONENT(en, sn, av, p) error_e ac_stamp_##sn(usize dim, c64 *A, c64 *b, component_t *c, f64 w);
 #include "component.def"
 #undef COMPONENT
 
