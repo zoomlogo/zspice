@@ -19,8 +19,8 @@ static void test_simple_circuit(void) {
     // r3           r2
     // |      v2     |
     // 5----[- +]----3
-    component_t v1 = { VOLTAGE_SOURCE, 1, 0, .V.potential = 5 };
-    component_t v2 = { VOLTAGE_SOURCE, 3, 5, .V.potential = 5 };
+    component_t v1 = { VOLTAGE_SOURCE, 1, 0, .V.max_voltage = 5 };
+    component_t v2 = { VOLTAGE_SOURCE, 3, 5, .V.max_voltage = 5 };
     component_t r1 = { RESISTOR, 1, 2, .R.resistance = 1000, .R.conductance = NAN };
     component_t r2 = { RESISTOR, 2, 3, .R.resistance = 680, .R.conductance = NAN };
     component_t r3 = { RESISTOR, 5, 4, .R.resistance = 3900, .R.conductance = NAN };

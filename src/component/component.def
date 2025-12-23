@@ -2,7 +2,7 @@
 
 // Sources:
 COMPONENT(VOLTAGE_SOURCE, voltage_source, V,
-    P(f64, potential)
+    P(f64, max_voltage)
 )
 
 COMPONENT(CURRENT_SOURCE, current_source, I,

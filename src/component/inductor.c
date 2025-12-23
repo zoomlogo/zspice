@@ -25,3 +25,25 @@ error_t dc_stamp_inductor(usize dim, f64 *A, f64 *b, component_t *c) {
     return OK;
 }
 #undef A
+
+/*
+inductor: L
+AC: j⍵L
+
+suppose this circuit
++----88888-->-+
+|      L   I2 |
+|<V1          |
+|     +V-  I1 |
++-----| :--<--+
+
+V = I * j⍵L
+
+[  0  1    -1 ][ V1 ] = [  0 ]
+[  1  0     0 ][ I1 ] = [ ~V ]
+[ -1  0   j⍵L ][ I2 ] = [  0 ]
+
+I1 - I2 = 0        ...1
+V1 = ~V            ...2
+-V1 + j⍵L×I2 = 0   ...3
+*/

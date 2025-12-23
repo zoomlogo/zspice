@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include "dc.h"
+#include "circuit.h"
 #include "component/component.h"
 #include "error.h"
 #include "lu.h"
@@ -31,4 +32,8 @@ error_t dc_solve_linear(circuit_t *circuit) {
     }
 
     return OK;
+}
+
+error_t dc_solve_non_linear(circuit_t *circuit) {
+    return ERR_UNIMPL;
 }

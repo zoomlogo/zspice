@@ -21,7 +21,7 @@ error_t dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c) {
         A(nn, n1 - 1) -= 1;
     }
 
-    b[nn] += c->V.potential;
+    b[nn] += c->V.max_voltage;
 
     return OK;
 }

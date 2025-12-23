@@ -41,8 +41,8 @@ static void test_init_matrix(void) {
     component_t r1 = { RESISTOR, 0, 1, .R.resistance = 5000, .R.conductance = 1 / 5000. };
     component_t r2 = { RESISTOR, 1, 2, .R.resistance = 5000, .R.conductance = 1 / 5000. };
     component_t r3 = { RESISTOR, 2, 3, .R.resistance = 5000, .R.conductance = 1 / 5000. };
-    component_t v1 = { VOLTAGE_SOURCE, 0, 1, .V.potential = 5 };
-    component_t v2 = { VOLTAGE_SOURCE, 1, 3, .V.potential = 4 };
+    component_t v1 = { VOLTAGE_SOURCE, 0, 1, .V.max_voltage = 5 };
+    component_t v2 = { VOLTAGE_SOURCE, 1, 3, .V.max_voltage = 4 };
     err = c_add_connection(circuit, &r1); if (err != OK) goto err;
     err = c_add_connection(circuit, &r2); if (err != OK) goto err;
     err = c_add_connection(circuit, &r3); if (err != OK) goto err;
