@@ -31,23 +31,23 @@ error_e ac_stamp_voltage_source(usize dim, c64 *A, c64 *b, component_t *c, f64 w
     usize n1 = c->id1;
     usize nn = c->solver_id;
 
-//    c64 V;
-//    if (isnan(c->V.frequency))
-//        V = c->V.max_voltage * cexp(J * M_PI * c->V.phase_offset / 180);
-//    else
-//        V 
-//
-//    if (n0 > 0) {
-//        A(n0 - 1, nn) += 1;
-//        A(nn, n0 - 1) += 1;
-//    }
-//
-//    if (n1 > 0) {
-//        A(n1 - 1, nn) -= 1;
-//        A(nn, n1 - 1) -= 1;
-//    }
-//
-//    b[nn] += V;
+    c64 V;
+    if (isnan(c->V.frequency)) // sweep source
+        V = c->V.max_voltage * cexp(J * M_PI * c->V.phase_offset / 180);
+    else // fixed frequency source shorted
+        V = 0;
+
+    if (n0 > 0) {
+        A(n0 - 1, nn) += 1;
+        A(nn, n0 - 1) += 1;
+    }
+
+    if (n1 > 0) {
+        A(n1 - 1, nn) -= 1;
+        A(nn, n1 - 1) -= 1;
+    }
+
+    b[nn] += V;
 
     return OK;
 }

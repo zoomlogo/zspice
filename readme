@@ -4,17 +4,23 @@ for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
 - ac analysis
+- more linear dc components
+ - transformers (non-ideal: coupling coeff, ideal)
 - non linear dc analysis
  - diode
  - bjt
  - fet
- - etc.
+- ac analysis with dc q-point
 - transient analysis
 
 - file io
 
 - netlist parsing
 - custom netlist parsing
+
+far future:
+- gui
+- digital analysis
 
 build instructions:
 git clone https://github.com/zoomlogo/zspice
