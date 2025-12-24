@@ -27,6 +27,28 @@ error_e dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c) {
 }
 
 error_e ac_stamp_voltage_source(usize dim, c64 *A, c64 *b, component_t *c, f64 w) {
-    return ERR_UNIMPL;
+    usize n0 = c->id0;
+    usize n1 = c->id1;
+    usize nn = c->solver_id;
+
+//    c64 V;
+//    if (isnan(c->V.frequency))
+//        V = c->V.max_voltage * cexp(J * M_PI * c->V.phase_offset / 180);
+//    else
+//        V 
+//
+//    if (n0 > 0) {
+//        A(n0 - 1, nn) += 1;
+//        A(nn, n0 - 1) += 1;
+//    }
+//
+//    if (n1 > 0) {
+//        A(n1 - 1, nn) -= 1;
+//        A(nn, n1 - 1) -= 1;
+//    }
+//
+//    b[nn] += V;
+
+    return OK;
 }
 #undef A
