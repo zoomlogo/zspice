@@ -38,11 +38,11 @@ static void test_init_matrix(void) {
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
     error_e err;
 
-    component_t r1 = { RESISTOR };
-    component_t r2 = { RESISTOR };
-    component_t r3 = { RESISTOR };
-    component_t v1 = { VOLTAGE_SOURCE };
-    component_t v2 = { VOLTAGE_SOURCE };
+    component_t r1 = { RESISTOR, 0, 1 };
+    component_t r2 = { RESISTOR, 1, 2 };
+    component_t r3 = { RESISTOR, 1, 3 };
+    component_t v1 = { VOLTAGE_SOURCE, 1, 0 };
+    component_t v2 = { VOLTAGE_SOURCE, 3, 0 };
     err = c_add_connection(circuit, &r1); if (err != OK) goto err;
     err = c_add_connection(circuit, &r2); if (err != OK) goto err;
     err = c_add_connection(circuit, &r3); if (err != OK) goto err;
