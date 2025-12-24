@@ -1,5 +1,7 @@
 #pragma once
 #include <complex.h>
+#define J _Complex_I
+#undef I
 #include <stddef.h>
 #include <stdint.h>
 
@@ -18,7 +20,5 @@ typedef double f64;
 
 typedef complex float c32;
 typedef complex double c64;
-static const c64 J = I;
-#undef I
 
 typedef size_t usize;

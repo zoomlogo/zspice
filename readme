@@ -3,7 +3,6 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- ac analysis (tests)
 - parameter defaults
 - more linear dc components
  - transformers (non-ideal: coupling coeff, ideal)
