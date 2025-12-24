@@ -23,6 +23,7 @@ set(MAIN_SOURCES
     src/circuit.c
     src/error.c
     src/dc.c
+    src/ac.c
 )
 set(COMPONENT_SOURCES
     src/component/component.c

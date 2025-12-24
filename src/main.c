@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "ac.h"
 #include "analysis.h"
 #include "circuit.h"
 #include "component/component.h"
@@ -9,8 +10,9 @@
 
 i32 main(void) {
     circuit_t *circuit = new_circuit();
+    const f64 f = 40;
 
-    component_t v1 = { VOLTAGE_SOURCE, 1, 0, .V.max_voltage = 5 };
+    component_t v1 = { VOLTAGE_SOURCE, 1, 0, .V.max_voltage = 5, .V.frequency = NAN };
     component_t r1 = { RESISTOR, 1, 2, .R.resistance = 100, .R.conductance = NAN };
     component_t r2 = { RESISTOR, 3, 0, .R.resistance = 100, .R.conductance = NAN };
     component_t r3 = { RESISTOR, 1, 4, .R.resistance = 10, .R.conductance = NAN };
@@ -24,11 +26,11 @@ i32 main(void) {
     c_add_connection(circuit, &l1);
     c_add_connection(circuit, &c1);
 
-    c_init_solver_matrix(circuit, DC);
+    c_init_solver_matrix(circuit, AC);
 
-    dc_solve_linear(circuit);
+    ac_solve(circuit, 2 * M_PI * f);
     for (usize i = 0; i < circuit->node_count; i++)
-        printf("%lu: %lf\n", i, circuit->nodes[i].potential);
+        printf("%lu: %lf∠%lf\n", i, circuit->nodes[i].potential, circuit->nodes[i].phase);
 
     del_circuit(circuit);
     return 0;

@@ -30,8 +30,10 @@ error_e dc_solve_linear(circuit_t *circuit) {
     // copy voltage values back into the nodes and cleanup
     if (err != OK) return err;
     circuit->nodes[0].potential = 0;
+    circuit->nodes[0].phase = 0;
     for (usize i = 1; i < circuit->node_count; i++) {
         circuit->nodes[i].potential = b[i - 1];
+        circuit->nodes[i].phase = 0;
     }
 
     return OK;
