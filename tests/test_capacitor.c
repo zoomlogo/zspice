@@ -27,10 +27,25 @@ static void test_dc_stamp_capacitor(void) {
     ASSERTF(A[3], 0);
 }
 
+static void test_ac_stamp_capacitor(void) {
+    c64 A[4] = {0};
+    c64 b[2] = {0};
+    error_e err;
+
+    component_t c = { CAPACITOR, 1, 2, .C.capacitance = 0.01 };
+    err = ac_stamp_capacitor(2, A, b, &c, 40);
+    ASSERT(err == OK);
+    ASSERTC(A[0], J * 40 * 0.01);
+    ASSERTC(A[1], -J * 40 * 0.01);
+    ASSERTC(A[2], -J * 40 * 0.01);
+    ASSERTC(A[3], J * 40 * 0.01);
+}
+
 void test_capacitor(void) {
     BEGIN_TEST();
 
     test_dc_stamp_capacitor();
+    test_ac_stamp_capacitor();
 
     END_TEST();
 }

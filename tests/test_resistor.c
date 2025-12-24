@@ -34,10 +34,40 @@ static void test_dc_stamp_resistor(void) {
     ASSERT(err == ERR_INVALID_PARAM);
 }
 
+static void test_ac_stamp_resistor(void) {
+    c64 A[4] = {0};
+    c64 b[2] = {0};
+    error_e err;
+
+    component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
+    err = ac_stamp_resistor(2, A, b, &r, 40);
+    ASSERT(err == OK);
+    ASSERT(b[0] == 0 && b[1] == 0);
+    ASSERTC(A[0], 0.01);
+    ASSERT(A[1] == 0 && A[2] == 0 && A[3] == 0);
+
+    A[0] = 0;
+    r.id0 = 1;
+    r.id1 = 2;
+    err = ac_stamp_resistor(2, A, b, &r, 40);
+    ASSERT(err == OK);
+    ASSERT(b[0] == 0 && b[1] == 0);
+    ASSERTC(A[0], 0.01);
+    ASSERTC(A[1], -0.01);
+    ASSERTC(A[2], -0.01);
+    ASSERTC(A[3], 0.01);
+
+    r.R.resistance = 0;
+    r.R.conductance = NAN;
+    err = ac_stamp_resistor(2, A, b, &r, 40);
+    ASSERT(err == ERR_INVALID_PARAM);
+}
+
 void test_resistor(void) {
     BEGIN_TEST();
 
     test_dc_stamp_resistor();
+    test_ac_stamp_resistor();
 
     END_TEST();
 }
