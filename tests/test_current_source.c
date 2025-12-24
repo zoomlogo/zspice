@@ -10,7 +10,7 @@ void test_dc_stamp_current_source(void) {
     f64 b[2] = {0};
     error_e err;
 
-    component_t i = { CURRENT_SOURCE, 1, 0, .I.current = 5 };
+    component_t i = { CURRENT_SOURCE, 1, 0, .I.dc_offset = 5 };
     err = dc_stamp_current_source(2, A, b, &i);
     ASSERT(err == OK);
     ASSERTF(b[0], 5);
