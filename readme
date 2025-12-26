@@ -3,21 +3,23 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- parameter defaults
 - more linear dc components
  - ccvs, cccs, vcvs, vccs
  - transformers (non-ideal: coupling coeff, ideal)
+
 - ac sweep
+
+- file io
+ - output to csv
+
 - non linear dc analysis
  - diode
  - bjt
  - fet
+
 - ac analysis with dc q-point
 - transient analysis
 - monte carlo
-
-- file io
- - output to csv
 
 - parsing
  - netlist parsing
