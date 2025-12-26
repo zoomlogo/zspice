@@ -14,9 +14,12 @@ todo:
  - fet
 - ac analysis with dc q-point
 - transient analysis
+- monte carlo
 
 - file io
  - output to csv
+
+- parsing
  - netlist parsing
  - custom netlist parsing
 

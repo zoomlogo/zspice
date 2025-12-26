@@ -12,7 +12,7 @@ enum ctype {
 };
 
 // individual component declaration
-#define P(t, x) t x;
+#define P(t, x, d) t x;
 #define COMPONENT(en, sn, av, p) struct sn { p };
 #include "component.def"
 #undef COMPONENT
@@ -61,3 +61,6 @@ typedef error_e (*ac_stamp_f)(usize, c64 *, c64 *, component_t *, f64);
 
 // ac analysis: LUT
 extern const ac_stamp_f AC_STAMPS[_C_LEN];
+
+// set defaults
+void c_defaults(component_t *component);

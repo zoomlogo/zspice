@@ -1,3 +1,4 @@
+#include <math.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -25,3 +26,15 @@ const ac_stamp_f AC_STAMPS[_C_LEN] = {
 #include "component.def"
 #undef COMPONENT
 };
+
+// set defaults
+void c_defaults(component_t *component) {
+    switch (component->type) {
+#define P(t, x, d) .x = d,
+#define COMPONENT(en, sn, av, p) case en: component->av = (struct sn) { p }; break;
+#include "component.def"
+#undef COMPONENT
+#undef P
+        case _C_LEN: // do nothing
+    }
+}
