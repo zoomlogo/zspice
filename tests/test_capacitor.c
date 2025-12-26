@@ -1,7 +1,8 @@
 #include <math.h>
 
 #include "component/component.h"
-#include "error.h"
+#include "util/error.h"
+
 #include "test.h"
 #include "test_def.h"
 

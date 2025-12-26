@@ -1,9 +1,9 @@
 #include <stdlib.h>
 
-#include "analysis.h"
-#include "circuit.h"
 #include "component/component.h"
-#include "error.h"
+#include "util/error.h"
+
+#include "circuit.h"
 #include "node.h"
 #include "types.h"
 

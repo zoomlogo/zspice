@@ -18,12 +18,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-set(MAIN_SOURCES
-    src/lu.c
-    src/circuit.c
-    src/error.c
-    src/dc.c
-    src/ac.c
+set(ANALYSIS_SOURCES
+    src/analysis/dc.c
+    src/analysis/ac.c
+)
+set(CORE_SOURCES
+    src/core/circuit.c
+)
+set(UTIL_SOURCES
+    src/util/error.c
+    src/util/lu.c
 )
 set(COMPONENT_SOURCES
     src/component/component.c
@@ -45,7 +49,7 @@ set(TEST_SOURCES
     tests/test_current_source.c
 )
 
-add_library(core ${COMPONENT_SOURCES} ${MAIN_SOURCES})
+add_library(core ${CORE_SOURCES} ${ANALYSIS_SOURCES} ${COMPONENT_SOURCES} ${UTIL_SOURCES})
 target_link_libraries(core PRIVATE m)
 
 add_executable(zspice src/main.c)

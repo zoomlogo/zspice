@@ -1,8 +1,9 @@
 #include <math.h>
 
+#include "util/error.h"
+#include "util/lu.h"
+
 #include "component.h"
-#include "error.h"
-#include "lu.h"
 #include "types.h"
 
 #define A(i, j) MI(A, (i), (j), dim)

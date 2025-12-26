@@ -1,10 +1,10 @@
 #include <string.h>
 
-#include "dc.h"
-#include "circuit.h"
 #include "component/component.h"
-#include "error.h"
-#include "lu.h"
+#include "util/lu.h"
+#include "util/error.h"
+
+#include "analysis.h"
 
 error_e dc_solve_linear(circuit_t *circuit) {
     if (circuit->dim == 0) return ERR_NOT_INIT;

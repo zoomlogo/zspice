@@ -1,9 +1,10 @@
+#include "core/circuit.h"
 #include "component/component.h"
-#include "error.h"
+#include "util/error.h"
+
 #include "test.h"
 #include "test_def.h"
 
-#include "circuit.h"
 
 static void test_circuit_instance(void) {
     circuit_t *circuit = new_circuit();

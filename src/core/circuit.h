@@ -1,9 +1,15 @@
 #pragma once
-#include "analysis.h"
 #include "component/component.h"
-#include "error.h"
+#include "util/error.h"
+
 #include "node.h"
 #include "types.h"
+
+typedef enum {
+    AC,
+    DC,        // both linear and non-linear
+    TRANISENT
+} analysis_e;
 
 typedef struct {
     usize node_count;

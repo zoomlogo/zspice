@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "ac.h"
-#include "analysis.h"
-#include "circuit.h"
+#include "analysis/analysis.h"
+#include "core/circuit.h"
 #include "component/component.h"
-#include "dc.h"
+
 #include "types.h"
 
 i32 main(void) {

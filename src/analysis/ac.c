@@ -1,9 +1,10 @@
 #include <string.h>
 
-#include "ac.h"
 #include "component/component.h"
-#include "error.h"
-#include "lu.h"
+#include "util/error.h"
+#include "util/lu.h"
+
+#include "analysis.h"
 #include "types.h"
 
 error_e ac_solve(circuit_t *circuit, f64 w) {

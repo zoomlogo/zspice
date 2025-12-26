@@ -1,9 +1,9 @@
 #include <stdlib.h>
 
-#include "error.h"
-#include "lu.h"
-#include "types.h"
+#include "util/error.h"
+#include "util/lu.h"
 
+#include "types.h"
 #include "test.h"
 #include "test_def.h"
 

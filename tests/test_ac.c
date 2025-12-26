@@ -1,12 +1,14 @@
 #include <math.h>
 
-#include "circuit.h"
+#include "analysis/analysis.h"
+#include "core/circuit.h"
 #include "component/component.h"
-#include "error.h"
-#include "ac.h"
-#include "test.h"
+#include "util/error.h"
 
-static void test_circuit(void) {
+#include "test.h"
+#include "test_def.h"
+
+static void test_circuit_ac(void) {
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
     error_e err;
 
@@ -48,7 +50,7 @@ err:
 void test_ac(void) {
     BEGIN_TEST();
 
-    test_circuit();
+    test_circuit_ac();
 
     END_TEST();
 }

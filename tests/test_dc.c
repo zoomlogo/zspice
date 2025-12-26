@@ -1,9 +1,12 @@
 #include <math.h>
 
+#include "analysis/analysis.h"
+#include "core/circuit.h"
 #include "component/component.h"
-#include "error.h"
-#include "dc.h"
+#include "util/error.h"
+
 #include "test.h"
+#include "test_def.h"
 
 static void test_simple_circuit(void) {
     // make a simple circuit for testing

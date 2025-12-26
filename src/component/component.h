@@ -1,6 +1,7 @@
 #pragma once
+#include "util/error.h"
+
 #include "types.h"
-#include "error.h"
 
 // enum declaration
 enum ctype {
