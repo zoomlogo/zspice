@@ -3,14 +3,14 @@
 // Sources:
 COMPONENT(VOLTAGE_SOURCE, voltage_source, V,
     P(f64, max_voltage, 5)
-    P(f64, dc_offset, 0)
+    P(f64, dc_offset, NAN)
     P(f64, frequency, NAN)
     P(f64, phase_offset, 0)
 )
 
 COMPONENT(CURRENT_SOURCE, current_source, I,
     P(f64, max_current, 5)
-    P(f64, dc_offset, 0)
+    P(f64, dc_offset, NAN)
     P(f64, frequency, NAN)
     P(f64, phase_offset, 0)
 )
@@ -19,7 +19,7 @@ COMPONENT(CURRENT_SOURCE, current_source, I,
 // Passive components:
 COMPONENT(RESISTOR, resistor, R,
     P(f64, resistance, 1000)
-    P(f64, conductance, 0.001)
+    P(f64, conductance, NAN)
 )
 
 COMPONENT(CAPACITOR, capacitor, C,

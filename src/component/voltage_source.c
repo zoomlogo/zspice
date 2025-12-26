@@ -12,6 +12,9 @@ error_e dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c) {
     usize n1 = c->id1;
     usize nn = c->solver_id;
 
+    if (isnan(c->V.dc_offset))
+        c->V.dc_offset = c->V.max_voltage;
+
     if (n0 > 0) {
         A(n0 - 1, nn) += 1;
         A(nn, n0 - 1) += 1;
@@ -31,6 +34,9 @@ error_e ac_stamp_voltage_source(usize dim, c64 *A, c64 *b, component_t *c, f64 w
     usize n0 = c->id0;
     usize n1 = c->id1;
     usize nn = c->solver_id;
+
+    if (isnan(c->V.dc_offset))
+        c->V.dc_offset = 0;
 
     c64 V;
     if (isnan(c->V.frequency)) // sweep source

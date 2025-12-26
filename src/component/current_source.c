@@ -11,6 +11,9 @@ error_e dc_stamp_current_source(usize dim, f64 *A, f64 *b, component_t *c) {
     usize n0 = c->id0;
     usize n1 = c->id1;
 
+    if (isnan(c->I.dc_offset))
+        c->I.dc_offset = c->I.max_current;
+
     f64 I = c->I.dc_offset;
 
     if (n0 > 0) b[n0 - 1] += I;
@@ -22,6 +25,9 @@ error_e dc_stamp_current_source(usize dim, f64 *A, f64 *b, component_t *c) {
 error_e ac_stamp_current_source(usize dim, c64 *A, c64 *b, component_t *c, f64 w) {
     usize n0 = c->id0;
     usize n1 = c->id1;
+
+    if (isnan(c->I.dc_offset))
+        c->I.dc_offset = 0;
 
     c64 I;
     if (isnan(c->I.frequency)) // sweep source
