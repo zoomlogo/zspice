@@ -3,12 +3,11 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- move dc/ac to src/analysis/
-- move math related stuff to src/util/
 - parameter defaults
 - more linear dc components
  - ccvs, cccs, vcvs, vccs
  - transformers (non-ideal: coupling coeff, ideal)
+- ac sweep
 - non linear dc analysis
  - diode
  - bjt
@@ -17,7 +16,7 @@ todo:
 - transient analysis
 
 - file io
- - output to csv?
+ - output to csv
  - netlist parsing
  - custom netlist parsing
 
