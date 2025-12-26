@@ -7,6 +7,8 @@ todo:
  - ccvs, cccs, vcvs, vccs
  - transformers (non-ideal: coupling coeff, ideal)
 
+- docs
+
 - ac sweep
 
 - file io
