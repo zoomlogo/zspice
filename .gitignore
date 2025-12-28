@@ -19,3 +19,6 @@ bin/
 *.a
 *.so
 *.csv
+
+# temporarily:
+docs/
