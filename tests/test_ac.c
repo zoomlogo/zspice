@@ -37,11 +37,11 @@ static void test_circuit_ac(void) {
     ASSERTF(circuit->nodes[3].potential, 2.501656730276);
     ASSERTF(circuit->nodes[4].potential, 4.999830306554);
     // phases
-    ASSERTF(circuit->nodes[0].phase, 0);
-    ASSERTF(circuit->nodes[1].phase, 0);
-    ASSERTF(circuit->nodes[2].phase, -0.000000872222);
-    ASSERTF(circuit->nodes[3].phase, 0.025109140882);
-    ASSERTF(circuit->nodes[4].phase, -0.001256156358);
+    ASSERTF(M_PI * circuit->nodes[0].phase / 180, 0);
+    ASSERTF(M_PI * circuit->nodes[1].phase / 180, 0);
+    ASSERTF(M_PI * circuit->nodes[2].phase / 180, -0.000000872222);
+    ASSERTF(M_PI * circuit->nodes[3].phase / 180, 0.025109140882);
+    ASSERTF(M_PI * circuit->nodes[4].phase / 180, -0.001256156358);
 
 err:
     del_circuit(circuit);

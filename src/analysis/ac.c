@@ -1,3 +1,4 @@
+#include <math.h>
 #include <string.h>
 
 #include "component/component.h"
@@ -36,7 +37,7 @@ error_e ac_solve(circuit_t *circuit, f64 w) {
     for (usize i = 1; i < circuit->node_count; i++) {
         c64 V = b[i - 1]; // AC phasor
         circuit->nodes[i].potential = cabs(V);
-        circuit->nodes[i].phase = carg(V);
+        circuit->nodes[i].phase = carg(V) * 180 / M_PI;
     }
 
     return OK;
