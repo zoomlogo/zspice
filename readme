@@ -3,6 +3,7 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
+- environment (env_t) type
 - more linear dc components
  - ccvs, cccs, vcvs, vccs
  - transformers (non-ideal: coupling coeff, ideal)
@@ -14,6 +15,7 @@ todo:
 - file io
  - output to csv
 
+- temperature
 - non linear dc analysis
  - diode
  - bjt
@@ -21,7 +23,9 @@ todo:
 
 - ac analysis with dc q-point
 - transient analysis
+
 - monte carlo
+- multithreading support
 
 - parsing
  - netlist parsing
