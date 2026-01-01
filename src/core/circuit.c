@@ -20,8 +20,6 @@ circuit_t *new_circuit(void) {
     circuit->components = (component_t *) calloc(circuit->component_capacity, sizeof(component_t));
     if (circuit->components == NULL) goto err_2;
 
-    circuit->A = NULL;
-    circuit->b = NULL;
     circuit->dim = 0;
 
     return circuit;
@@ -36,9 +34,6 @@ err_0:
 
 void del_circuit(circuit_t *circuit) {
     if (circuit == NULL) return;
-
-    if (circuit->A != NULL) free(circuit->A);
-    if (circuit->b != NULL) free(circuit->b);
 
     free(circuit->nodes);
     free(circuit->components);
@@ -73,7 +68,7 @@ error_e c_add_connection(circuit_t *circuit, const component_t *component) {
     return OK;
 }
 
-error_e c_init_solver_matrix(circuit_t *circuit, analysis_e analysis) {
+error_e c_calculate_dim(circuit_t *circuit) {
     // certain components require the current flowing through a given branch
     // so that introduces an unknown
     // example: voltage sources / inductors
@@ -87,27 +82,35 @@ error_e c_init_solver_matrix(circuit_t *circuit, analysis_e analysis) {
     // net dimension is node_count + unknwns minus one as node id
     // zero is always considered ground
     circuit->dim = circuit->node_count + unknwns - 1;
+    return OK;
+}
+
+error_e b_init(circuit_t *circuit, analysis_e analysis, sbuf_t *solver_buffer) {
+    if (solver_buffer == NULL) return ERR_INVALID_ARG;
+
+    solver_buffer->dim = circuit->dim;
+    if (solver_buffer->dim == 0) return ERR_NOT_INIT;
 
     switch (analysis) {
     case AC:
-        circuit->A = calloc(circuit->dim * circuit->dim, sizeof(c64));
-        if (circuit->A == NULL) goto err_0;
+        solver_buffer->A = calloc(solver_buffer->dim * solver_buffer->dim, sizeof(c64));
+        if (solver_buffer->A == NULL) goto err_0;
 
-        circuit->b = calloc(circuit->dim, sizeof(c64));
-        if (circuit->b == NULL) goto err_1;
+        solver_buffer->b = calloc(solver_buffer->dim, sizeof(c64));
+        if (solver_buffer->b == NULL) goto err_1;
     break;
     default:
-        circuit->A = calloc(circuit->dim * circuit->dim, sizeof(f64));
-        if (circuit->A == NULL) goto err_0;
+        solver_buffer->A = calloc(solver_buffer->dim * solver_buffer->dim, sizeof(f64));
+        if (solver_buffer->A == NULL) goto err_0;
 
-        circuit->b = calloc(circuit->dim, sizeof(f64));
-        if (circuit->b == NULL) goto err_1;
+        solver_buffer->b = calloc(solver_buffer->dim, sizeof(f64));
+        if (solver_buffer->b == NULL) goto err_1;
     }
 
     return OK;
 
 err_1:
-    free(circuit->A);
+    free(solver_buffer->A);
 err_0:
     return ERR_MEM_ALLOC;
 }

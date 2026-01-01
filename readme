@@ -3,7 +3,7 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- environment (env_t) type + solver buffer (solv_buf_t) type
+- environment (env_t) type + solver buffer (sbuf_t) type
 - more linear dc components
  - ccvs, cccs, vcvs, vccs
 
