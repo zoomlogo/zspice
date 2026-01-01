@@ -4,6 +4,7 @@
 #include "util/error.h"
 
 #include "circuit.h"
+#include "environment.h"
 #include "node.h"
 #include "types.h"
 
@@ -21,6 +22,7 @@ circuit_t *new_circuit(void) {
     if (circuit->components == NULL) goto err_2;
 
     circuit->dim = 0;
+    e_init(&circuit->default_env);
 
     return circuit;
 

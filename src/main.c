@@ -8,6 +8,8 @@
 #include "types.h"
 
 i32 main(void) {
+    sbuf_t buf;
+
     circuit_t *circuit = new_circuit();
     const f64 f = 40;
 
@@ -17,9 +19,10 @@ i32 main(void) {
     c_add_connection(circuit, &r1);
     c_add_connection(circuit, &v1);
 
-    c_init_solver_matrix(circuit, DC);
+    c_calculate_dim(circuit);
+    b_init(circuit, DC, &buf);
 
-    dc_solve_linear(circuit);
+    dc_solve_linear(circuit, &buf, NULL);
     for (usize i = 0; i < circuit->node_count; i++)
         printf("%lu: %lf∠%lf\n", i, circuit->nodes[i].potential, circuit->nodes[i].phase);
 

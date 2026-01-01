@@ -2,33 +2,37 @@
 #include <string.h>
 
 #include "component/component.h"
+#include "core/circuit.h"
 #include "util/error.h"
 #include "util/lu.h"
 
 #include "analysis.h"
 #include "types.h"
 
-error_e ac_solve(circuit_t *circuit, f64 w) {
+error_e ac_solve(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
     // assuming circuit is linearized at this point...
     if (circuit->dim == 0) return ERR_NOT_INIT;
+    if (buffer->dim == 0) return ERR_NOT_INIT;
 
-    c64 *A = (c64 *) circuit->A;
-    c64 *b = (c64 *) circuit->b;
+    if (env == NULL) env = &circuit->default_env;
+
+    c64 *A = (c64 *) buffer->A;
+    c64 *b = (c64 *) buffer->b;
 
     // reset memory
-    memset(A, 0, circuit->dim * circuit->dim * sizeof(c64));
-    memset(b, 0, circuit->dim * sizeof(c64));
+    memset(A, 0, buffer->dim * buffer->dim * sizeof(c64));
+    memset(b, 0, buffer->dim * sizeof(c64));
 
     // setup
     for (usize i = 0; i < circuit->component_count; i++) {
         component_t *c = &circuit->components[i];
-        error_e err = AC_STAMPS[c->type](circuit->dim, A, b, c, w);
+        error_e err = AC_STAMPS[c->type](buffer->dim, A, b, c, env);
 
         if (err != OK) return err;
     }
 
     // solve
-    error_e err = c_lu_solve(A, circuit->dim, b);
+    error_e err = c_lu_solve(A, buffer->dim, b);
 
     // copy mag+phase
     if (err != OK) return err;

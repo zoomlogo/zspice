@@ -2,6 +2,7 @@
 #include "component/component.h"
 #include "util/error.h"
 
+#include "environment.h"
 #include "node.h"
 #include "types.h"
 
@@ -11,18 +12,6 @@ typedef enum {
     DC,
     TRANISENT
 } analysis_e;
-
-// Stores information about the environment of the circuit.
-typedef struct {
-    // Temperature
-    f64 temperature; // in Kelvin.
-    f64 V_T; // thermal voltage
-
-    // AC analysis
-    f64 w; // angular frequency
-    f64 f; // frequency
-} env_t;
-
 
 // Stores circuits as a collection of nodes and components.
 typedef struct {
@@ -34,6 +23,7 @@ typedef struct {
     component_t *components;
 
     usize dim; // the number of unknowns in the circuit
+    env_t default_env;
 } circuit_t;
 
 circuit_t *new_circuit(void);

@@ -1,5 +1,6 @@
 #include <math.h>
 
+#include "core/environment.h"
 #include "util/error.h"
 #include "util/lu.h"
 
@@ -7,7 +8,7 @@
 #include "types.h"
 
 #define A(i, j) MI(A, (i), (j), dim)
-error_e dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c) {
+error_e dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
     usize nn = c->solver_id;
@@ -30,7 +31,7 @@ error_e dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c) {
     return OK;
 }
 
-error_e ac_stamp_voltage_source(usize dim, c64 *A, c64 *b, component_t *c, f64 w) {
+error_e ac_stamp_voltage_source(usize dim, c64 *A, c64 *b, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
     usize nn = c->solver_id;
