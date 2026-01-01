@@ -6,13 +6,6 @@
 #include "node.h"
 #include "types.h"
 
-// Stores the different types of analysis.
-typedef enum {
-    AC,
-    DC,
-    TRANISENT
-} analysis_e;
-
 // Stores circuits as a collection of nodes and components.
 typedef struct {
     usize node_count;
@@ -31,12 +24,3 @@ void del_circuit(circuit_t *circuit);
 
 error_e c_add_connection(circuit_t *circuit, const component_t *component);
 error_e c_calculate_dim(circuit_t *circuit);
-
-// Stores the matrix which is to be solved.
-typedef struct {
-    usize dim;
-    void *A; // dim×dim matrix
-    void *b; // dim vector
-} sbuf_t;
-
-error_e b_init(circuit_t *circuit, analysis_e analysis, sbuf_t *solver_buffer);

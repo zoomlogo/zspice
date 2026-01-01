@@ -6,7 +6,7 @@ todo:
 - more linear dc components
  - ccvs, cccs, vcvs, vccs
 
-- docs
+- technical docs (comments preferably, dont want to write docs/)
 - file io
  - output to csv
 - ac sweep
@@ -26,6 +26,7 @@ todo:
 - parsing
  - netlist parsing
  - custom netlist parsing
+- user docs (docs/)
 
 far future:
 - gui

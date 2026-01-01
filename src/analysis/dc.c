@@ -11,6 +11,7 @@
 error_e dc_solve_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
     if (circuit->dim == 0) return ERR_NOT_INIT;
     if (buffer->dim == 0) return ERR_NOT_INIT;
+    if (buffer->dim != circuit->dim) return ERR_INVALID_ARG;
 
     if (env == NULL) env = &circuit->default_env;
 
@@ -24,7 +25,7 @@ error_e dc_solve_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
     // setup matrix
     for (usize i = 0; i < circuit->component_count; i++) {
         component_t *c = &circuit->components[i];
-        error_e err = DC_STAMPS[c->type](buffer->dim, A, b, c, env);
+        error_e err = DC_STAMPS[c->type](buffer, c, env);
 
         if (err != OK) return err;
     }

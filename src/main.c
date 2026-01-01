@@ -3,6 +3,7 @@
 
 #include "analysis/analysis.h"
 #include "core/circuit.h"
+#include "core/sbuf.h"
 #include "component/component.h"
 
 #include "types.h"
@@ -27,5 +28,6 @@ i32 main(void) {
         printf("%lu: %lf∠%lf\n", i, circuit->nodes[i].potential, circuit->nodes[i].phase);
 
     del_circuit(circuit);
+    b_free(&buf);
     return 0;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "core/environment.h"
+#include "core/sbuf.h"
 #include "util/error.h"
 
 #include "types.h"
@@ -46,8 +47,8 @@ typedef struct {
 component_t *new_component(enum ctype type);
 
 // dc analysis: stamp functions
-typedef error_e (*dc_stamp_f)(usize, f64 *, f64 *, component_t *, env_t *);
-#define COMPONENT(en, sn, av, p) error_e dc_stamp_##sn(usize dim, f64 *A, f64 *b, component_t *c, env_t *env);
+typedef error_e (*dc_stamp_f)(sbuf_t *, component_t *, env_t *);
+#define COMPONENT(en, sn, av, p) error_e dc_stamp_##sn(sbuf_t *buf, component_t *c, env_t *env);
 #include "component.def"
 #undef COMPONENT
 
@@ -55,8 +56,8 @@ typedef error_e (*dc_stamp_f)(usize, f64 *, f64 *, component_t *, env_t *);
 extern const dc_stamp_f DC_STAMPS[_C_LEN];
 
 // ac analysis: stamp functions
-typedef error_e (*ac_stamp_f)(usize, c64 *, c64 *, component_t *, env_t *);
-#define COMPONENT(en, sn, av, p) error_e ac_stamp_##sn(usize dim, c64 *A, c64 *b, component_t *c, env_t *env);
+typedef error_e (*ac_stamp_f)(sbuf_t *, component_t *, env_t *);
+#define COMPONENT(en, sn, av, p) error_e ac_stamp_##sn(sbuf_t *buf, component_t *c, env_t *env);
 #include "component.def"
 #undef COMPONENT
 

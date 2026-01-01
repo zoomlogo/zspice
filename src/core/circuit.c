@@ -86,33 +86,3 @@ error_e c_calculate_dim(circuit_t *circuit) {
     circuit->dim = circuit->node_count + unknwns - 1;
     return OK;
 }
-
-error_e b_init(circuit_t *circuit, analysis_e analysis, sbuf_t *solver_buffer) {
-    if (solver_buffer == NULL) return ERR_INVALID_ARG;
-
-    solver_buffer->dim = circuit->dim;
-    if (solver_buffer->dim == 0) return ERR_NOT_INIT;
-
-    switch (analysis) {
-    case AC:
-        solver_buffer->A = calloc(solver_buffer->dim * solver_buffer->dim, sizeof(c64));
-        if (solver_buffer->A == NULL) goto err_0;
-
-        solver_buffer->b = calloc(solver_buffer->dim, sizeof(c64));
-        if (solver_buffer->b == NULL) goto err_1;
-    break;
-    default:
-        solver_buffer->A = calloc(solver_buffer->dim * solver_buffer->dim, sizeof(f64));
-        if (solver_buffer->A == NULL) goto err_0;
-
-        solver_buffer->b = calloc(solver_buffer->dim, sizeof(f64));
-        if (solver_buffer->b == NULL) goto err_1;
-    }
-
-    return OK;
-
-err_1:
-    free(solver_buffer->A);
-err_0:
-    return ERR_MEM_ALLOC;
-}

@@ -1,5 +1,6 @@
 #pragma once
 #include "core/circuit.h"
+#include "core/sbuf.h"
 #include "util/error.h"
 
 #include "types.h"
