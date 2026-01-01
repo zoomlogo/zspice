@@ -7,14 +7,16 @@
 #include "component.h"
 #include "types.h"
 
-#define A(i, j) MI(A, (i), (j), dim)
-error_e dc_stamp_capacitor(usize dim, f64 *A, f64 *b, component_t *c, env_t *env) {
+#define A(i, j) MI(buf->A, (i), (j), buf->dim)
+error_e dc_stamp_capacitor(sbuf_t *buf, component_t *c, env_t *env) {
     // do nothing
     // as DC equivalent of capacitor is an open circuit
     return OK;
 }
+#undef A
 
-error_e ac_stamp_capacitor(usize dim, c64 *A, c64 *b, component_t *c, env_t *env) {
+#define A(i, j) MI(buf->zA, (i), (j), buf->dim)
+error_e ac_stamp_capacitor(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
 

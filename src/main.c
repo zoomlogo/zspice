@@ -21,7 +21,7 @@ i32 main(void) {
     c_add_connection(circuit, &v1);
 
     c_calculate_dim(circuit);
-    b_init(circuit, DC, &buf);
+    b_init(circuit->dim, false, &buf);
 
     dc_solve_linear(circuit, &buf, NULL);
     for (usize i = 0; i < circuit->node_count; i++)

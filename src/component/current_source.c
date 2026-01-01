@@ -6,8 +6,8 @@
 #include "component.h"
 #include "types.h"
 
-#define A(i, j) MI(A, (i), (j), dim)
-error_e dc_stamp_current_source(usize dim, f64 *A, f64 *b, component_t *c, env_t *env) {
+#define A(i, j) MI(buf->A, (i), (j), buf->dim)
+error_e dc_stamp_current_source(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
 
@@ -16,13 +16,15 @@ error_e dc_stamp_current_source(usize dim, f64 *A, f64 *b, component_t *c, env_t
 
     f64 I = c->I.dc_offset;
 
-    if (n0 > 0) b[n0 - 1] += I;
-    if (n1 > 0) b[n1 - 1] -= I;
+    if (n0 > 0) buf->b[n0 - 1] += I;
+    if (n1 > 0) buf->b[n1 - 1] -= I;
 
     return OK;
 }
+#undef A
 
-error_e ac_stamp_current_source(usize dim, c64 *A, c64 *b, component_t *c, env_t *env) {
+#define A(i, j) MI(buf->zA, (i), (j), buf->dim)
+error_e ac_stamp_current_source(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
 
@@ -35,8 +37,8 @@ error_e ac_stamp_current_source(usize dim, c64 *A, c64 *b, component_t *c, env_t
     else // fixed frequency source shorted
         I = 0;
 
-    if (n0 > 0) b[n0 - 1] += I;
-    if (n1 > 0) b[n1 - 1] -= I;
+    if (n0 > 0) buf->zb[n0 - 1] += I;
+    if (n1 > 0) buf->zb[n1 - 1] -= I;
 
     return OK;
 }

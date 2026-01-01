@@ -25,6 +25,7 @@ set(ANALYSIS_SOURCES
 set(CORE_SOURCES
     src/core/circuit.c
     src/core/environment.c
+    src/core/sbuf.c
 )
 set(UTIL_SOURCES
     src/util/error.c

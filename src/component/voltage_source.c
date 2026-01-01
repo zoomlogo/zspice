@@ -1,14 +1,15 @@
 #include <math.h>
 
 #include "core/environment.h"
+#include "core/sbuf.h"
 #include "util/error.h"
 #include "util/lu.h"
 
 #include "component.h"
 #include "types.h"
 
-#define A(i, j) MI(A, (i), (j), dim)
-error_e dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c, env_t *env) {
+#define A(i, j) MI(buf->A, (i), (j), buf->dim)
+error_e dc_stamp_voltage_source(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
     usize nn = c->solver_id;
@@ -26,12 +27,14 @@ error_e dc_stamp_voltage_source(usize dim, f64 *A, f64 *b, component_t *c, env_t
         A(nn, n1 - 1) -= 1;
     }
 
-    b[nn] += c->V.dc_offset;
+    buf->b[nn] += c->V.dc_offset;
 
     return OK;
 }
+#undef A
 
-error_e ac_stamp_voltage_source(usize dim, c64 *A, c64 *b, component_t *c, env_t *env) {
+#define A(i, j) MI(buf->zA, (i), (j), buf->dim)
+error_e ac_stamp_voltage_source(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
     usize nn = c->solver_id;
@@ -55,7 +58,7 @@ error_e ac_stamp_voltage_source(usize dim, c64 *A, c64 *b, component_t *c, env_t
         A(nn, n1 - 1) -= 1;
     }
 
-    b[nn] += V;
+    buf->zb[nn] += V;
 
     return OK;
 }

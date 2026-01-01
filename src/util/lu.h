@@ -22,7 +22,7 @@
 // void upp_solve(f64 *U, usize N, f64 *Y);
 
 #define LU_TOLERANCE 1e-12
-#define MI(a, i, j, n) (a)[(n) * (i) + (j)]
+#define MI(a, i, j, n) ((a)[(n) * (i) + (j)])
 
 error_e r_lu_solve(f64 *A, usize N, f64 *B);
 error_e c_lu_solve(c64 *A, usize N, c64 *B);
