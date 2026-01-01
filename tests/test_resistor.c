@@ -10,9 +10,10 @@ static void test_dc_stamp_resistor(void) {
     f64 A[4] = {0};
     f64 b[2] = {0};
     error_e err;
+    env_t env; e_init(&env);
 
     component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
-    err = dc_stamp_resistor(2, A, b, &r);
+    err = dc_stamp_resistor(2, A, b, &r, &env);
     ASSERT(err == OK);
     ASSERT(b[0] == 0 && b[1] == 0);
     ASSERTF(A[0], 0.01);
@@ -21,7 +22,7 @@ static void test_dc_stamp_resistor(void) {
     A[0] = 0;
     r.id0 = 1;
     r.id1 = 2;
-    err = dc_stamp_resistor(2, A, b, &r);
+    err = dc_stamp_resistor(2, A, b, &r, &env);
     ASSERT(err == OK);
     ASSERT(b[0] == 0 && b[1] == 0);
     ASSERTF(A[0], 0.01);
@@ -31,7 +32,7 @@ static void test_dc_stamp_resistor(void) {
 
     r.R.resistance = 0;
     r.R.conductance = NAN;
-    err = dc_stamp_resistor(2, A, b, &r);
+    err = dc_stamp_resistor(2, A, b, &r, &env);
     ASSERT(err == ERR_INVALID_PARAM);
 }
 
@@ -39,9 +40,10 @@ static void test_ac_stamp_resistor(void) {
     c64 A[4] = {0};
     c64 b[2] = {0};
     error_e err;
+    env_t env; e_init(&env); e_set_frequency(&env, 40);
 
     component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
-    err = ac_stamp_resistor(2, A, b, &r, 40);
+    err = ac_stamp_resistor(2, A, b, &r, &env);
     ASSERT(err == OK);
     ASSERT(b[0] == 0 && b[1] == 0);
     ASSERTC(A[0], 0.01);
@@ -50,7 +52,7 @@ static void test_ac_stamp_resistor(void) {
     A[0] = 0;
     r.id0 = 1;
     r.id1 = 2;
-    err = ac_stamp_resistor(2, A, b, &r, 40);
+    err = ac_stamp_resistor(2, A, b, &r, &env);
     ASSERT(err == OK);
     ASSERT(b[0] == 0 && b[1] == 0);
     ASSERTC(A[0], 0.01);
@@ -60,7 +62,7 @@ static void test_ac_stamp_resistor(void) {
 
     r.R.resistance = 0;
     r.R.conductance = NAN;
-    err = ac_stamp_resistor(2, A, b, &r, 40);
+    err = ac_stamp_resistor(2, A, b, &r, &env);
     ASSERT(err == ERR_INVALID_PARAM);
 }
 

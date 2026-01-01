@@ -19,3 +19,4 @@ typedef struct {
 
 error_e e_init(env_t *env);
 error_e e_set_temperature(env_t *env, f64 T);
+error_e e_set_frequency(env_t *env, f64 f);

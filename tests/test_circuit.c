@@ -35,7 +35,7 @@ err:
     del_circuit(circuit);
 }
 
-static void test_init_matrix(void) {
+static void test_dim_compute(void) {
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
     error_e err;
 
@@ -52,11 +52,9 @@ static void test_init_matrix(void) {
     ASSERT(circuit->component_count == 5);
     ASSERT(circuit->node_count == 4);
 
-    err = c_init_solver_matrix(circuit, DC);
+    err = c_calculate_dim(circuit);
     ASSERT(err == OK);
     ASSERT(circuit->dim == 5);
-    ASSERT(circuit->A != NULL);
-    ASSERT(circuit->b != NULL);
 
 err:
     del_circuit(circuit);
@@ -67,7 +65,7 @@ void test_circuit(void) {
 
     test_circuit_instance();
     test_adding_components();
-    test_init_matrix();
+    test_dim_compute();
 
     END_TEST();
 }

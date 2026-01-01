@@ -3,12 +3,14 @@
 #include "analysis/analysis.h"
 #include "core/circuit.h"
 #include "component/component.h"
+#include "core/environment.h"
 #include "util/error.h"
 
 #include "test.h"
 #include "test_def.h"
 
 static void test_circuit_ac(void) {
+    sbuf_t buf;
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
     error_e err;
 
@@ -26,9 +28,11 @@ static void test_circuit_ac(void) {
     err = c_add_connection(circuit, &l1); if (err != OK) goto err;
     err = c_add_connection(circuit, &c1); if (err != OK) goto err;
 
-    err = c_init_solver_matrix(circuit, AC); if (err != OK) goto err;
+    err = c_calculate_dim(circuit); if (err != OK) goto err;
+    err = b_init(circuit, AC, &buf); if (err != OK) goto err;
+    err = e_set_frequency(&circuit->default_env, 40); if (err != OK) goto err;
 
-    err = ac_solve(circuit, 2 * M_PI * 40);
+    err = ac_solve(circuit, &buf, NULL);
     ASSERT(err == OK);
     // mags
     ASSERTF(circuit->nodes[0].potential, 0);

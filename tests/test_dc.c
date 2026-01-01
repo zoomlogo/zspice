@@ -10,6 +10,7 @@
 
 static void test_simple_circuit(void) {
     // make a simple circuit for testing
+    sbuf_t buf;
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
     error_e err;
 
@@ -39,12 +40,13 @@ static void test_simple_circuit(void) {
     err = c_add_connection(circuit, &v1); if (err != OK) goto err;
     err = c_add_connection(circuit, &v2); if (err != OK) goto err;
 
-    err = dc_solve_linear(circuit);
+    err = dc_solve_linear(circuit, &buf, NULL);
     ASSERT(err == ERR_NOT_INIT);
 
-    err = c_init_solver_matrix(circuit, DC); if (err != OK) goto err;
+    err = c_calculate_dim(circuit); if (err != OK) goto err;
+    err = b_init(circuit, DC, &buf); if (err != OK) goto err;
 
-    err = dc_solve_linear(circuit);
+    err = dc_solve_linear(circuit, &buf, NULL);
     ASSERT(err == OK);
 
     ASSERTF(circuit->nodes[0].potential, 0);
