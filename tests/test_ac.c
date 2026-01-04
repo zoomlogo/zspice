@@ -29,7 +29,7 @@ static void test_circuit_ac(void) {
     err = c_add_connection(circuit, &c1); if (err != OK) goto err;
 
     err = c_calculate_dim(circuit); if (err != OK) goto err;
-    err = b_init(circuit, AC, &buf); if (err != OK) goto err;
+    err = b_init(circuit->dim, true, &buf); if (err != OK) goto err;
     err = e_set_frequency(&circuit->default_env, 40); if (err != OK) goto err;
 
     err = ac_solve(circuit, &buf, NULL);

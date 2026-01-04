@@ -44,7 +44,7 @@ static void test_simple_circuit(void) {
     ASSERT(err == ERR_NOT_INIT);
 
     err = c_calculate_dim(circuit); if (err != OK) goto err;
-    err = b_init(circuit, DC, &buf); if (err != OK) goto err;
+    err = b_init(circuit->dim, false, &buf); if (err != OK) goto err;
 
     err = dc_solve_linear(circuit, &buf, NULL);
     ASSERT(err == OK);

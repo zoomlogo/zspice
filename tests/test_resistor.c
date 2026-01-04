@@ -1,68 +1,67 @@
 #include <math.h>
 
 #include "component/component.h"
+#include "core/sbuf.h"
 #include "util/error.h"
 
 #include "test.h"
 #include "test_def.h"
 
 static void test_dc_stamp_resistor(void) {
-    f64 A[4] = {0};
-    f64 b[2] = {0};
+    sbuf_t buf; b_init(2, false, &buf);
     error_e err;
     env_t env; e_init(&env);
 
     component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
-    err = dc_stamp_resistor(2, A, b, &r, &env);
+    err = dc_stamp_resistor(&buf, &r, &env);
     ASSERT(err == OK);
-    ASSERT(b[0] == 0 && b[1] == 0);
-    ASSERTF(A[0], 0.01);
-    ASSERT(A[1] == 0 && A[2] == 0 && A[3] == 0);
+    ASSERT(buf.b[0] == 0 && buf.b[1] == 0);
+    ASSERTF(buf.A[0], 0.01);
+    ASSERT(buf.A[1] == 0 && buf.A[2] == 0 && buf.A[3] == 0);
 
-    A[0] = 0;
+    buf.A[0] = 0;
     r.id0 = 1;
     r.id1 = 2;
-    err = dc_stamp_resistor(2, A, b, &r, &env);
+    err = dc_stamp_resistor(&buf, &r, &env);
     ASSERT(err == OK);
-    ASSERT(b[0] == 0 && b[1] == 0);
-    ASSERTF(A[0], 0.01);
-    ASSERTF(A[1], -0.01);
-    ASSERTF(A[2], -0.01);
-    ASSERTF(A[3], 0.01);
+    ASSERT(buf.b[0] == 0 && buf.b[1] == 0);
+    ASSERTF(buf.A[0], 0.01);
+    ASSERTF(buf.A[1], -0.01);
+    ASSERTF(buf.A[2], -0.01);
+    ASSERTF(buf.A[3], 0.01);
 
     r.R.resistance = 0;
     r.R.conductance = NAN;
-    err = dc_stamp_resistor(2, A, b, &r, &env);
+    err = dc_stamp_resistor(&buf, &r, &env);
     ASSERT(err == ERR_INVALID_PARAM);
 }
 
 static void test_ac_stamp_resistor(void) {
-    c64 A[4] = {0};
-    c64 b[2] = {0};
+    sbuf_t buf; b_init(2, true, &buf);
     error_e err;
     env_t env; e_init(&env); e_set_frequency(&env, 40);
 
     component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
-    err = ac_stamp_resistor(2, A, b, &r, &env);
+    err = ac_stamp_resistor(&buf, &r, &env);
     ASSERT(err == OK);
-    ASSERT(b[0] == 0 && b[1] == 0);
-    ASSERTC(A[0], 0.01);
-    ASSERT(A[1] == 0 && A[2] == 0 && A[3] == 0);
+    ASSERT(buf.zb[0] == 0 && buf.zb[1] == 0);
+    ASSERTC(buf.zA[0], 0.01);
+    ASSERT(buf.zA[1] == 0 && buf.zA[2] == 0 && buf.zA[3] == 0);
 
-    A[0] = 0;
+    buf.zA[0] = 0;
     r.id0 = 1;
     r.id1 = 2;
-    err = ac_stamp_resistor(2, A, b, &r, &env);
+    err = ac_stamp_resistor(&buf, &r, &env);
     ASSERT(err == OK);
-    ASSERT(b[0] == 0 && b[1] == 0);
-    ASSERTC(A[0], 0.01);
-    ASSERTC(A[1], -0.01);
-    ASSERTC(A[2], -0.01);
-    ASSERTC(A[3], 0.01);
+    ASSERT(buf.zb[0] == 0 && buf.zb[1] == 0);
+    ASSERTC(buf.zA[0], 0.01);
+    ASSERTC(buf.zA[1], -0.01);
+    ASSERTC(buf.zA[2], -0.01);
+    ASSERTC(buf.zA[3], 0.01);
 
     r.R.resistance = 0;
     r.R.conductance = NAN;
-    err = ac_stamp_resistor(2, A, b, &r, &env);
+    err = ac_stamp_resistor(&buf, &r, &env);
     ASSERT(err == ERR_INVALID_PARAM);
 }
 
