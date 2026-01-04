@@ -9,7 +9,7 @@
 
 static inline void test_lu_simple_1(void) {
     const usize N = 2;
-    f64 A[N * N] = { 0 };
+    f64 A[N * N];
 
     A[0] = 2, A[1] = 3;
     A[2] = 1, A[3] = 4;
@@ -24,7 +24,7 @@ static inline void test_lu_simple_1(void) {
 
 static inline void test_lu_simple_2(void) {
     const usize N = 2;
-    f64 A[N * N] = { 0 };
+    f64 A[N * N];
 
     A[0] = 1, A[1] = 1;
     A[2] = 1, A[3] = 2;
@@ -39,7 +39,7 @@ static inline void test_lu_simple_2(void) {
 
 static inline void test_lu_pivoting(void) {
     const usize N = 2;
-    f64 A[N * N] = { 0 };
+    f64 A[N * N];
 
     A[0] = 0, A[1] = 1;
     A[2] = 1, A[3] = 0;
@@ -54,7 +54,7 @@ static inline void test_lu_pivoting(void) {
 
 static inline void test_lu_singular(void) {
     const usize N = 2;
-    f64 A[N * N] = { 0 };
+    f64 A[N * N];
 
     A[0] = 1, A[1] = 1;
     A[2] = 2, A[3] = 2;
