@@ -34,6 +34,8 @@ static void test_dc_stamp_resistor(void) {
     r.R.conductance = NAN;
     err = dc_stamp_resistor(&buf, &r, &env);
     ASSERT(err == ERR_INVALID_PARAM);
+
+    b_free(&buf);
 }
 
 static void test_ac_stamp_resistor(void) {
@@ -63,6 +65,8 @@ static void test_ac_stamp_resistor(void) {
     r.R.conductance = NAN;
     err = ac_stamp_resistor(&buf, &r, &env);
     ASSERT(err == ERR_INVALID_PARAM);
+
+    b_free(&buf);
 }
 
 void test_resistor(void) {

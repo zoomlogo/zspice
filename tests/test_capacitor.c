@@ -16,6 +16,8 @@ static void test_dc_stamp_capacitor(void) {
     ASSERT(err == OK);
     ASSERT(buf.b[0] == 0 && buf.b[1] == 0);
     ASSERT(buf.A[0] == 0 && buf.A[1] == 0 && buf.A[2] == 0 && buf.A[3] == 0);
+
+    b_free(&buf);
 }
 
 static void test_ac_stamp_capacitor(void) {
@@ -30,6 +32,8 @@ static void test_ac_stamp_capacitor(void) {
     ASSERTC(buf.zA[1], -J * 2 * M_PI * 40 * 0.01);
     ASSERTC(buf.zA[2], -J * 2 * M_PI * 40 * 0.01);
     ASSERTC(buf.zA[3], J * 2 * M_PI * 40 * 0.01);
+
+    b_free(&buf);
 }
 
 void test_capacitor(void) {

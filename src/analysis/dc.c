@@ -15,8 +15,8 @@ error_e dc_solve_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
 
     if (env == NULL) env = &circuit->default_env;
 
-    f64 *A = (f64 *) buffer->A;
-    f64 *b = (f64 *) buffer->b;
+    f64 *A = buffer->A;
+    f64 *b = buffer->b;
 
     // reset memory
     memset(A, 0, buffer->dim * buffer->dim * sizeof(f64));

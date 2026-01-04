@@ -15,6 +15,8 @@ static void test_dc_stamp_current_source(void) {
     err = dc_stamp_current_source(&buf, &i, &env);
     ASSERT(err == OK);
     ASSERTF(buf.b[0], 5);
+
+    b_free(&buf);
 }
 
 static void test_ac_stamp_current_source(void) {
@@ -26,6 +28,8 @@ static void test_ac_stamp_current_source(void) {
     err = ac_stamp_current_source(&buf, &i, &env);
     ASSERT(err == OK);
     ASSERTC(buf.zb[0], 5 * J);
+
+    b_free(&buf);
 }
 
 void test_current_source(void) {

@@ -1,9 +1,11 @@
 #include <math.h>
+#include <stdio.h>
 
 #include "analysis/analysis.h"
 #include "core/circuit.h"
 #include "component/component.h"
 #include "core/environment.h"
+#include "core/sbuf.h"
 #include "util/error.h"
 
 #include "test.h"
@@ -33,6 +35,8 @@ static void test_circuit_ac(void) {
     err = e_set_frequency(&circuit->default_env, 40); if (err != OK) goto err;
 
     err = ac_solve(circuit, &buf, NULL);
+    printf("%d:", err);
+    printf("%s\n", err_str(err));
     ASSERT(err == OK);
     // mags
     ASSERTF(circuit->nodes[0].potential, 0);
@@ -49,6 +53,7 @@ static void test_circuit_ac(void) {
 
 err:
     del_circuit(circuit);
+    b_free(&buf);
 }
 
 void test_ac(void) {

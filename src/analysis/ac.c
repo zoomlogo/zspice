@@ -17,12 +17,12 @@ error_e ac_solve(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
 
     if (env == NULL) env = &circuit->default_env;
 
-    c64 *A = (c64 *) buffer->A;
-    c64 *b = (c64 *) buffer->b;
+    c64 *zA = buffer->zA;
+    c64 *zb = buffer->zb;
 
     // reset memory
-    memset(A, 0, buffer->dim * buffer->dim * sizeof(c64));
-    memset(b, 0, buffer->dim * sizeof(c64));
+    memset(zA, 0, buffer->dim * buffer->dim * sizeof(c64));
+    memset(zb, 0, buffer->dim * sizeof(c64));
 
     // setup
     for (usize i = 0; i < circuit->component_count; i++) {
@@ -33,14 +33,14 @@ error_e ac_solve(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
     }
 
     // solve
-    error_e err = c_lu_solve(A, buffer->dim, b);
+    error_e err = c_lu_solve(zA, buffer->dim, zb);
 
     // copy mag+phase
     if (err != OK) return err;
     circuit->nodes[0].potential = 0;
     circuit->nodes[0].phase = 0;
     for (usize i = 1; i < circuit->node_count; i++) {
-        c64 V = b[i - 1]; // AC phasor
+        c64 V = zb[i - 1]; // AC phasor
         circuit->nodes[i].potential = cabs(V);
         circuit->nodes[i].phase = carg(V) * 180 / M_PI;
     }

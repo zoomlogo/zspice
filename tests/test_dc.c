@@ -58,6 +58,7 @@ static void test_simple_circuit(void) {
 
 err:
     del_circuit(circuit);
+    b_free(&buf);
 }
 
 void test_dc(void) {
