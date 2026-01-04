@@ -3,9 +3,9 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- proper testing
 - more linear dc components
- - ccvs, cccs, vcvs, vccs
+ - vccs, vcvs
+ - cccs, ccvs
 
 - technical docs (comments preferably, dont want to write docs/)
 - file io
