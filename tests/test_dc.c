@@ -12,7 +12,6 @@ static void test_simple_circuit(void) {
     // make a simple circuit for testing
     sbuf_t buf;
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
-    error_e err;
 
     // 0----[- +]----1
     // |      v1     |
@@ -31,23 +30,22 @@ static void test_simple_circuit(void) {
     component_t r4 = { RESISTOR, 4, 0, .R.resistance = 1800, .R.conductance = NAN };
     component_t r5 = { RESISTOR, 4, 2, .R.resistance = 680, .R.conductance = NAN };
 
-    err = c_add_connection(circuit, &r1); if (err != OK) goto err;
-    err = c_add_connection(circuit, &r2); if (err != OK) goto err;
-    err = c_add_connection(circuit, &r3); if (err != OK) goto err;
-    err = c_add_connection(circuit, &r4); if (err != OK) goto err;
-    err = c_add_connection(circuit, &r5); if (err != OK) goto err;
+    ASSERT_OKC(c_add_connection(circuit, &r1));
+    ASSERT_OKC(c_add_connection(circuit, &r2));
+    ASSERT_OKC(c_add_connection(circuit, &r3));
+    ASSERT_OKC(c_add_connection(circuit, &r4));
+    ASSERT_OKC(c_add_connection(circuit, &r5));
 
-    err = c_add_connection(circuit, &v1); if (err != OK) goto err;
-    err = c_add_connection(circuit, &v2); if (err != OK) goto err;
+    ASSERT_OKC(c_add_connection(circuit, &v1));
+    ASSERT_OKC(c_add_connection(circuit, &v2));
 
-    err = dc_solve_linear(circuit, &buf, NULL);
+    error_e err = dc_solve_linear(circuit, &buf, NULL);
     ASSERT(err == ERR_NOT_INIT);
 
-    err = c_calculate_dim(circuit); if (err != OK) goto err;
-    err = b_init(circuit->dim, false, &buf); if (err != OK) goto err;
+    ASSERT_OKC(c_calculate_dim(circuit));
+    ASSERT_OKC(b_init(circuit->dim, false, &buf));
 
-    err = dc_solve_linear(circuit, &buf, NULL);
-    ASSERT(err == OK);
+    ASSERT_OKC(dc_solve_linear(circuit, &buf, NULL));
 
     ASSERTF(circuit->nodes[0].potential, 0);
     ASSERTF(circuit->nodes[1].potential, 5);

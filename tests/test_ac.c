@@ -14,7 +14,6 @@
 static void test_circuit_ac(void) {
     sbuf_t buf;
     circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
-    error_e err;
 
     component_t v1 = { VOLTAGE_SOURCE, 1, 0, .V.max_voltage = 5, .V.frequency = NAN };
     component_t r1 = { RESISTOR, 1, 2, .R.resistance = 100, .R.conductance = NAN };
@@ -23,21 +22,18 @@ static void test_circuit_ac(void) {
     component_t c1 = { CAPACITOR, 4, 3, .C.capacitance = 1e-6 };
     component_t l1 = { INDUCTOR, 2, 3, .L.inductance = 0.01 };
 
-    err = c_add_connection(circuit, &r1); if (err != OK) goto err;
-    err = c_add_connection(circuit, &r2); if (err != OK) goto err;
-    err = c_add_connection(circuit, &r3); if (err != OK) goto err;
-    err = c_add_connection(circuit, &v1); if (err != OK) goto err;
-    err = c_add_connection(circuit, &l1); if (err != OK) goto err;
-    err = c_add_connection(circuit, &c1); if (err != OK) goto err;
+    ASSERT_OKC(c_add_connection(circuit, &r1));
+    ASSERT_OKC(c_add_connection(circuit, &r2));
+    ASSERT_OKC(c_add_connection(circuit, &r3));
+    ASSERT_OKC(c_add_connection(circuit, &v1));
+    ASSERT_OKC(c_add_connection(circuit, &l1));
+    ASSERT_OKC(c_add_connection(circuit, &c1));
 
-    err = c_calculate_dim(circuit); if (err != OK) goto err;
-    err = b_init(circuit->dim, true, &buf); if (err != OK) goto err;
-    err = e_set_frequency(&circuit->default_env, 40); if (err != OK) goto err;
+    ASSERT_OKC(c_calculate_dim(circuit));
+    ASSERT_OKC(b_init(circuit->dim, true, &buf));
+    ASSERT_OKC(e_set_frequency(&circuit->default_env, 40));
 
-    err = ac_solve(circuit, &buf, NULL);
-    printf("%d:", err);
-    printf("%s\n", err_str(err));
-    ASSERT(err == OK);
+    ASSERT_OKC(ac_solve(circuit, &buf, NULL));
     // mags
     ASSERTF(circuit->nodes[0].potential, 0);
     ASSERTF(circuit->nodes[1].potential, 5);
