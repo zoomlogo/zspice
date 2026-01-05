@@ -15,6 +15,23 @@ COMPONENT(CURRENT_SOURCE, current_source, I,
     P(f64, phase_offset, 0)
 )
 
+// Controlled sources:
+COMPONENT(VCCS, vccs, vccs,
+    P(f64, gain, 1)
+)
+
+COMPONENT(VCVS, vcvs, vcvs,
+    P(f64, gain, 1)
+)
+
+COMPONENT(CCCS, cccs, cccs,
+    P(f64, gain, 1)
+)
+
+COMPONENT(CCVS, ccvs, ccvs,
+    P(f64, gain, 1)
+)
+
 
 // Passive components:
 COMPONENT(RESISTOR, resistor, R,

@@ -77,7 +77,10 @@ error_e c_calculate_dim(circuit_t *circuit) {
     usize unknwns = 0;
     for (usize i = 0; i < circuit->component_count; i++) {
         enum ctype type = circuit->components[i].type;
-        if (type == VOLTAGE_SOURCE || type == INDUCTOR)
+        if (type == VOLTAGE_SOURCE
+                || type == INDUCTOR
+                || type == VCVS
+                || type == CCVS)
             circuit->components[i].solver_id = circuit->node_count - 1 + unknwns++;
     }
 

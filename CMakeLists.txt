@@ -35,6 +35,10 @@ set(COMPONENT_SOURCES
     src/component/component.c
     src/component/voltage_source.c
     src/component/current_source.c
+    src/component/vccs.c
+    src/component/vcvs.c
+    src/component/cccs.c
+    src/component/ccvs.c
     src/component/resistor.c
     src/component/capacitor.c
     src/component/inductor.c

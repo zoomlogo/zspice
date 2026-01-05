@@ -24,17 +24,23 @@ enum ctype {
 typedef struct {
     enum ctype type;
 
-    // connections, proper node id
-    // the real solver_id is id - 1
-    // since id = 0 is ALWAYS ground
-    usize id0; // generally the positive connection
-    usize id1; // generally the negative connection
+    // Set node with id = 0 as our reference (ground).
+    // Hence the real solver_id is id - 1.
+    usize id0; // +
+    usize id1; // -
+    // Two terminal components: id0 +, id1 -.
 
-    // for multiple terminal devices
+    // Used for multiple terminal devices.
     usize id2;
     usize id3;
+    // For VCCS/VCVS: id2 +, id3 -.
+    // For CCCS/CCVS: id2 node denoting solver id of 0 V source
 
-    // for components which require access to the C/B/D matrices
+    // For three terminal components:
+    // TODO
+
+    // For components which require access to the C/B/D matrices,
+    // i.e. they introduce an unknown branch current into the MNA matrix.
     usize solver_id;
 
     union {
