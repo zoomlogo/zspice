@@ -22,8 +22,8 @@ error_e dc_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env) {
     //     ni
     // n0 -G
     // n1 +G
-    if (n0 > 0) A(n0 - 1, ni) -= G;
-    if (n1 > 0) A(n1 - 1, ni) += G;
+    if (n0 > 0) A(n0 - 1, ni) += G;
+    if (n1 > 0) A(n1 - 1, ni) -= G;
 
     return OK;
 }
@@ -40,8 +40,8 @@ error_e ac_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env) {
 
     f64 G = c->cccs.gain;
 
-    if (n0 > 0) A(n0 - 1, ni) -= G;
-    if (n1 > 0) A(n1 - 1, ni) += G;
+    if (n0 > 0) A(n0 - 1, ni) += G;
+    if (n1 > 0) A(n1 - 1, ni) -= G;
 
     return OK;
 }

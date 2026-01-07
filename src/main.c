@@ -17,7 +17,7 @@ i32 main(void) {
     // sense points in direction of current
     component_t sense = { VOLTAGE_SOURCE, 0, 2 }; c_defaults(&sense); sense.V.max_voltage = 0;
 
-    component_t ccs = { CCVS, 3, 0, 4 }; c_defaults(&ccs); ccs.ccvs.gain = 1000;
+    component_t ccs = { CCCS, 3, 0, 4 }; c_defaults(&ccs);
     component_t r2 = { RESISTOR, 3, 0 }; c_defaults(&r2);
 
     c_add_connection(circuit, &v1);
