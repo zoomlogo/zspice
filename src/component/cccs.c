@@ -1,3 +1,6 @@
+/**
+ * @file cccs.c
+ */
 #include <math.h>
 
 #include "util/error.h"
@@ -7,6 +10,28 @@
 #include "types.h"
 
 #define A(i, j) MI(buf->A, (i), (j), buf->dim)
+/**
+ * @brief Stamps a Current Controlled Current Source into the DC MNA Matrix.
+ *
+ * The MNA Matrix is as follows:
+ * \f[
+ * \begin{bmatrix}
+ * \dots & \dots & -G \\
+ * \dots & \dots & G \\
+ * \dots & \dots & \dots
+ * \end{bmatrix}
+ * \begin{bmatrix} V_{n0} \\ V_{n1} \\ I_{sense} \end{bmatrix}
+ * =
+ * \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}
+ * \f]
+ *
+ * Where \f(G\f) is the gain of the CCCS.
+ *
+ * @param buf The solver buffer.
+ * @param c Pointer to the component.
+ * @param env Simulation environment.
+ * @return error_e OK on success.
+ */
 error_e dc_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
@@ -30,6 +55,28 @@ error_e dc_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env) {
 #undef A
 
 #define A(i, j) MI(buf->zA, (i), (j), buf->dim)
+/**
+ * @brief Stamps a Current Controlled Current Source into the AC MNA Matrix.
+ *
+ * The MNA Matrix is as follows:
+ * \f[
+ * \begin{bmatrix}
+ * \dots & \dots & -G \\
+ * \dots & \dots & G \\
+ * \dots & \dots & \dots
+ * \end{bmatrix}
+ * \begin{bmatrix} V_{n0} \\ V_{n1} \\ I_{sense} \end{bmatrix}
+ * =
+ * \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}
+ * \f]
+ *
+ * Where \f(G\f) is the gain of the CCCS.
+ *
+ * @param buf The solver buffer.
+ * @param c Pointer to the component.
+ * @param env Simulation environment.
+ * @return error_e OK on success.
+ */
 error_e ac_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;

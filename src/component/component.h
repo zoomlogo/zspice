@@ -1,3 +1,7 @@
+/**
+ * @file component.h
+ * @brief Component definitions.
+ */
 #pragma once
 #include "core/environment.h"
 #include "core/sbuf.h"
@@ -5,44 +9,106 @@
 
 #include "types.h"
 
-// enum declaration
+/**
+ * @brief Enumeration of all the different circuit component types.
+ *
+ * The component names are automatically generated from `component.def` using the C preprocessor.
+ * It serves as the unique identifier for each component.
+ *
+ * @note To add a new component, edit `component.def`.
+ */
 enum ctype {
 #define COMPONENT(en, sn, av, p) en,
 #include "component.def"
 #undef COMPONENT
-    _C_LEN
+    _C_LEN //!< The total number of component types.
 };
 
-// individual component declaration
+/**
+ * @name Component structures generator.
+ * @brief Auto-generates the data structures for each circuit component defined in `component.def`.
+ * @{
+ */
+
+/**
+ * @brief Property Macro: Defines a single member in each struct.
+ *
+ * @param t Type of the variable/parameter.
+ * @param x Name of the variable/parameter.
+ * @param d Default value of the variable/parameter. (unused here)
+ */
 #define P(t, x, d) t x;
+/**
+ * @brief Component Macro: Generates the full struct definition.
+ *
+ * @param en Enum ID. (unused here)
+ * @param sn Struct name.
+ * @param av "Access value", name used to access the component in the `component_t` struct. (unused here)
+ * @param p Parameter list using P() macros.
+ */
 #define COMPONENT(en, sn, av, p) struct sn { p };
 #include "component.def"
 #undef COMPONENT
 #undef P
+/** @} */
 
-// main component struct declaration
+/**
+ * @brief Represents a generic circuit component.
+ *
+ * This is the main data structure for the netlist.
+ * It holds the IDs of the nodes it is connected to
+ * and the physical parameters as an anonymous union.
+ */
 typedef struct {
-    enum ctype type;
+    enum ctype type; //!< The type of component stored.
 
-    // Set node with id = 0 as our reference (ground).
-    // Hence the real solver_id is id - 1.
-    usize id0; // +
-    usize id1; // -
-    // Two terminal components: id0 +, id1 -.
+    /**
+     * @brief ID of the (generally) positive node.
+     *
+     * @note Node 0 is assumed to be ground (the reference). So the real MNA Index is `id0 - 1`.
+     *       Current is defined as leaving this node for sources.
+     */
+    usize id0;
+    /**
+     * @brief ID of the (generally) negative node.
+     *
+     * @note Node 0 is assumed to be ground (the reference). So the real MNA Index is `id1 - 1`.
+     */
+    usize id1;
 
-    // Used for multiple terminal devices.
+    /**
+     * @brief Auxiliary Node 1.
+     *
+     * Meaning depends on component type:
+     * - **VCCS/VCVS:** Positive controlling node.
+     * - **CCCS/CCVS:** Solver ID of the controlling wire.
+     */
     usize id2;
+    /**
+     * @brief Auxiliary Node 2.
+     *
+     * Meaning depends on component type:
+     * - **VCCS/VCVS:** Negative controlling node.
+     */
     usize id3;
-    // For VCCS/VCVS: id2 +, id3 -.
-    // For CCCS/CCVS: id2 node denoting solver id of 0 V source
 
-    // For three terminal components:
-    // TODO
-
-    // For components which require access to the C/B/D matrices,
-    // i.e. they introduce an unknown branch current into the MNA matrix.
+    /**
+     * @brief The MNA row/column index for this component's branch current.
+     *
+     * This is used for components which require their branch current to be known.
+     * They include:
+     * - Voltage sources.
+     * - Inductors.
+     * @note If `solver_id == 0` then the component does not need to know its branch current.
+     */
     usize solver_id;
 
+    /**
+     * @brief Type-specific physical parameters.
+     *
+     * Anonymous union generated from `component.def`.
+     * Members are accessed with the help of the short name defined in the `component.def` file.
+     */
     union {
 #define COMPONENT(en, sn, av, p) struct sn av;
 #include "component.def"
@@ -59,7 +125,7 @@ typedef error_e (*dc_stamp_f)(sbuf_t *, component_t *, env_t *);
 #undef COMPONENT
 
 // dc analysis: LUT
-extern const dc_stamp_f DC_STAMPS[_C_LEN];
+extern const dc_stamp_f DC_STAMPS[_C_LEN]; ///< The DC Stamp Lookup Table.
 
 // ac analysis: stamp functions
 typedef error_e (*ac_stamp_f)(sbuf_t *, component_t *, env_t *);
@@ -68,7 +134,14 @@ typedef error_e (*ac_stamp_f)(sbuf_t *, component_t *, env_t *);
 #undef COMPONENT
 
 // ac analysis: LUT
-extern const ac_stamp_f AC_STAMPS[_C_LEN];
+extern const ac_stamp_f AC_STAMPS[_C_LEN]; ///< The AC Stamp Lookup Table.
 
-// set defaults
+/**
+ * @brief Set defaults of a component.
+ *
+ * Set the default properties of the component as defined by
+ * the third argument of the P() macro.
+ *
+ * @param component Pointer to the component to set the defaults for.
+ */
 void c_defaults(component_t *component);

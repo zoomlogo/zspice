@@ -11,28 +11,22 @@
 i32 main(void) {
     sbuf_t buf;
     circuit_t *circuit = new_circuit();
+    e_set_frequency(&circuit->default_env, 40);
 
     component_t v1 = { VOLTAGE_SOURCE, 1, 0 }; c_defaults(&v1);
     component_t r1 = { RESISTOR, 1, 2 }; c_defaults(&r1);
-    // sense points in direction of current
-    component_t sense = { VOLTAGE_SOURCE, 0, 2 }; c_defaults(&sense); sense.V.max_voltage = 0;
-
-    component_t ccs = { CCCS, 3, 0, 4 }; c_defaults(&ccs);
-    component_t r2 = { RESISTOR, 3, 0 }; c_defaults(&r2);
+    component_t l1 = { INDUCTOR, 2, 0 }; c_defaults(&l1); l1.L.inductance = 1;
 
     c_add_connection(circuit, &v1);
     c_add_connection(circuit, &r1);
-    c_add_connection(circuit, &sense);
-
-    c_add_connection(circuit, &ccs);
-    c_add_connection(circuit, &r2);
+    c_add_connection(circuit, &l1);
 
     c_calculate_dim(circuit);
-    b_init(circuit->dim, false, &buf);
+    b_init(circuit->dim, true, &buf);
 
-    dc_solve_linear(circuit, &buf, NULL);
+    ac_solve(circuit, &buf, NULL);
     for (usize i = 0; i < circuit->node_count; i++)
-        printf("%lu: %lf\n", i, circuit->nodes[i].potential);
+        printf("%lu: %lf/_%lf\n", i, circuit->nodes[i].potential, circuit->nodes[i].phase);
 
     del_circuit(circuit);
     b_free(&buf);

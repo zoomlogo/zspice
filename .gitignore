@@ -22,3 +22,11 @@ bin/
 
 # temporarily:
 docs/
+
+# doxygen
+html/
+latex/
+rtf/
+xml/
+man/
+Doxyfile.bak

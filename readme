@@ -3,7 +3,7 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- technical docs (comments preferably, dont want to write docs/)
+- technical docs (doxygen)
 
 - file io
  - output to csv
@@ -37,6 +37,9 @@ cmake .
 make
 ./bin/test_run           # to run the tests
 ./bin/zspice             # actual program
+
+doc build instructions:
+doxygen  # output in docs/
 
 resources:
 = https://guitorri.github.io/qucs-web/docs/technical.pdf

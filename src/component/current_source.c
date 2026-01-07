@@ -1,3 +1,6 @@
+/**
+ * @file current_source.c
+ */
 #include <math.h>
 
 #include "util/error.h"
@@ -7,6 +10,28 @@
 #include "types.h"
 
 #define A(i, j) MI(buf->A, (i), (j), buf->dim)
+/**
+ * @brief Stamps an Independent Current Source into the DC MNA Matrix.
+ *
+ * The MNA Matrix for an independent current source is as follows:
+ * \f[
+ * \begin{bmatrix}
+ * \dots & \dots \\
+ * \dots & \dots
+ * \end{bmatrix}
+ * \begin{bmatrix} V_{n0} \\ V_{n1} \end{bmatrix}
+ * =
+ * \begin{bmatrix} I_{dc} \\ -I_{dc} \end{bmatrix}
+ * \f]
+ *
+ * @note If `I.dc_offset` is `NAN`, it is automatically set to `I.max_voltage`. `dc_offset`
+ *       is used in DC analysis, while `max_voltage` is ignored.
+ *
+ * @param buf The solver buffer.
+ * @param c Pointer to the component.
+ * @param env Simulation environment.
+ * @return error_e OK on success.
+ */
 error_e dc_stamp_current_source(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
@@ -24,6 +49,31 @@ error_e dc_stamp_current_source(sbuf_t *buf, component_t *c, env_t *env) {
 #undef A
 
 #define A(i, j) MI(buf->zA, (i), (j), buf->dim)
+/**
+ * @brief Stamps an Independent Current Source into the AC MNA Matrix.
+ *
+ * The MNA Matrix for an independent current source is as follows:
+ * \f[
+ * \begin{bmatrix}
+ * \dots & \dots \\
+ * \dots & \dots
+ * \end{bmatrix}
+ * \begin{bmatrix} V_{n0} \\ V_{n1} \end{bmatrix}
+ * =
+ * \begin{bmatrix} I_{max}e^{j\pi\phi} \\ -I_{max}e^{j\pi\phi} \end{bmatrix}
+ * \f]
+ *
+ * Note that \f(\phi\f) is the phase offset of the source in radians.
+ *
+ * @note If `I.dc_offset` is `NAN`, it is automatically set to `0`.
+ *       Sources with `I.frequency` set to `NAN` are considered for analysis
+ *       and if the frequency is set they are opened.
+ *
+ * @param buf The solver buffer.
+ * @param c Pointer to the component.
+ * @param env Simulation environment.
+ * @return error_e OK on success.
+ */
 error_e ac_stamp_current_source(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
     usize n1 = c->id1;
