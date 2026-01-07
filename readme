@@ -3,8 +3,6 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- check signs properly
- - verified: cvs, ccs, vcvs, vccs, ccvs, cccs
 - technical docs (comments preferably, dont want to write docs/)
 
 - file io
