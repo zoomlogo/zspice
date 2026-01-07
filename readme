@@ -4,6 +4,7 @@ for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
 - check signs properly
+ - verified: cvs, ccs, vcvs, vccs, ccvs
 - technical docs (comments preferably, dont want to write docs/)
 
 - file io

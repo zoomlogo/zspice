@@ -55,6 +55,7 @@ error_e c_add_connection(circuit_t *circuit, const component_t *component) {
         circuit->node_count = new_ncount;
     }
 
+    // copy component into components[]
     circuit->components[circuit->component_count++] = *component;
 
     // check for overflow, and resize
