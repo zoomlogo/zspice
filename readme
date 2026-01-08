@@ -3,9 +3,10 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- file io
- - output to csv
 - ac sweep
+ - linear sweeps
+ - decade sweeps
+ - octave sweeps
 
 - temperature
 - non linear dc analysis
