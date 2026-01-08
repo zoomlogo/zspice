@@ -30,7 +30,7 @@
  * @param buf The solver buffer.
  * @param c Pointer to the component.
  * @param env Simulation environment.
- * @return error_e OK on success.
+ * @return OK on success.
  */
 error_e dc_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;
@@ -75,7 +75,7 @@ error_e dc_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env) {
  * @param buf The solver buffer.
  * @param c Pointer to the component.
  * @param env Simulation environment.
- * @return error_e OK on success.
+ * @return OK on success.
  */
 error_e ac_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env) {
     usize n0 = c->id0;

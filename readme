@@ -3,8 +3,6 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- technical docs (doxygen)
-
 - file io
  - output to csv
 - ac sweep
