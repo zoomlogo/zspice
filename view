@@ -1,0 +1,6 @@
+#!python
+#quickly plot CSVs
+import pandas as P
+import matplotlib.pyplot as p
+import sys
+D=P.read_csv(sys.argv[1]);D.set_index(D.columns[0]).plot();p.show()

@@ -31,6 +31,9 @@ set(UTIL_SOURCES
     src/util/error.c
     src/util/lu.c
 )
+set(IO_SOURCES
+    src/io/csv.c
+)
 set(COMPONENT_SOURCES
     src/component/component.c
     src/component/voltage_source.c
@@ -55,7 +58,7 @@ set(TEST_SOURCES
     tests/test_current_source.c
 )
 
-add_library(core ${CORE_SOURCES} ${ANALYSIS_SOURCES} ${COMPONENT_SOURCES} ${UTIL_SOURCES})
+add_library(core ${CORE_SOURCES} ${ANALYSIS_SOURCES} ${COMPONENT_SOURCES} ${UTIL_SOURCES} ${IO_SOURCES})
 target_link_libraries(core PRIVATE m)
 
 add_executable(zspice src/main.c)

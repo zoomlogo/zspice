@@ -5,6 +5,7 @@
 #include "core/circuit.h"
 #include "core/sbuf.h"
 #include "component/component.h"
+#include "io/csv.h"
 
 #include "types.h"
 
@@ -25,10 +26,21 @@ i32 main(void) {
     b_init(circuit->dim, true, &buf);
 
     ac_solve(circuit, &buf, NULL);
-    for (usize i = 0; i < circuit->node_count; i++)
-        printf("%lu: %lf/_%lf\n", i, circuit->nodes[i].potential, circuit->nodes[i].phase);
+
+    // write to csv file
+    csv_t *csv = csv_open("output.csv");
+    csv_add_header(csv,"nodeId");
+    csv_add_header(csv,"mag");
+    csv_add_header(csv,"phase");
+    csv_write_header(csv);
+
+    for (usize i = 0; i < circuit->node_count; i++) {
+        f64 dat[] = { (f64) i, circuit->nodes[i].potential, circuit->nodes[i].phase };
+        csv_write_row(csv, dat);
+    }
 
     del_circuit(circuit);
     b_free(&buf);
+    csv_close(csv);
     return 0;
 }
