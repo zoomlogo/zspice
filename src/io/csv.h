@@ -15,6 +15,7 @@ typedef struct {
     FILE *fptr; ///< `FILE` pointer to the CSV file.
     usize cols; ///< Number of columns in the CSV file.
     char **header; ///< The header of the CSV file.
+    usize cloc; ///< Used to determine which column data we are writing.
 } csv_t;
 
 /**
@@ -50,6 +51,16 @@ error_e csv_add_header(csv_t *csv, const char *name);
  */
 error_e csv_write_header(csv_t *csv);
 
+/**
+ * @brief Write a single data entry.
+ *
+ * The row end is automatically detected.
+ *
+ * @param csv CSV type.
+ * @param val Value to write.
+ * @returns OK on success.
+ */
+error_e csv_write_data(csv_t *csv, f64 val);
 /**
  * @brief Writes a row of data to the CSV file.
  *

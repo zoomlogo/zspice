@@ -25,22 +25,12 @@ i32 main(void) {
     c_calculate_dim(circuit);
     b_init(circuit->dim, true, &buf);
 
-    ac_solve(circuit, &buf, NULL);
-
-    // write to csv file
-    csv_t *csv = csv_open("output.csv");
-    csv_add_header(csv,"nodeId");
-    csv_add_header(csv,"mag");
-    csv_add_header(csv,"phase");
-    csv_write_header(csv);
-
-    for (usize i = 0; i < circuit->node_count; i++) {
-        f64 dat[] = { (f64) i, circuit->nodes[i].potential, circuit->nodes[i].phase };
-        csv_write_row(csv, dat);
-    }
+    const int n = 1;
+    usize ids[n]; ids[0] = 2;
+    ac_sweep_params_t params = { AC_SWEEP_OCTAVE, 1, 20000, 10, "output.csv", ids, n};
+    ac_sweep(circuit, &params);
 
     del_circuit(circuit);
     b_free(&buf);
-    csv_close(csv);
     return 0;
 }

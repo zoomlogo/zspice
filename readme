@@ -3,12 +3,6 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- ac sweep
- - linear sweeps
- - decade sweeps
- - octave sweeps
-
-- temperature
 - non linear dc analysis
  - diode
  - bjt

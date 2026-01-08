@@ -18,6 +18,7 @@ csv_t *csv_open(const char *filename) {
     }
 
     csv->cols = 0;
+    csv->cloc = 0;
     csv->header = NULL;
 
     return csv;
@@ -56,8 +57,21 @@ error_e csv_write_header(csv_t *csv) {
     return OK;
 }
 
+error_e csv_write_data(csv_t *csv, f64 val) {
+    if (csv == NULL) return ERR_INVALID_ARG;
+
+    if (csv->cloc++ > 0) fprintf(csv->fptr, ",");
+    fprintf(csv->fptr, "%.6lf", val);
+
+    csv->cloc %= csv->cols;
+    if (csv->cloc == 0) fprintf(csv->fptr, "\n");
+
+    return OK;
+}
+
 error_e csv_write_row(csv_t *csv, f64 *row_data) {
     if (csv == NULL) return ERR_INVALID_ARG;
+    if (csv->cloc != 0) return ERR_IO;
 
     for (usize i = 0; i < csv->cols; i++) {
         if (i > 0) fprintf(csv->fptr, ",");

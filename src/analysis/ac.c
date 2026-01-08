@@ -1,8 +1,12 @@
 #include <math.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "component/component.h"
 #include "core/circuit.h"
+#include "core/environment.h"
+#include "core/sbuf.h"
+#include "io/csv.h"
 #include "util/error.h"
 #include "util/lu.h"
 
@@ -45,5 +49,76 @@ error_e ac_solve(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
         circuit->nodes[i].phase = carg(V) * 180 / M_PI;
     }
 
+    return OK;
+}
+
+error_e ac_sweep(circuit_t *circuit, ac_sweep_params_t *params, env_t *env) {
+    // open file
+    csv_t *csv = csv_open(params->filename);
+    if (csv == NULL) return ERR_IO;
+
+    csv_add_header(csv, "freq");
+    for (usize i = 0; i < params->n; i++) {
+        char buf[16];
+        sprintf(buf, "Mag(V(%lu))", params->node_ids[i]);
+        csv_add_header(csv, buf);
+
+        sprintf(buf, "Ph(V(%lu))", params->node_ids[i]);
+        csv_add_header(csv, buf);
+    }
+    csv_write_header(csv);
+
+    // initialize
+    if (env == NULL) env = &circuit->default_env;
+    sbuf_t buffer; b_init(circuit->dim, true, &buffer);
+
+    // sweep types
+    f64 current_freq = params->start_frequency;
+
+    f64 net_steps;
+    f64 step_size;
+    f64 multiplier;
+
+    switch (params->sweep_type) {
+    case AC_SWEEP_LINEAR:
+        net_steps = params->steps;
+        multiplier = 1;
+        step_size = (params->stop_frequency - params->start_frequency) / (params->steps - 1);
+        break;
+    case AC_SWEEP_DECADE:
+        net_steps = params->steps * log10(params->stop_frequency / params->start_frequency) + 1;
+        multiplier = pow(10., 1. / (double) params->steps);
+        step_size = 0;
+        break;
+    case AC_SWEEP_OCTAVE:
+        net_steps = params->steps * log2(params->stop_frequency / params->start_frequency) + 1;
+        multiplier = pow(2., 1. / (double) params->steps);
+        step_size = 0;
+        break;
+    }
+
+    // sweep laazik
+    for (usize i = 0; i < net_steps; i++) {
+        e_set_frequency(env, current_freq);
+        ac_solve(circuit, &buffer, NULL);
+
+        // write results
+        csv_write_data(csv, current_freq);
+        for (usize k = 0; k < params->n; k++) {
+            usize id = params->node_ids[k];
+            csv_write_data(csv, circuit->nodes[id].potential);
+            csv_write_data(csv, circuit->nodes[id].phase);
+        }
+
+        // next frequency
+        current_freq *= multiplier;
+        current_freq += step_size;
+        // clamp
+        if (i == net_steps - 2) current_freq = params->stop_frequency;
+    }
+
+    // cleanup
+    csv_close(csv);
+    b_free(&buffer);
     return OK;
 }
