@@ -14,12 +14,12 @@ todo:
 - transient analysis
 
 - monte carlo
-- multithreading support (use solv_buf_t)
+- optimization
+ - multithreading support (use solv_buf_t)
 
 - parsing
  - netlist parsing
  - custom netlist parsing
-- user docs (docs/)
 
 far future:
 - gui
