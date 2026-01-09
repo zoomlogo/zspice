@@ -9,5 +9,5 @@
  */
 typedef struct {
     f64 potential; ///< The node's potential.
-    f64 phase; ///< The node's phase.
+    c64 zpotential; ///< The node's complex potential (for AC analysis).
 } node_t;

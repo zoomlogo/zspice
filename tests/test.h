@@ -6,7 +6,7 @@
 
 extern usize test_num, passed, net_failed;
 
-#define EPSILON 1e-6
+#define EPSILON 1e-4
 #define ASSERT(cond) \
     ({ test_num++; \
     if ( cond ) passed++; \

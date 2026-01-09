@@ -32,6 +32,7 @@ typedef struct {
     const char *filename; ///< Output CSV filename.
     usize *node_ids; ///< The list of node ids to output.
     usize n; ///< The length of `node_ids`.
+    usize ref_node_id; ///< The id of the reference node to compute the gain w.r.t..
 } ac_sweep_params_t;
 
 /**

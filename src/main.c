@@ -27,8 +27,8 @@ i32 main(void) {
 
     const int n = 1;
     usize ids[n]; ids[0] = 2;
-    ac_sweep_params_t params = { AC_SWEEP_OCTAVE, 1, 20000, 10, "output.csv", ids, n};
-    ac_sweep(circuit, &params);
+    ac_sweep_params_t params = { AC_SWEEP_DECADE, 1, 20000, 10, "output.csv", ids, n, 1};
+    ac_sweep(circuit, &params, NULL);
 
     del_circuit(circuit);
     b_free(&buf);

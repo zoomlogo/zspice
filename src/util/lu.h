@@ -2,6 +2,8 @@
  * @file lu.h
  */
 #pragma once
+#include "util/zmth.h"
+
 #include "error.h"
 #include "types.h"
 
@@ -24,7 +26,7 @@
 // void low_solve(f64 *L, usize N, f64 *B, usize *p);
 // void upp_solve(f64 *U, usize N, f64 *Y);
 
-#define LU_TOLERANCE 1e-12 ///< The max tolerance for a value to be considered 0.
+#define LU_TOLERANCE MIN_TOL ///< The max tolerance for a value to be considered 0.
 
 /**
  * @brief Matrix indexing macro.

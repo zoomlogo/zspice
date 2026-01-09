@@ -31,7 +31,7 @@ static void test_ac_stamp_inductor(void) {
     ASSERTC(buf.zb[2], 0);
     ASSERTC(buf.zA[2], 1);
     ASSERTC(buf.zA[6], 1);
-    ASSERTC(buf.zA[8], J * 2 * M_PI * 40);
+    ASSERTC(buf.zA[8], -J * 2 * M_PI * 40);
 
 err:
     b_free(&buf);

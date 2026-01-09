@@ -42,11 +42,8 @@ error_e ac_solve(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
     // copy mag+phase
     if (err != OK) return err;
     circuit->nodes[0].potential = 0;
-    circuit->nodes[0].phase = 0;
     for (usize i = 1; i < circuit->node_count; i++) {
-        c64 V = zb[i - 1]; // AC phasor
-        circuit->nodes[i].potential = cabs(V);
-        circuit->nodes[i].phase = carg(V) * 180 / M_PI;
+        circuit->nodes[i].zpotential = zb[i - 1];
     }
 
     return OK;
@@ -106,8 +103,18 @@ error_e ac_sweep(circuit_t *circuit, ac_sweep_params_t *params, env_t *env) {
         csv_write_data(csv, current_freq);
         for (usize k = 0; k < params->n; k++) {
             usize id = params->node_ids[k];
-            csv_write_data(csv, circuit->nodes[id].potential);
-            csv_write_data(csv, circuit->nodes[id].phase);
+            usize ref_id = params->ref_node_id;
+
+            c64 ref_V;
+
+            if (ref_id == 0) ref_V = 1;
+            else ref_V = circuit->nodes[ref_id].zpotential;
+
+            // compute gain w.r.t. reference
+            c64 V = circuit->nodes[id].zpotential / ref_V;
+
+            csv_write_data(csv, 20 * zlog10(cabs(V)));
+            csv_write_data(csv, carg(V) * 180 / M_PI);
         }
 
         // next frequency

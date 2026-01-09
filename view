@@ -3,4 +3,18 @@
 import pandas as P
 import matplotlib.pyplot as p
 import sys
-D=P.read_csv(sys.argv[1]);D.set_index(D.columns[0]).plot();p.show()
+m=sys.argv[1][0]#"b"ode/"t"ransient
+D=P.read_csv(sys.argv[2])
+A=D.set_index(D.columns[0])
+if m=="b":
+ A=A.plot(grid=True,secondary_y=D.columns[2::2],logx=True)
+ p.title("Bode Plot.")
+ A.set_ylabel("dB")
+ A.right_ax.set_ylabel("°")
+elif m=="t":
+ p.title("Transient Plot.")
+ A=A.plot(grid=1)
+ A.set_ylabel("V")
+else:
+ print("invalid mode");exit(1)
+p.tight_layout();p.show()

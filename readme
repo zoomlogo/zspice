@@ -3,6 +3,8 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
+- tests
+
 - non linear dc analysis
  - diode
  - bjt

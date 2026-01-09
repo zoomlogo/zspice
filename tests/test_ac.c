@@ -35,17 +35,11 @@ static void test_circuit_ac(void) {
 
     ASSERT_OKC(ac_solve(circuit, &buf, NULL));
     // mags
-    ASSERTF(circuit->nodes[0].potential, 0);
-    ASSERTF(circuit->nodes[1].potential, 5);
-    ASSERTF(circuit->nodes[2].potential, 2.500868218078);
-    ASSERTF(circuit->nodes[3].potential, 2.501656730276);
-    ASSERTF(circuit->nodes[4].potential, 4.999830306554);
-    // phases
-    ASSERTF(M_PI * circuit->nodes[0].phase / 180, 0);
-    ASSERTF(M_PI * circuit->nodes[1].phase / 180, 0);
-    ASSERTF(M_PI * circuit->nodes[2].phase / 180, -0.000000872222);
-    ASSERTF(M_PI * circuit->nodes[3].phase / 180, 0.025109140882);
-    ASSERTF(M_PI * circuit->nodes[4].phase / 180, -0.001256156358);
+    ASSERTC(circuit->nodes[0].zpotential, 0);
+    ASSERTC(circuit->nodes[1].zpotential, 5);
+    ASSERTC(circuit->nodes[2].zpotential, 2.500869 + J * 0.062830);
+    ASSERTC(circuit->nodes[3].zpotential, 2.499290 + J * 0.000020);
+    ASSERTC(circuit->nodes[4].zpotential, 4.999984 + J * -0.006285);
 
 err:
     del_circuit(circuit);
