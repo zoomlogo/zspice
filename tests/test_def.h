@@ -2,6 +2,7 @@
 
 #define TESTS(X) \
     X(test_lu) \
+    X(test_csv) \
     X(test_resistor) \
     X(test_capacitor) \
     X(test_inductor) \
