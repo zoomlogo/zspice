@@ -32,9 +32,9 @@ error_e dc_solve_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
 
     // solve
     error_e err = r_lu_solve(A, buffer->dim, b);
+    if (err != OK) return err;
 
     // copy voltage values back into the nodes and cleanup
-    if (err != OK) return err;
     circuit->nodes[0].potential = 0;
     for (usize i = 1; i < circuit->node_count; i++) {
         circuit->nodes[i].potential = b[i - 1];
@@ -52,9 +52,43 @@ error_e dc_solve_non_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
     f64 *A = (f64 *) buffer->A;
     f64 *b = (f64 *) buffer->b;
 
-    // reset memory
-    memset(A, 0, buffer->dim * buffer->dim * sizeof(f64));
-    memset(b, 0, buffer->dim * sizeof(f64));
+    for (int k = 0; k < MAX_ITERATIONS; k++) {
+        // reset memory
+        memset(A, 0, buffer->dim * buffer->dim * sizeof(f64));
+        memset(b, 0, buffer->dim * sizeof(f64));
 
-    return ERR_UNIMPL;
+        // linearize
+        dc_linearize(circuit, env);
+
+        // setup matrix
+        for (usize i = 0; i < circuit->component_count; i++) {
+            component_t *c = &circuit->components[i];
+            error_e err = DC_STAMPS[c->type](buffer, c, env);
+
+            if (err != OK) return err;
+        }
+
+        // solve
+        error_e err = r_lu_solve(A, buffer->dim, b);
+        if (err != OK) return err;
+
+        // update guesses
+        err = dc_update_guesses(circuit, buffer);
+        if (err != OK) return err;
+
+        // check for convergence
+        if (dc_check_convergence(circuit)) {
+            break; // converged
+        }
+    }
+
+    dc_linearize(circuit, env);
+
+    // copy voltage values back into the nodes and cleanup
+    circuit->nodes[0].potential = 0;
+    for (usize i = 1; i < circuit->node_count; i++) {
+        circuit->nodes[i].potential = b[i - 1];
+    }
+
+    return OK;
 }

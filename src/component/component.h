@@ -145,3 +145,7 @@ extern const ac_stamp_f AC_STAMPS[_C_LEN]; ///< The AC Stamp Lookup Table.
  * @param component Pointer to the component to set the defaults for.
  */
 void c_defaults(component_t *component);
+
+// non-linear extra functions
+error_e diode_linearize(component_t *c, env_t *env);
+f64 diode_limit(component_t *c, f64 Vj);

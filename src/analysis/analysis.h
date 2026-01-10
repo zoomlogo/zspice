@@ -9,6 +9,9 @@
 
 #include "types.h"
 
+#define CONVERGENCE_TOLERANCE 1e-6
+#define MAX_ITERATIONS 100
+
 /**
  * @brief The different types of frequency sweeps.
  */
@@ -34,6 +37,10 @@ typedef struct {
     usize n; ///< The length of `node_ids`.
     usize ref_node_id; ///< The id of the reference node to compute the gain w.r.t..
 } ac_sweep_params_t;
+
+error_e dc_linearize(circuit_t *circuit, env_t *env);
+error_e dc_update_guesses(circuit_t *circuit, sbuf_t *buffer);
+bool dc_check_convergence(circuit_t *circuit);
 
 /**
  * @brief Solve a linear DC circuit.

@@ -47,3 +47,14 @@ COMPONENT(INDUCTOR, inductor, L,
     P(f64, inductance, 0.001)
 )
 
+// Non-linear components:
+COMPONENT(DIODE, diode, D,
+    P(f64, Is, 1e-14)       // saturation current
+    P(f64, N, 1)           // ideality factor/emission coefficient
+    P(f64, Vj, 0.7)        // junction voltage
+    P(f64, _Vj, 0.7)       // (internal) to check convergence
+    P(f64, Vcrit, NAN)     // (internal) critical voltage
+    P(f64, V_T, NAN)       // thermal voltage
+    P(f64, g_eq, NAN)      // equivalent conductance
+    P(f64, i_eq, NAN)      // equivalent current source
+)

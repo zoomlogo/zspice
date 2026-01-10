@@ -57,7 +57,7 @@ error_e csv_write_header(csv_t *csv) {
     return OK;
 }
 
-error_e csv_write_data(csv_t *csv, f64 val) {
+error_e csv_write_data(csv_t *csv, const f64 val) {
     if (csv == NULL) return ERR_INVALID_ARG;
 
     if (csv->cloc++ > 0) fprintf(csv->fptr, ",");
@@ -69,7 +69,7 @@ error_e csv_write_data(csv_t *csv, f64 val) {
     return OK;
 }
 
-error_e csv_write_row(csv_t *csv, f64 *row_data) {
+error_e csv_write_row(csv_t *csv, const f64 *row_data) {
     if (csv == NULL) return ERR_INVALID_ARG;
     if (csv->cloc != 0) return ERR_IO;
 

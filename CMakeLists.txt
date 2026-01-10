@@ -20,6 +20,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 set(ANALYSIS_SOURCES
     src/analysis/dc.c
+    src/analysis/dc_helper.c
     src/analysis/ac.c
 )
 set(CORE_SOURCES
@@ -45,6 +46,7 @@ set(COMPONENT_SOURCES
     src/component/resistor.c
     src/component/capacitor.c
     src/component/inductor.c
+    src/component/diode.c
 )
 set(TEST_SOURCES
     tests/test_lu.c

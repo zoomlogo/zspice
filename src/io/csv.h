@@ -60,7 +60,7 @@ error_e csv_write_header(csv_t *csv);
  * @param val Value to write.
  * @returns OK on success.
  */
-error_e csv_write_data(csv_t *csv, f64 val);
+error_e csv_write_data(csv_t *csv, const f64 val);
 /**
  * @brief Writes a row of data to the CSV file.
  *
@@ -70,4 +70,4 @@ error_e csv_write_data(csv_t *csv, f64 val);
  * @param row_data The data of the entire row.
  * @returns OK on success.
  */
-error_e csv_write_row(csv_t *csv, f64 *row_data);
+error_e csv_write_row(csv_t *csv, const f64 *row_data);
