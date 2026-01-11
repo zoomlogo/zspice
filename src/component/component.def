@@ -55,6 +55,7 @@ COMPONENT(DIODE, diode, D,
     P(f64, _Vj, 0.7)       // (internal) to check convergence
     P(f64, Vcrit, NAN)     // (internal) critical voltage
     P(f64, V_T, NAN)       // thermal voltage
+    P(f64, V_break, 1e99)  // Reverse breakdown voltage.
     P(f64, g_eq, NAN)      // equivalent conductance
     P(f64, i_eq, NAN)      // equivalent current source
 )

@@ -69,6 +69,10 @@ error_e ac_sweep(circuit_t *circuit, ac_sweep_params_t *params, env_t *env) {
     if (env == NULL) env = &circuit->default_env;
     sbuf_t buffer; b_init(circuit->dim, true, &buffer);
 
+    // important: find operation point
+    // operating params stored back into the components themselves
+    dc_solve_non_linear(circuit, &buffer, env);
+
     // sweep types
     f64 current_freq = params->start_frequency;
 
@@ -77,17 +81,17 @@ error_e ac_sweep(circuit_t *circuit, ac_sweep_params_t *params, env_t *env) {
     f64 multiplier;
 
     switch (params->sweep_type) {
-    case AC_SWEEP_LINEAR:
+    case SWEEP_LINEAR:
         net_steps = params->steps;
         multiplier = 1;
         step_size = (params->stop_frequency - params->start_frequency) / (params->steps - 1);
         break;
-    case AC_SWEEP_DECADE:
+    case SWEEP_DECADE:
         net_steps = params->steps * log10(params->stop_frequency / params->start_frequency) + 1;
         multiplier = pow(10., 1. / (double) params->steps);
         step_size = 0;
         break;
-    case AC_SWEEP_OCTAVE:
+    case SWEEP_OCTAVE:
         net_steps = params->steps * log2(params->stop_frequency / params->start_frequency) + 1;
         multiplier = pow(2., 1. / (double) params->steps);
         step_size = 0;

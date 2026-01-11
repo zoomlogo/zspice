@@ -25,3 +25,22 @@ static inline f64 zclamp(f64 x, f64 a, f64 b) {
     if (x > b) return b;
     return x;
 }
+
+/**
+ * @brief Standard junction limiting function to prevent numerical errors.
+ *
+ * If the solver guessed a too far jump above the critical region, we
+ * force the new guess to be increase logarithmically using the formula:
+ * \f[V_2 \leftarrow V_2 + V_T\left(1 +\ln\left(\frac{V_2 - V_1}{V_T}\right)\right).\f]
+ *
+ * @param V2 The new guess.
+ * @param V1 The old guess.
+ * @param V_T The thermal voltage.
+ * @param Vcrit The critical voltage.
+ * @returns Clamped new guess.
+ */
+static inline f64 zjlimit(f64 V2, f64 V1, f64 V_T, f64 Vcrit) {
+    if (V2 > Vcrit && V2 - V1 > 2 * V_T)
+        return V2 + V_T * (1 + log((V2 - V1) / V_T));
+    return V2;
+}

@@ -29,6 +29,7 @@ todo:
 - parsing
  - netlist parsing
  - custom netlist parsing
+ - expression parsing
 
 far future:
 - gui

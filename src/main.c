@@ -5,7 +5,6 @@
 #include "core/circuit.h"
 #include "core/sbuf.h"
 #include "component/component.h"
-#include "io/csv.h"
 
 #include "types.h"
 
@@ -15,20 +14,18 @@ i32 main(void) {
 
     component_t v1 = { VOLTAGE_SOURCE, 1, 0 }; c_defaults(&v1);
     component_t r1 = { RESISTOR, 1, 2 }; c_defaults(&r1);
-    component_t d1 = { DIODE, 2, 3 }; c_defaults(&d1);
-    component_t d2 = { DIODE, 3, 0 }; c_defaults(&d2);
+    component_t d1 = { DIODE, 2, 0 }; c_defaults(&d1); d1.D.V_break = 5;
 
     c_add_connection(circuit, &v1);
     c_add_connection(circuit, &r1);
     c_add_connection(circuit, &d1);
-    c_add_connection(circuit, &d2);
 
     c_calculate_dim(circuit);
     b_init(circuit->dim, true, &buf);
 
-    dc_solve_non_linear(circuit, &buf, NULL);
-    for (usize i = 0; i < circuit->node_count; i++)
-        printf("%zu: %lf\n", i, circuit->nodes[i].potential);
+    usize ids[] = {2};
+    dc_sweep_params_t params = {SWEEP_LINEAR, 0, -10, 10, 100000, "output.csv", ids, 1};
+    dc_sweep(circuit, &params, NULL);
 
     del_circuit(circuit);
     b_free(&buf);

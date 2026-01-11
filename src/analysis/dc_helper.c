@@ -12,12 +12,14 @@
 error_e dc_linearize(circuit_t *circuit, env_t *env) {
     if (circuit == NULL) return ERR_INVALID_ARG;
     if (env == NULL) env = &circuit->default_env;
+    error_e err;
 
     for (usize i = 0; i < circuit->component_count; i++) {
         component_t *c = &circuit->components[i];
         if (c->type == DIODE) {
-            diode_linearize(c, env);
+            err = diode_linearize(c, env);
         }
+        if (err != OK) return err;
     }
 
     return OK;
@@ -27,14 +29,16 @@ error_e dc_update_guesses(circuit_t *circuit, sbuf_t *buffer) {
     for (usize i = 0; i < circuit->component_count; i++) {
         component_t *c = &circuit->components[i];
         if (c->type == DIODE) {
-            // new guess
             usize n0 = c->id0;
             usize n1 = c->id1;
+
             f64 V_anode = c->id0 > 0 ? buffer->b[n0 - 1] : 0;
             f64 V_cathode = c->id1 > 0 ? buffer->b[n1 - 1] : 0;
+            // compute new junction voltage
             f64 Vj = V_anode - V_cathode;
-            c->D._Vj = c->D.Vj;
-            c->D.Vj = diode_limit(c, Vj);
+
+            c->D._Vj = c->D.Vj; // store the old value
+            c->D.Vj = diode_limit(c, Vj); // overwrite with new guess
         }
     }
 
@@ -48,6 +52,8 @@ bool dc_check_convergence(circuit_t *circuit) {
     for (usize i = 0; i < circuit->component_count; i++) {
         component_t *c = &circuit->components[i];
         if (c->type == DIODE) {
+            // absolute convergence
+            // TODO relative convergence
             converged &= fabs(c->D.Vj - c->D._Vj) < CONVERGENCE_TOLERANCE;
         }
     }
