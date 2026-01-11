@@ -3,15 +3,16 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
+- dc sweep
 - non linear dc analysis
- - diode
+ - diode (V_break)
  - bjt
  - jfet
  - mosfet
-- dc sweep
+- docomments
 - achieve spice type accuracy plspls
 
-- ac analysis with dc q-point
+- ac analysis with dc q-point (just add the small signal models)
  - diode
  - bjt
  - jfet
