@@ -7,6 +7,7 @@
 #include "environment.h"
 #include "node.h"
 #include "types.h"
+#include "util/zmth.h"
 
 circuit_t *new_circuit(void) {
     circuit_t *circuit = (circuit_t *) malloc(sizeof(circuit_t));
@@ -45,7 +46,7 @@ void del_circuit(circuit_t *circuit) {
 error_e c_add_connection(circuit_t *circuit, const component_t *component) {
     // add connection by first verifying if the current nodes memory
     // block has enough slots to even solve for. if it doesnt then reallocate the block.
-    usize higher_id = (component->id0 > component->id1) ? component->id0 : component->id1;
+    usize higher_id = zmax(component->id0, component->id1);
     if (higher_id >= circuit->node_count) {
         usize new_ncount = higher_id + 1;
         node_t *new_nodes = (node_t *) realloc(circuit->nodes, new_ncount * sizeof(node_t));

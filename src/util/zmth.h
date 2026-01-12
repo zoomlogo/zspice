@@ -10,6 +10,14 @@
 #define MIN_TOL 1e-12 ///< Tolerance below which quantities will be considered 0.
 
 /**
+ * @brief Maximum of x, y.
+ */
+static inline f64 zmax(f64 x, f64 y) {
+    return x > y ? x : y;
+}
+
+
+/**
  * @brief Clamped log10.
  */
 static inline f64 zlog10(f64 x) {
@@ -41,6 +49,6 @@ static inline f64 zclamp(f64 x, f64 a, f64 b) {
  */
 static inline f64 zjlimit(f64 V2, f64 V1, f64 V_T, f64 Vcrit) {
     if (V2 > Vcrit && V2 - V1 > 2 * V_T)
-        return V2 + V_T * (1 + log((V2 - V1) / V_T));
+        return V1 + V_T * (1 + log((V2 - V1) / V_T));
     return V2;
 }

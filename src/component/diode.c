@@ -19,7 +19,6 @@
  * - \f(N\f), The ideality factor.
  * - \f(V_D\f), The junction voltage.
  * - \f(V_b\f), The reverse breakdown voltage.
- * - \f(\f) .
  *
  * We aim to linearize the diode by using its large signal model.
  * A large signal diode model consists of a current source, \f(I_{eq}\f) in parallel
@@ -71,14 +70,14 @@ error_e diode_linearize(component_t *c, env_t *env) {
  * @param Vj The new diode voltage guess.
  * @returns OK on success.
  */
-f64 diode_limit(component_t *c, f64 Vj) {
+void diode_limit(component_t *c, f64 Vj, f64 *r_Vj) {
     if (isnan(c->D.Vcrit))
         c->D.Vcrit = c->D.N * c->D.V_T * log(sqrt(0.5) * c->D.N * c->D.V_T / c->D.Is);
 
     f64 V_break = c->D.V_break;
     if (Vj < -V_break || c->D.Vj < -V_break) // transform coords → limit → inverse transform coords
-        return -(zjlimit(-(Vj + V_break), -(c->D.Vj + V_break), c->D.V_T, c->D.Vcrit) + V_break);
-    else return zjlimit(Vj, c->D.Vj, c->D.V_T, c->D.Vcrit);
+        *r_Vj = -(zjlimit(-(Vj + V_break), -(c->D.Vj + V_break), c->D.V_T, c->D.Vcrit) + V_break);
+    else *r_Vj = zjlimit(Vj, c->D.Vj, c->D.V_T, c->D.Vcrit);
 }
 
 #define A(i, j) MI(buf->A, (i), (j), buf->dim)

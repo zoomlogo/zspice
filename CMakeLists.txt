@@ -47,6 +47,7 @@ set(COMPONENT_SOURCES
     src/component/capacitor.c
     src/component/inductor.c
     src/component/diode.c
+    src/component/bjt.c
 )
 set(TEST_SOURCES
     tests/test_lu.c
