@@ -12,18 +12,32 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 .cache
+build/
+.ninja_deps
+.ninja_log
+build.ninja
 
 # Application
 bin/
 *.tcl
 *.a
+*.o
 *.so
+*.so.*
 *.csv
+*.obj
+*.lib
+*.dylib
 
-# temporarily:
-docs/
+#ex
+core*
+core
+gmon.out
+perf.data
+perf.data.old
 
 # doxygen
+docs/
 html/
 latex/
 rtf/

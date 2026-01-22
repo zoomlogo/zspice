@@ -35,10 +35,11 @@ far future:
 build instructions:
 git clone https://github.com/zoomlogo/zspice
 cd zspice
-cmake .
-make
-./bin/test_run           # to run the tests
-./bin/zspice             # actual program
+mkdir build && cd build
+cmake ..
+ninja
+./test_run           # to run the tests
+./zspice             # actual program
 
 doc build instructions:
 doxygen  # output in docs/
