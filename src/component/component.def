@@ -54,6 +54,7 @@ COMPONENT(DIODE, diode, D,
     P(f64, V_break, 1e99)  // Reverse breakdown voltage.
     P(f64, Vj, 0.7)        // junction voltage
     P(f64, _Vj, 0.7)       // (internal) to check convergence
+
     P(f64, Vcrit, NAN)     // (internal) critical voltage
     P(f64, V_T, NAN)       // thermal voltage
 
@@ -73,15 +74,18 @@ COMPONENT(BJT, bjt, Q,
     P(f64, Vbc, 0)         // base-collector voltage
     P(f64, _Vbe, 0.7)      // (internal) to check convergence
     P(f64, _Vbc, 0)        // (internal) to check convergence
+
     P(f64, Vcritf, NAN)    // (internal) critical voltage BE
     P(f64, Vcritr, NAN)    // (internal) critical voltage BC
     P(f64, V_T, NAN)       // thermal voltage
+
+    P(f64, Ib, NAN)        // current flowing in base
+    P(f64, Ic, NAN)        // current flowing in collector
+    P(f64, Ie, NAN)        // current flowing in emittor
 
     P(f64, g_pi, NAN)      // input conductance
     P(f64, g_mu, NAN)      // feedback conductance
     P(f64, g_mf, NAN)      // forward transconductance
     P(f64, g_mr, NAN)      // reverse transconductance
     P(f64, g_o, NAN)       // output conductance because of early effect
-    P(f64, i_be, NAN)      // equivalent current source for BE
-    P(f64, i_bc, NAN)      // equivalent current source for BC
 )

@@ -4,12 +4,12 @@ for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
 - non linear dc analysis
- - bjt, FIX CONVERGENCE ISSUES WHAT THE HELL
+ - bjt
+  - EM1 or EM2
  - jfet
  - mosfet
-- achieve spice type accuracy plspls
 
-- ac analysis with dc q-point (just add the small signal models)
+- ac small signal models
  - diode
  - bjt
  - jfet
@@ -17,16 +17,16 @@ todo:
 
 - transient analysis
 
-- monte carlo
 - optimization
- - multithreading support (use solv_buf_t)
+ - compute using sparse matrices (KLU)
+ - multithreading support (use sbuf_t)
 
 - python api (ctypes)
-
 - parsing
+ - using python first
+ - expression parsing
  - netlist parsing
  - custom netlist parsing
- - expression parsing
 
 far future:
 - gui

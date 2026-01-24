@@ -58,7 +58,6 @@ error_e dc_update_guesses(circuit_t *circuit, sbuf_t *buffer) {
             c->Q._Vbe = c->Q.Vbe;
             c->Q._Vbc = c->Q.Vbc;
             bjt_limit(c, Vbe, Vbc, &c->Q.Vbe, &c->Q.Vbc);
-            printf("Vbe(%lf), Vbc(%lf)\n", c->Q.Vbe, c->Q.Vbc);
         }
     }
 

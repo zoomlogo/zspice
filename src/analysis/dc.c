@@ -71,15 +71,6 @@ error_e dc_solve_non_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
             if (err != OK) return err;
         }
 
-        // NOTE
-        for (usize i = 0; i < buffer->dim; i++) {
-            for (usize j = 0; j < buffer->dim; j++) {
-                printf("%lf ", buffer->A[buffer->dim * i + j]);
-            }
-            printf("\n");
-        }
-        printf("AAAAAAAAA\n\n");
-
         // solve
         error_e err = r_lu_solve(A, buffer->dim, b);
         if (err != OK) return err;
