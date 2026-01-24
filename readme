@@ -3,9 +3,8 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
+- learn the math correctly :'(
 - non linear dc analysis
- - bjt
-  - EM1 or EM2
  - jfet
  - mosfet
 

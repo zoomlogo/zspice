@@ -10,7 +10,7 @@
 #include "types.h"
 
 #define CONVERGENCE_TOLERANCE 1e-6
-#define MAX_ITERATIONS 100000000
+#define MAX_ITERATIONS 1000
 
 /**
  * @brief The different types of frequency sweeps.

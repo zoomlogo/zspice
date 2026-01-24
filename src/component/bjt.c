@@ -76,16 +76,13 @@ error_e dc_stamp_bjt(sbuf_t *buf, component_t *c, env_t *env) {
         A(ne - 1, ne - 1) += c->Q.g_mf + c->Q.g_pi;
     }
     // stamp currents
-    f64 vb = nb > 0 ? buf->b[nb - 1] : 0;
-    f64 vc = nc > 0 ? buf->b[nc - 1] : 0;
-    f64 ve = ne > 0 ? buf->b[ne - 1] : 0;
-    f64 lIb = (c->Q.g_pi + c->Q.g_mu) * vb - c->Q.g_mu * vc - c->Q.g_pi * ve;
-    f64 lIc = (c->Q.g_mf - c->Q.g_mr - c->Q.g_mu) * vb + (c->Q.g_mr + c->Q.g_mu) * vc - c->Q.g_mf * ve;
-    f64 lIe = (c->Q.g_mr - c->Q.g_mf - c->Q.g_pi) * vb - c->Q.g_mr * vc + (c->Q.g_mf + c->Q.g_pi) * ve;
+    f64 lIb = (c->Q.g_pi * c->Q.Vbe) + (c->Q.g_mu * c->Q.Vbc);
+    f64 lIc = c->Q.g_mf * c->Q.Vbe - (c->Q.g_mu + c->Q.g_mr) * c->Q.Vbc;
+    f64 lIe = -(c->Q.g_mf + c->Q.g_pi) * c->Q.Vbe + c->Q.g_mr * c->Q.Vbc;
 
-    if (nb > 0) buf->b[nb - 1] = lIb - c->Q.Ib;
-    if (ne > 0) buf->b[ne - 1] = lIe - c->Q.Ie;
-    if (nc > 0) buf->b[nc - 1] = lIc - c->Q.Ic;
+    if (nb > 0) buf->b[nb - 1] += lIb - c->Q.Ib;
+    if (ne > 0) buf->b[ne - 1] += lIe - c->Q.Ie;
+    if (nc > 0) buf->b[nc - 1] += lIc - c->Q.Ic;
 
     return OK;
 }

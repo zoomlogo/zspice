@@ -55,6 +55,7 @@ error_e dc_solve_non_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
     f64 *A = (f64 *) buffer->A;
     f64 *b = (f64 *) buffer->b;
 
+    bool did_converge = false;
     for (int k = 0; k < MAX_ITERATIONS; k++) {
         // reset memory
         memset(A, 0, buffer->dim * buffer->dim * sizeof(f64));
@@ -81,6 +82,8 @@ error_e dc_solve_non_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
 
         // check for convergence
         if (dc_check_convergence(circuit)) {
+            did_converge = true;
+            fprintf(stderr, "converged in %zu iterations\n", k);
             break; // converged
         }
     }
@@ -93,7 +96,10 @@ error_e dc_solve_non_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
         circuit->nodes[i].potential = b[i - 1];
     }
 
-    return OK;
+    if (did_converge)
+        return OK;
+    else
+        return ERR_CONVNC;
 }
 
 error_e dc_sweep(circuit_t *circuit, dc_sweep_params_t *params, env_t *env) {

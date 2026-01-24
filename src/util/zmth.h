@@ -49,6 +49,6 @@ static inline f64 zclamp(f64 x, f64 a, f64 b) {
  */
 static inline f64 zjlimit(f64 V2, f64 V1, f64 V_T, f64 Vcrit) {
     if (V2 > Vcrit && V2 - V1 > 2 * V_T)
-        return V1 + V_T * (1 + log((V2 - V1) / V_T));
+        return V1 + V_T * log(1 + (V2 - V1) / V_T);
     return V2;
 }

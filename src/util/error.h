@@ -19,6 +19,7 @@
     X(ERR_NOT_INIT, "not_init: circuit solver matrix not initialized") \
     X(ERR_DIV_0, "div_0: division by zero") \
     X(ERR_UNIMPL, "unimpl: not implemented yet") \
+    X(ERR_CONVNC, "convnc: ran out of iterations") \
     X(ERR_IO, "io: io error")
 
 /**
