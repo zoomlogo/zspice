@@ -4,7 +4,7 @@ project(zspice)
 option(ASAN "Enable Debugging with Address Sanitizer." OFF)
 if(ASAN)
     message(STATUS "Building with Address sanitizer...")
-    add_compile_options(-ggdb -fsanitize=address -fno-omit-frame-pointer)
+    add_compile_options(-ggdb -fsanitize=address -fno-omit-frame-pointer -DLOG_LEVEL=0)
     add_link_options(-fsanitize=address)
 endif()
 

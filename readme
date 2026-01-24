@@ -4,17 +4,18 @@ for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
 - learn the math correctly :'(
+ - bjt early effect + capacitors
  - bjt docs
 
 - non linear dc analysis
- - jfet
  - mosfet
+ - jfet
 
 - ac small signal models
  - diode
  - bjt
- - jfet
  - mosfet
+ - jfet
 
 - transient analysis
 
@@ -22,12 +23,12 @@ todo:
  - compute using sparse matrices (KLU)
  - multithreading support (use sbuf_t)
 
-- python api (ctypes)
 - parsing
- - using python first
+ - python api (ctypes)
+ - python impl first, then C later
  - expression parsing
  - netlist parsing
- - custom netlist parsing
+ - (opt) custom netlist parsing
 
 far future:
 - gui
@@ -51,3 +52,4 @@ resources:
 = https://cheever.domains.swarthmore.edu/Ref/mna/MNA_All.html
 = https://en.wikipedia.org/wiki/Modified_nodal_analysis
 = https://ngspice.sourceforge.io/docs/ngspice-45-manual.pdf
+= Modelling the Bipolar Transistor, Ian E. Getreu

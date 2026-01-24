@@ -8,6 +8,7 @@
 
 #include "types.h"
 #include "util/error.h"
+#include "util/log.h"
 
 i32 main(void) {
     sbuf_t buf;
@@ -36,9 +37,9 @@ i32 main(void) {
     b_init(circuit->dim, true, &buf);
 
     error_e err = dc_solve_non_linear(circuit, &buf, NULL);
-    printf("%s\n", err_str(err));
+    if (err != OK) log_error("%s", err_str(err));
     for (usize i = 0; i < circuit->node_count; i++) {
-        printf("%zu, %lf\n", i, circuit->nodes[i].potential);
+        log_info("%zu, %lf", i, circuit->nodes[i].potential);
     }
 
     del_circuit(circuit);

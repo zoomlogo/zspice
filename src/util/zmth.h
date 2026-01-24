@@ -39,7 +39,7 @@ static inline f64 zclamp(f64 x, f64 a, f64 b) {
  *
  * If the solver guessed a too far jump above the critical region, we
  * force the new guess to be increase logarithmically using the formula:
- * \f[V_2 \leftarrow V_2 + V_T\left(1 +\ln\left(\frac{V_2 - V_1}{V_T}\right)\right).\f]
+ * \f[V_2 \leftarrow V_1 + V_T\ln\left(1 + \frac{V_2 - V_1}{V_T}\right).\f]
  *
  * @param V2 The new guess.
  * @param V1 The old guess.

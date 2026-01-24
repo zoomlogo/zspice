@@ -8,6 +8,7 @@
 #include "types.h"
 #include "util/lu.h"
 #include "util/error.h"
+#include "util/log.h"
 
 #include "analysis.h"
 
@@ -83,7 +84,7 @@ error_e dc_solve_non_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
         // check for convergence
         if (dc_check_convergence(circuit)) {
             did_converge = true;
-            fprintf(stderr, "converged in %zu iterations\n", k);
+            log_debug("converged in %zu iterations", k);
             break; // converged
         }
     }
