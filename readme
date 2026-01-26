@@ -3,9 +3,10 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- learn the math correctly :'(
- - bjt early effect + capacitors
- - bjt docs
+- https://www.desmos.com/calculator/rgm1u8j8ik
+- bjt capacitors
+- bjt docs
+- diode and bjt tests
 
 - non linear dc analysis
  - mosfet
@@ -29,6 +30,8 @@ todo:
  - expression parsing
  - netlist parsing
  - (opt) custom netlist parsing
+
+- full fledged models (parser injections)
 
 far future:
 - gui

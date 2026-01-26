@@ -10,6 +10,7 @@
 #include "types.h"
 
 #define CONVERGENCE_TOLERANCE 1e-6
+#define RELATIVE_TOLERANCE 1e-3
 #define MAX_ITERATIONS 1000
 
 /**

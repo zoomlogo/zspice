@@ -1,8 +1,11 @@
 #include <stdlib.h>
 
+#include "util/log.h"
+
 #include "sbuf.h"
 
 error_e b_init(usize dim, bool is_ac, sbuf_t *solver_buffer) {
+    log_debug("buffer initialized (%zu)", dim);
     if (solver_buffer == NULL) return ERR_INVALID_ARG;
 
     solver_buffer->dim = dim;
@@ -41,6 +44,7 @@ err_0:
 }
 
 error_e b_free(sbuf_t *buffer) {
+    log_debug("buffer freed (%zu)", buffer->dim);
     free(buffer->A);
     free(buffer->b);
     free(buffer->zA);

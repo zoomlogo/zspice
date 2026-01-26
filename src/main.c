@@ -23,6 +23,7 @@ i32 main(void) {
     component_t r4 = { RESISTOR, 4, 0 }; c_defaults(&r4);
 
     component_t q1 = { BJT, 2, 4, 3 }; c_defaults(&q1);
+    q1.Q.Va = 15;
 
     c_add_connection(circuit, &v1);
 
@@ -39,7 +40,7 @@ i32 main(void) {
     error_e err = dc_solve_non_linear(circuit, &buf, NULL);
     if (err != OK) log_error("%s", err_str(err));
     for (usize i = 0; i < circuit->node_count; i++) {
-        log_info("%zu, %lf", i, circuit->nodes[i].potential);
+        log_info("%zu| %lf", i, circuit->nodes[i].potential);
     }
 
     del_circuit(circuit);

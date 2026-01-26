@@ -7,10 +7,10 @@
 #include "core/environment.h"
 #include "util/error.h"
 #include "util/lu.h"
+#include "util/zmth.h"
 
 #include "component.h"
 #include "types.h"
-#include "util/zmth.h"
 
 error_e bjt_linearize(component_t *c, env_t *env) {
     f64 Vbe = c->Q.Vbe; f64 Vbc = c->Q.Vbc;
@@ -18,6 +18,7 @@ error_e bjt_linearize(component_t *c, env_t *env) {
     f64 Nf = c->Q.Nf; f64 Nr = c->Q.Nr;
     if (isnan(c->Q.V_T)) c->Q.V_T = env->V_T;
     f64 V_T = c->Q.V_T; f64 Is = c->Q.Is;
+    f64 Va = c->Q.Va;
 
     // BE junction (diode)
     f64 eBE = exp(Vbe / (Nf * V_T));
@@ -29,16 +30,22 @@ error_e bjt_linearize(component_t *c, env_t *env) {
     f64 I_ec = Is * (eBC - 1);
     f64 G_ec = Is / (Nr * V_T) * eBC;
 
-    // save (for AC analysis)
-    c->Q.g_mf = G_cc;
-    c->Q.g_mr = G_ec;
-    c->Q.g_pi = c->Q.g_mf / Bf;
-    c->Q.g_mu = c->Q.g_mr / Br;
-    c->Q.g_o = 0; // TODO early effect
+    // early effect
+    f64 ee = 1 + (Vbe - Vbc) / Va; ee = zclamp(ee, 0.0001, INFINITY);
 
-    c->Q.Ic = I_cc - I_ec - I_ec / Br;
+    // transport current
+    f64 I_ct = (I_cc - I_ec) * ee;
+
+    // save (for AC analysis)
+    c->Q.g_o = (I_cc - I_ec) / Va;
+    c->Q.g_mf = G_cc * ee;
+    c->Q.g_mr = G_ec * ee;
+    c->Q.g_pi = G_cc / Bf;
+    c->Q.g_mu = G_ec / Br;
+
+    c->Q.Ic = I_ct - I_ec / Br;
     c->Q.Ib = I_cc / Bf + I_ec / Br;
-    c->Q.Ie = -I_cc / Bf + I_ec - I_cc;
+    c->Q.Ie = -I_cc / Bf - I_ct;
 
     return OK;
 }
@@ -67,13 +74,13 @@ error_e dc_stamp_bjt(sbuf_t *buf, component_t *c, env_t *env) {
     }
     if (nc > 0) {
         if (nb > 0) A(nc - 1, nb - 1) += c->Q.g_mf - c->Q.g_mr - c->Q.g_mu;
-        A(nc - 1, nc - 1) += c->Q.g_mr + c->Q.g_mu;
+        A(nc - 1, nc - 1) += c->Q.g_mr + c->Q.g_mu + c->Q.g_o;
         if (ne > 0) A(nc - 1, ne - 1) += -c->Q.g_mf;
     }
     if (ne > 0) {
         if (nb > 0) A(ne - 1, nb - 1) += c->Q.g_mr - c->Q.g_mf - c->Q.g_pi;
-        if (nc > 0) A(ne - 1, nc - 1) += -c->Q.g_mr;
-        A(ne - 1, ne - 1) += c->Q.g_mf + c->Q.g_pi;
+        if (nc > 0) A(ne - 1, nc - 1) += -c->Q.g_mr - c->Q.g_o;
+        A(ne - 1, ne - 1) += c->Q.g_mf + c->Q.g_pi + c->Q.g_o;
     }
     // stamp currents
     f64 lIb = (c->Q.g_pi * c->Q.Vbe) + (c->Q.g_mu * c->Q.Vbc);

@@ -6,6 +6,7 @@
 #include "core/environment.h"
 #include "types.h"
 #include "util/error.h"
+#include "util/log.h"
 #include "util/zmth.h"
 
 #include "analysis.h"
@@ -64,19 +65,16 @@ error_e dc_update_guesses(circuit_t *circuit, sbuf_t *buffer) {
     return OK;
 }
 
-
 bool dc_check_convergence(circuit_t *circuit) {
     bool converged = true;
 
-    for (usize i = 0; i < circuit->component_count; i++) {
+    for (usize i = 0; i < circuit->component_count && converged; i++) {
         component_t *c = &circuit->components[i];
         if (c->type == DIODE) {
-            // absolute convergence
-            // TODO relative convergence
-            converged &= fabs(c->D.Vj - c->D._Vj) < CONVERGENCE_TOLERANCE;
+            converged &= fabs(c->D.Vj - c->D._Vj) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->D._Vj, c->D.Vj));
         } else if (c->type == BJT) {
-            converged &= fabs(c->Q.Vbe - c->Q._Vbe) < CONVERGENCE_TOLERANCE;
-            converged &= fabs(c->Q.Vbc - c->Q._Vbc) < CONVERGENCE_TOLERANCE;
+            converged &= fabs(c->Q.Vbe - c->Q._Vbe) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->Q._Vbe, c->Q.Vbe));
+            converged &= fabs(c->Q.Vbc - c->Q._Vbc) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->Q._Vbc, c->Q.Vbc));
         }
     }
 

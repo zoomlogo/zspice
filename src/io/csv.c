@@ -3,11 +3,13 @@
 #include <string.h>
 
 #include "util/error.h"
+#include "util/log.h"
 
 #include "csv.h"
 #include "types.h"
 
 csv_t *csv_open(const char *filename) {
+    log_info("opening csv file '%s'", filename);
     csv_t *csv = (csv_t *) malloc(sizeof(csv_t));
     if (csv == NULL) return NULL;
 
@@ -25,6 +27,7 @@ csv_t *csv_open(const char *filename) {
 }
 
 void csv_close(csv_t *csv) {
+    log_info("closing csv file");
     if (csv == NULL) return;
 
     fclose(csv->fptr);
@@ -54,6 +57,7 @@ error_e csv_write_header(csv_t *csv) {
         fprintf(csv->fptr, "%s", csv->header[i]);
     }
     fprintf(csv->fptr, "\n");
+    log_debug("wrote csv header");
     return OK;
 }
 

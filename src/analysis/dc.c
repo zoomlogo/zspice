@@ -57,7 +57,7 @@ error_e dc_solve_non_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env) {
     f64 *b = (f64 *) buffer->b;
 
     bool did_converge = false;
-    for (int k = 0; k < MAX_ITERATIONS; k++) {
+    for (usize k = 0; k < MAX_ITERATIONS; k++) {
         // reset memory
         memset(A, 0, buffer->dim * buffer->dim * sizeof(f64));
         memset(b, 0, buffer->dim * sizeof(f64));

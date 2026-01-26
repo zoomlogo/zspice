@@ -2,12 +2,13 @@
 
 #include "component/component.h"
 #include "util/error.h"
+#include "util/zmth.h"
+#include "util/log.h"
 
 #include "circuit.h"
 #include "environment.h"
 #include "node.h"
 #include "types.h"
-#include "util/zmth.h"
 
 circuit_t *new_circuit(void) {
     circuit_t *circuit = (circuit_t *) malloc(sizeof(circuit_t));
@@ -49,6 +50,7 @@ error_e c_add_connection(circuit_t *circuit, const component_t *component) {
     usize higher_id = zmax(component->id0, component->id1);
     if (higher_id >= circuit->node_count) {
         usize new_ncount = higher_id + 1;
+        log_debug("resizing circuit->nodes with new capacity=%zu", new_ncount);
         node_t *new_nodes = (node_t *) realloc(circuit->nodes, new_ncount * sizeof(node_t));
         if (new_nodes == NULL) return ERR_MEM_ALLOC;
 
@@ -62,6 +64,7 @@ error_e c_add_connection(circuit_t *circuit, const component_t *component) {
     // check for overflow, and resize
     if (circuit->component_count >= circuit->component_capacity) {
         usize new_ccap = 2 * circuit->component_capacity;
+        log_debug("resizing circuit->components with new capacity=%zu", new_ccap);
         component_t *new_components = (component_t *) realloc(circuit->components, new_ccap * sizeof(component_t));
         if (new_components == NULL) return ERR_MEM_ALLOC;
 
@@ -89,5 +92,6 @@ error_e c_calculate_dim(circuit_t *circuit) {
     // net dimension is node_count + unknwns minus one as node id
     // zero is always considered ground
     circuit->dim = circuit->node_count + unknwns - 1;
+    log_info("circuit (%p) initialized with matrix dimensions=%zu", circuit, circuit->dim);
     return OK;
 }

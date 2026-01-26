@@ -68,8 +68,7 @@ COMPONENT(BJT, bjt, Q,
     P(f64, Br, 1)          // ideal reverse beta
     P(f64, Nf, 1)          // forward emission coefficient
     P(f64, Nr, 1)          // reverse emission coefficient
-    P(f64, Vaf, 1e99)      // forward early voltage
-    P(f64, Var, 1e99)      // reverse early voltage
+    P(f64, Va, 1e99)       // early voltage
     P(f64, Vbe, 0.7)       // base-emitter voltage
     P(f64, Vbc, 0)         // base-collector voltage
     P(f64, _Vbe, 0.7)      // (internal) to check convergence

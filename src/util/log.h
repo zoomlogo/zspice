@@ -3,6 +3,7 @@
  * @brief Logging utilities.
  */
 #pragma once
+#include <stdio.h>
 #include <string.h>
 
 #define LOG_DEBUG 0
