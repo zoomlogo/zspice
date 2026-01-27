@@ -23,7 +23,8 @@ i32 main(void) {
     component_t r4 = { RESISTOR, 4, 0 }; c_defaults(&r4);
 
     component_t q1 = { BJT, 2, 4, 3 }; c_defaults(&q1);
-    q1.Q.Va = 15;
+    q1.Q.Va = 15; q1.Q.Cj0c = 1e-4; q1.Q.Cj0e = 1e-3;
+    q1.Q.tau_f = 0.1; q1.Q.tau_r = 0.01;
 
     c_add_connection(circuit, &v1);
 
@@ -42,6 +43,11 @@ i32 main(void) {
     for (usize i = 0; i < circuit->node_count; i++) {
         log_info("%zu| %lf", i, circuit->nodes[i].potential);
     }
+
+    log_info("dumping transistor parameters");
+    struct bjt Q = circuit->components[5].Q;
+    log_info("g_pi(%lf) g_mu(%lf) g_mf(%lf) g_mr(%lf) g_o(%lf)", Q.g_pi, Q.g_mu, Q.g_mf, Q.g_mr, Q.g_o);
+    log_info("c_be(%lf) c_bc(%lf)", Q.c_be, Q.c_bc);
 
     del_circuit(circuit);
     b_free(&buf);

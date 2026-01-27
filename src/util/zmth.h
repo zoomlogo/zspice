@@ -16,12 +16,18 @@ static inline f64 zmax(f64 x, f64 y) {
     return x > y ? x : y;
 }
 
+/**
+ * @brief Returns true if a number is almost zero.
+ */
+static inline bool zalmost_zero(f64 x) {
+    return fabs(x) < MIN_TOL;
+}
 
 /**
  * @brief Clamped log10.
  */
 static inline f64 zlog10(f64 x) {
-    if (x < MIN_TOL) return -12; // log10(1e-12)
+    if (zalmost_zero(x)) return -12; // log10(1e-12)
     return log10(x);
 }
 

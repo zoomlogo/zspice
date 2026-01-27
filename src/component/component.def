@@ -52,6 +52,7 @@ COMPONENT(DIODE, diode, D,
     P(f64, Is, 1e-14)      // saturation current
     P(f64, N, 1)           // ideality factor/emission coefficient
     P(f64, V_break, 1e99)  // Reverse breakdown voltage.
+
     P(f64, Vj, 0.7)        // junction voltage
     P(f64, _Vj, 0.7)       // (internal) to check convergence
 
@@ -69,6 +70,16 @@ COMPONENT(BJT, bjt, Q,
     P(f64, Nf, 1)          // forward emission coefficient
     P(f64, Nr, 1)          // reverse emission coefficient
     P(f64, Va, 1e99)       // early voltage
+
+    P(f64, Cj0e, 0)        // base-emittor junction capacitance
+    P(f64, Cj0c, 0)        // base-collector junction capacitance
+    P(f64, m_e, 0.4)       // base-emittor capacitance gradient factor
+    P(f64, m_c, 0.4)       // base-collector capacitance gradient factor
+    P(f64, phi_e, 0.8)     // base-emittor barrier potential
+    P(f64, phi_c, 0.8)     // base-collector barrier potential
+    P(f64, tau_f, 0)       // forward transit time
+    P(f64, tau_r, 0)       // reverse transit time
+
     P(f64, Vbe, 0.7)       // base-emitter voltage
     P(f64, Vbc, 0)         // base-collector voltage
     P(f64, _Vbe, 0.7)      // (internal) to check convergence
@@ -87,4 +98,6 @@ COMPONENT(BJT, bjt, Q,
     P(f64, g_mf, NAN)      // forward transconductance
     P(f64, g_mr, NAN)      // reverse transconductance
     P(f64, g_o, NAN)       // output conductance because of early effect
+    P(f64, c_be, NAN)      // base-emittor capacitances
+    P(f64, c_bc, NAN)      // base-collector capacitances
 )

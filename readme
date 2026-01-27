@@ -3,8 +3,6 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- https://www.desmos.com/calculator/rgm1u8j8ik
-- bjt capacitors
 - bjt docs
 - diode and bjt tests
 
@@ -50,6 +48,7 @@ doc build instructions:
 doxygen  # output in docs/
 
 resources:
+- https://www.desmos.com/calculator/rgm1u8j8ik
 = https://guitorri.github.io/qucs-web/docs/technical.pdf
 = https://www2.eecs.berkeley.edu/Pubs/TechRpts/1973/ERL-m-382.pdf
 = https://cheever.domains.swarthmore.edu/Ref/mna/MNA_All.html

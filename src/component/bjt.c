@@ -36,6 +36,23 @@ error_e bjt_linearize(component_t *c, env_t *env) {
     // transport current
     f64 I_ct = (I_cc - I_ec) * ee;
 
+    // compute junction capacitances
+    f64 Cje;
+    f64 Cjc;
+    if (Vbe > 0.5 * c->Q.phi_e) {
+        Cje = c->Q.Cj0e * pow(0.5, -(1 + c->Q.m_e)) * (1 - 0.5 * (1 + c->Q.m_e) + c->Q.m_e * c->Q.Vbe / c->Q.phi_e);
+    } else
+        Cje = c->Q.Cj0e / pow(1 - Vbe / c->Q.phi_e, c->Q.m_e);
+    if (Vbc > 0.5 * c->Q.phi_c) {
+        Cjc = c->Q.Cj0c * pow(0.5, -(1 + c->Q.m_c)) * (1 - 0.5 * (1 + c->Q.m_c) + c->Q.m_c * c->Q.Vbc / c->Q.phi_c);
+    } else
+        Cjc = c->Q.Cj0c / pow(1 - Vbc / c->Q.phi_c, c->Q.m_c);
+
+    // compute (dc) terminal currents
+    c->Q.Ic = I_ct - I_ec / Br;
+    c->Q.Ib = I_cc / Bf + I_ec / Br;
+    c->Q.Ie = -I_cc / Bf - I_ct;
+
     // save (for AC analysis)
     c->Q.g_o = (I_cc - I_ec) / Va;
     c->Q.g_mf = G_cc * ee;
@@ -43,9 +60,12 @@ error_e bjt_linearize(component_t *c, env_t *env) {
     c->Q.g_pi = G_cc / Bf;
     c->Q.g_mu = G_ec / Br;
 
-    c->Q.Ic = I_ct - I_ec / Br;
-    c->Q.Ib = I_cc / Bf + I_ec / Br;
-    c->Q.Ie = -I_cc / Bf - I_ct;
+    // compute diffusion capacitances
+    f64 Cde = c->Q.tau_f * c->Q.g_mf;
+    f64 Cdc = c->Q.tau_r * c->Q.g_mr;
+
+    c->Q.c_be = Cje + Cde;
+    c->Q.c_bc = Cjc + Cdc;
 
     return OK;
 }
