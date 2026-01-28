@@ -68,7 +68,7 @@ error_e diode_linearize(component_t *c, env_t *env) {
  *
  * @param c The diode.
  * @param Vj The new diode voltage guess.
- * @returns OK on success.
+ * @param r_Vj (Output) The limited diode voltage.
  */
 void diode_limit(component_t *c, f64 Vj, f64 *r_Vj) {
     if (isnan(c->D.Vcrit))
