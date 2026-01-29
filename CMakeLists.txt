@@ -56,6 +56,8 @@ set(TEST_SOURCES
     tests/test_inductor.c
     tests/test_voltage_source.c
     tests/test_current_source.c
+    tests/test_diode.c
+    tests/test_bjt.c
 )
 
 add_library(core ${CORE_SOURCES} ${ANALYSIS_SOURCES} ${COMPONENT_SOURCES} ${UTIL_SOURCES} ${IO_SOURCES})

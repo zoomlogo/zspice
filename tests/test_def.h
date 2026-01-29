@@ -8,6 +8,8 @@
     X(test_inductor) \
     X(test_voltage_source) \
     X(test_current_source) \
+    X(test_diode) \
+    X(test_bjt) \
     X(test_circuit) \
     X(test_dc) \
     X(test_ac)
