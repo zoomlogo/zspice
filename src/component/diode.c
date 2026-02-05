@@ -60,7 +60,9 @@ error_e diode_linearize(component_t *c, env_t *env) {
         ereverse = exp(-(V_D + c->D.V_break) / (c->D.N * V_T));
 
     f64 I_D = c->D.Is * (eforward - 1) - (c->D.Is * ereverse);
-    f64 g_eq = (c->D.Is / c->D.N / V_T) * (eforward + ereverse);
+    f64 g_eq = (c->D.Is / c->D.N / V_T) * ereverse;
+    f64 g_fw = (c->D.Is / c->D.N / V_T) * eforward;
+    g_eq += g_fw;
     f64 i_eq = I_D - (g_eq * V_D);
 
     // compute junction capacitance
@@ -68,7 +70,7 @@ error_e diode_linearize(component_t *c, env_t *env) {
     if (c->D.Vj > 0.5 * c->D.phi) {
         Cj = c->D.Cj0 * pow(0.5, -(1 + c->D.m)) * (0.5 - 0.5 * c->D.m + c->D.m * c->D.Vj / c->D.phi);
     } else
-        Cj = c->Q.Cj0e / pow(1 - c->D.Vj / c->D.phi, c->D.m);
+        Cj = c->D.Cj0 / pow(1 - c->D.Vj / c->D.phi, c->D.m);
 
     // compute diffusion capacitance
     f64 Cd = c->D.tau * g_eq;
