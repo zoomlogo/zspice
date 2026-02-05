@@ -22,6 +22,8 @@ error_e dc_linearize(circuit_t *circuit, env_t *env) {
             err = diode_linearize(c, env);
         } else if (c->type == BJT) {
             err = bjt_linearize(c, env);
+        } else if (c->type == MOSFET) {
+            err = mosfet_linearize(c, env);
         }
         if (err != OK) return err;
     }
@@ -59,6 +61,9 @@ error_e dc_update_guesses(circuit_t *circuit, sbuf_t *buffer) {
             c->Q._Vbe = c->Q.Vbe;
             c->Q._Vbc = c->Q.Vbc;
             bjt_limit(c, Vbe, Vbc, &c->Q.Vbe, &c->Q.Vbc);
+        } else if (c->type == MOSFET) {
+            log_error("TODO");
+            return ERR_UNIMPL;
         }
     }
 
@@ -75,6 +80,9 @@ bool dc_check_convergence(circuit_t *circuit) {
         } else if (c->type == BJT) {
             converged &= fabs(c->Q.Vbe - c->Q._Vbe) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->Q._Vbe, c->Q.Vbe));
             converged &= fabs(c->Q.Vbc - c->Q._Vbc) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->Q._Vbc, c->Q.Vbc));
+        } else if (c->type == MOSFET) {
+            log_error("TODO");
+            return ERR_UNIMPL;
         }
     }
 

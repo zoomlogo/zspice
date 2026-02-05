@@ -161,3 +161,6 @@ void diode_limit(component_t *c, f64 Vj, f64 *r_Vj);
 
 error_e bjt_linearize(component_t *c, env_t *env);
 void bjt_limit(component_t *c, f64 Vbe, f64 Vbc, f64 *r_Vbe, f64 *r_Vce);
+
+error_e mosfet_linearize(component_t *c, env_t *env);
+void mosfet_limit(component_t *c);

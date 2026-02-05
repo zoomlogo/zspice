@@ -3,9 +3,12 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
+- add capacitance to diode model
 - non linear dc analysis
  - mosfet
+  - mosfet tests
  - jfet
+  - jfet tests
 
 - ac small signal models
  - diode

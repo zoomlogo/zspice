@@ -6,6 +6,7 @@
 
 #include "core/environment.h"
 #include "util/error.h"
+#include "util/log.h"
 #include "util/lu.h"
 #include "util/zmth.h"
 
@@ -232,6 +233,7 @@ error_e dc_stamp_bjt(sbuf_t *buf, component_t *c, env_t *env) {
 
 #define A(i, j) MI(buf->zA, (i), (j), buf->dim)
 error_e ac_stamp_bjt(sbuf_t *buf, component_t *c, env_t *env) {
+    log_error("TODO");
     return ERR_UNIMPL;
 }
 #undef A

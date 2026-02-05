@@ -101,3 +101,38 @@ COMPONENT(BJT, bjt, Q,
     P(f64, c_be, NAN)      // base-emitter capacitances
     P(f64, c_bc, NAN)      // base-collector capacitances
 )
+
+COMPONENT(MOSFET, mosfet, M,
+    P(f64, W, 1e-4)        // channel width
+    P(f64, L, 1e-4)        // channel length
+    P(f64, VT0, 0)         // zero-bias threshold voltage
+    P(f64, Kp, 2e-5)       // transconductance parameter
+    P(f64, gamma, 0)       // bulk threshold parameter
+    P(f64, phi, 0.6)       // surface potential
+    P(f64, lambda, 0)      // channel length modulation
+
+    P(f64, Cbdo, 0)        // bulk-drain zero bias capacitance
+    P(f64, Cbso, 0)        // bulk-source zero bias capacitance
+    P(f64, Cgso, 0)        // gate-source overlap capacitance
+    P(f64, Cgdo, 0)        // gate-drain overlap capacitance
+    P(f64, Cgbo, 0)        // gate-bulk overlap capacitance
+
+    P(f64, Vgs, 0)         // gate-source voltage
+    P(f64, Vds, 0)         // drain-source voltage
+    P(f64, Vbs, 0)         // bulk-source voltage
+    P(f64, _Vgs, 0)        // (internal) to check convergence
+    P(f64, _Vds, 0)        // (internal) to check convergence
+    P(f64, _Vbs, 0)        // (internal) to check convergence
+
+    P(f64, Id, NAN)        // drain current
+    P(f64, Ib, NAN)        // bulk current
+    P(f64, g_m, NAN)       // transconductance
+    P(f64, g_ds, NAN)      // output conductance
+    P(f64, g_mb, NAN)      // body transconductance
+
+    P(f64, c_bd, 0)        // net bulk-drain capacitance
+    P(f64, c_bs, 0)        // net bulk-source capacitance
+    P(f64, c_gs, 0)        // net gate-source capacitance
+    P(f64, c_gd, 0)        // net gate-drain capacitance
+    P(f64, c_gb, 0)        // net gate-bulk capacitance
+)
