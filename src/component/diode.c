@@ -20,6 +20,10 @@
  * - \f(N\f), The ideality factor.
  * - \f(V_D\f), The junction voltage.
  * - \f(V_b\f), The reverse breakdown voltage.
+ * - \f(C_{J0}\f), The unbiased junction capacitance.
+ * - \f(m\f), The junction capacitance gradient factor.
+ * - \f(\phi\f), The junction barrier potential.
+ * - \f(\tau\f), The transit time of charges.
  *
  * We aim to linearize the diode by using its large signal model.
  * A large signal diode model consists of a current source, \f(I_{eq}\f) in parallel
@@ -27,9 +31,18 @@
  * the diode to consist of "two" diodes following Shockley's equation.
  * \f[I_D = I_S(e^{\frac{V_D}{NV_T}} - 1) + I_Se^{-\frac{V_D + V_b}{NV_T}}.\f]
  *
+ * We account for the diode's capacitance by considering the diffusion capacitance (forward bias) and
+ * junction capacitance (reverse bias). Note that \f(g_{eq}\f) is defined below.
+ * \f[C_J = \frac{C_{J0}}{\left(1 - \frac{V_D}{\phi}\right)^{m}}.\f]
+ * \f[C_D = \tau g_{eq}.\f]
+ * Because of the singularity when \f(C_D = \phi\f), we switch to a different approximation when
+ * \f(V_D > \frac 12\phi\f).
+ * \f[C_J = C_{J0}\times\left(\frac 12\right)^{-\left(1 + m\right)}\times\left(\frac 12 - \frac 12m + \frac{mV_D}{\phi}\right).\f]
+ *
  * Now we can calculate the equivalent large signal parameters:
  * \f[g_{eq} = \frac{I_S}{NV_T}\left(e^{\frac{V_D}{NV_T}} + e^{-\frac{V_D + V_b}{NV_T}}\right).\f]
  * \f[I_{eq} = I_D - g_{eq}V_D.\f]
+ * \f[c_{eq} = C_J + C_D.\f]
  *
  * @param c The diode.
  * @param env The environment of the diode.
@@ -50,9 +63,21 @@ error_e diode_linearize(component_t *c, env_t *env) {
     f64 g_eq = (c->D.Is / c->D.N / V_T) * (eforward + ereverse);
     f64 i_eq = I_D - (g_eq * V_D);
 
+    // compute junction capacitance
+    f64 Cj;
+    if (c->D.Vj > 0.5 * c->D.phi) {
+        Cj = c->D.Cj0 * pow(0.5, -(1 + c->D.m)) * (0.5 - 0.5 * c->D.m + c->D.m * c->D.Vj / c->D.phi);
+    } else
+        Cj = c->Q.Cj0e / pow(1 - c->D.Vj / c->D.phi, c->D.m);
+
+    // compute diffusion capacitance
+    f64 Cd = c->D.tau * g_eq;
+
     // save (for AC analysis)
     c->D.g_eq = g_eq;
     c->D.i_eq = I_D - (g_eq * V_D);
+    c->D.c_eq = Cj + Cd;
+
     return OK;
 }
 

@@ -53,6 +53,11 @@ COMPONENT(DIODE, diode, D,
     P(f64, N, 1)           // ideality factor/emission coefficient
     P(f64, V_break, 1e99)  // Reverse breakdown voltage.
 
+    P(f64, Cj0, 0)         // zero bias junction capacitance
+    P(f64, m, 0.5)         // capacitance gradient factor
+    P(f64, phi, 0.7)       // junction potential
+    P(f64, tau, 0.0)     // transit time
+
     P(f64, Vj, 0.7)        // junction voltage
     P(f64, _Vj, 0.7)       // (internal) to check convergence
 
@@ -61,6 +66,7 @@ COMPONENT(DIODE, diode, D,
 
     P(f64, g_eq, NAN)      // equivalent conductance
     P(f64, i_eq, NAN)      // equivalent current source
+    P(f64, c_eq, NAN)      // equivalent capacitance
 )
 
 COMPONENT(BJT, bjt, Q,
@@ -71,8 +77,8 @@ COMPONENT(BJT, bjt, Q,
     P(f64, Nr, 1)          // reverse emission coefficient
     P(f64, Va, 1e99)       // early voltage
 
-    P(f64, Cj0e, 0)        // base-emitter junction capacitance
-    P(f64, Cj0c, 0)        // base-collector junction capacitance
+    P(f64, Cj0e, 0)        // base-emitter zero bias junction capacitance
+    P(f64, Cj0c, 0)        // base-collector zero bias junction capacitance
     P(f64, m_e, 0.4)       // base-emitter capacitance gradient factor
     P(f64, m_c, 0.4)       // base-collector capacitance gradient factor
     P(f64, phi_e, 0.8)     // base-emitter barrier potential
