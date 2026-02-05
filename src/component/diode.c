@@ -73,7 +73,7 @@ error_e diode_linearize(component_t *c, env_t *env) {
         Cj = c->D.Cj0 / pow(1 - c->D.Vj / c->D.phi, c->D.m);
 
     // compute diffusion capacitance
-    f64 Cd = c->D.tau * g_eq;
+    f64 Cd = c->D.tau * g_fw;
 
     // save (for AC analysis)
     c->D.g_eq = g_eq;
