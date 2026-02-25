@@ -5,9 +5,10 @@ for the mock-up version check https://codeberg.org/zoomlogo/aacs
 todo:
 - non linear dc analysis
  - mosfet
+  - mosfet capacitance & Vbs diode
   - mosfet tests
  - jfet
-  - jfet tests
+- docs
 
 - make sweeps return a data struct instead of directly writing csv file
 - add functions to write specific components to that csv file
@@ -24,7 +25,7 @@ todo:
 
 - optimization
  - compute using sparse matrices (KLU)
- - multithreading support (use sbuf_t)
+ - multithreading support on sweeps (use sbuf_t)
 
 - parsing
  - python api (ctypes)

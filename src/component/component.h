@@ -68,6 +68,7 @@ typedef struct {
      * For other components:
      * - **Diodes:** Anode.
      * - **BJT:** Base.
+     * - ** MOSFET:** Gate.
      *
      * @note Node 0 is assumed to be ground (the reference). So the real MNA Index is `id0 - 1`.
      *       Current is defined as leaving this node for sources.
@@ -79,6 +80,7 @@ typedef struct {
      * For other components:
      * - **Diodes:** Cathode.
      * - **BJT:** Emitter.
+     * - **MOSFET:** Drain.
      *
      * @note Node 0 is assumed to be ground (the reference). So the real MNA Index is `id1 - 1`.
      */
@@ -91,6 +93,7 @@ typedef struct {
      * - **VCCS/VCVS:** Positive controlling node.
      * - **CCCS/CCVS:** Solver ID of the controlling wire.
      * - **BJT:** Collector.
+     * - **MOSFET:** Source.
      */
     usize id2;
     /**
@@ -98,6 +101,7 @@ typedef struct {
      *
      * Meaning depends on component type:
      * - **VCCS/VCVS:** Negative controlling node.
+     * - **MOSFET:** Bulk.
      */
     usize id3;
 
@@ -163,4 +167,4 @@ error_e bjt_linearize(component_t *c, env_t *env);
 void bjt_limit(component_t *c, f64 Vbe, f64 Vbc, f64 *r_Vbe, f64 *r_Vce);
 
 error_e mosfet_linearize(component_t *c, env_t *env);
-void mosfet_limit(component_t *c);
+void mosfet_limit(component_t *c, f64 Vgs, f64 Vds, f64 *r_Vgs, f64 *r_Vds);

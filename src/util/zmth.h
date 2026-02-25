@@ -16,6 +16,10 @@ static inline f64 zmax(f64 x, f64 y) {
     return x > y ? x : y;
 }
 
+static inline f64 zmin(f64 x, f64 y) {
+    return x < y ? x : y;
+}
+
 /**
  * @brief Returns true if a number is almost zero.
  */
@@ -56,5 +60,30 @@ static inline f64 zclamp(f64 x, f64 a, f64 b) {
 static inline f64 zjlimit(f64 V2, f64 V1, f64 V_T, f64 Vcrit) {
     if (V2 > Vcrit && V2 - V1 > 2 * V_T)
         return V1 + V_T * log(1 + (V2 - V1) / V_T);
+    return V2;
+}
+
+static inline f64 zflimit(f64 V2, f64 V1, f64 V_T0) {
+    f64 V_ts_hi = fabs(2 * (V1 - V_T0)) + 2;
+    f64 V_ts_lo = V_ts_hi / 2 + 2;
+    f64 V_tox = V_T0 + 3.5;
+    f64 dV = V2 - V1;
+
+    if (V1 >= V_T0) {
+        if (V1 >= V_tox) {
+            if (dV > 0)
+                V2 = zmin(V2, V1 + 2);
+            else if (dV < -V_ts_hi)
+                V2 = V1 - V_ts_hi;
+        } else {
+            if (dV > 0)
+                V2 = zmin(V2, V1 + 2);
+            else if (dV < -V_ts_lo)
+                V2 = V1 - V_ts_lo;
+        }
+    } else {
+        if (dV > 0 && V2 > V_T0)
+            V2 = zmin(V2, V_T0 + 2);
+    }
     return V2;
 }

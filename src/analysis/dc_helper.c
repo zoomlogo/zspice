@@ -62,8 +62,24 @@ error_e dc_update_guesses(circuit_t *circuit, sbuf_t *buffer) {
             c->Q._Vbc = c->Q.Vbc;
             bjt_limit(c, Vbe, Vbc, &c->Q.Vbe, &c->Q.Vbc);
         } else if (c->type == MOSFET) {
-            log_error("TODO");
-            return ERR_UNIMPL;
+            usize ng = c->id0;
+            usize nd = c->id1;
+            usize ns = c->id2;
+            usize nb = c->id3;
+
+            f64 Vg = ng > 0 ? buffer->b[ng - 1] : 0;
+            f64 Vd = nd > 0 ? buffer->b[nd - 1] : 0;
+            f64 Vs = ns > 0 ? buffer->b[ns - 1] : 0;
+            f64 Vb = nb > 0 ? buffer->b[nb - 1] : 0;
+
+            // new guesses
+            f64 Vgs = Vg - Vs;
+            f64 Vds = Vd - Vs;
+            log_warn("TODO Vbs");
+
+            c->M._Vgs = c->M.Vgs;
+            c->M._Vds = c->M.Vds;
+            mosfet_limit(c, Vgs, Vds, &c->M.Vgs, &c->M.Vds);
         }
     }
 
@@ -81,8 +97,9 @@ bool dc_check_convergence(circuit_t *circuit) {
             converged &= fabs(c->Q.Vbe - c->Q._Vbe) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->Q._Vbe, c->Q.Vbe));
             converged &= fabs(c->Q.Vbc - c->Q._Vbc) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->Q._Vbc, c->Q.Vbc));
         } else if (c->type == MOSFET) {
-            log_error("TODO");
-            return ERR_UNIMPL;
+            converged &= fabs(c->M.Vgs - c->M._Vgs) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->M._Vgs, c->M.Vgs));
+            converged &= fabs(c->M.Vds - c->M._Vds) < CONVERGENCE_TOLERANCE + RELATIVE_TOLERANCE * fabs(zmax(c->M._Vds, c->M.Vds));
+            log_warn("TODO Vbs");
         }
     }
 
