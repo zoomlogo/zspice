@@ -26,7 +26,7 @@
 // void low_solve(f64 *L, usize N, f64 *B, usize *p);
 // void upp_solve(f64 *U, usize N, f64 *Y);
 
-#define LU_TOLERANCE MIN_TOL ///< The max tolerance for a value to be considered 0.
+#define LU_TOLERANCE MIN_TOL	///< The max tolerance for a value to be considered 0.
 
 /**
  * @brief Matrix indexing macro.
@@ -54,7 +54,7 @@
  * @param N The number of unknowns / Dimension of A.
  * @param B The constant RHS vector.
  */
-error_e r_lu_solve(f64 *A, usize N, f64 *B);
+error_e r_lu_solve(f64 * A, usize N, f64 * B);
 /**
  * @brief Linear equation solver for complex variables,
  *        using LU Decomposition.
@@ -71,4 +71,4 @@ error_e r_lu_solve(f64 *A, usize N, f64 *B);
  * @param N The number of unknowns / Dimension of A.
  * @param B The constant RHS vector.
  */
-error_e c_lu_solve(c64 *A, usize N, c64 *B);
+error_e c_lu_solve(c64 * A, usize N, c64 * B);

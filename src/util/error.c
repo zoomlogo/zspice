@@ -1,10 +1,12 @@
 #include "error.h"
 
-const char *err_str(error_e error) {
-    switch (error) {
+const char *err_str(error_e error)
+{
+	switch (error) {
 #define X(n, m) case n: return m;
-        ERRORS(X)
+		ERRORS(X)
 #undef X
-        default: return "unknown error code";
-    }
+	default:
+		return "unknown error code";
+	}
 }

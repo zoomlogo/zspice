@@ -21,7 +21,7 @@ enum ctype {
 #define COMPONENT(en, sn, av, p) en,
 #include "component.def"
 #undef COMPONENT
-    _C_LEN //!< The total number of component types.
+	_C_LEN			//!< The total number of component types.
 };
 
 /**
@@ -60,7 +60,7 @@ enum ctype {
  * and the physical parameters as an anonymous union.
  */
 typedef struct {
-    enum ctype type; //!< The type of component stored.
+	enum ctype type;	//!< The type of component stored.
 
     /**
      * @brief ID of the (generally) positive node.
@@ -73,7 +73,7 @@ typedef struct {
      * @note Node 0 is assumed to be ground (the reference). So the real MNA Index is `id0 - 1`.
      *       Current is defined as leaving this node for sources.
      */
-    usize id0;
+	usize id0;
     /**
      * @brief ID of the (generally) negative node.
      *
@@ -84,7 +84,7 @@ typedef struct {
      *
      * @note Node 0 is assumed to be ground (the reference). So the real MNA Index is `id1 - 1`.
      */
-    usize id1;
+	usize id1;
 
     /**
      * @brief Auxiliary Node 1.
@@ -95,7 +95,7 @@ typedef struct {
      * - **BJT:** Collector.
      * - **MOSFET:** Source.
      */
-    usize id2;
+	usize id2;
     /**
      * @brief Auxiliary Node 2.
      *
@@ -103,7 +103,7 @@ typedef struct {
      * - **VCCS/VCVS:** Negative controlling node.
      * - **MOSFET:** Bulk.
      */
-    usize id3;
+	usize id3;
 
     /**
      * @brief The MNA row/column index for this component's branch current.
@@ -114,7 +114,7 @@ typedef struct {
      * - Inductors.
      * @note If `solver_id == 0` then the component does not need to know its branch current.
      */
-    usize solver_id;
+	usize solver_id;
 
     /**
      * @brief Type-specific physical parameters.
@@ -122,32 +122,32 @@ typedef struct {
      * Anonymous union generated from `component.def`.
      * Members are accessed with the help of the short name defined in the `component.def` file.
      */
-    union {
+	union {
 #define COMPONENT(en, sn, av, p) struct sn av;
 #include "component.def"
 #undef COMPONENT
-    };
+	};
 } component_t;
 
 component_t *new_component(enum ctype type);
 
 // dc analysis: stamp functions
-typedef error_e (*dc_stamp_f)(sbuf_t *, component_t *, env_t *);
+typedef error_e(*dc_stamp_f) (sbuf_t *, component_t *, env_t *);
 #define COMPONENT(en, sn, av, p) error_e dc_stamp_##sn(sbuf_t *buf, component_t *c, env_t *env);
 #include "component.def"
 #undef COMPONENT
 
 // dc analysis: LUT
-extern const dc_stamp_f DC_STAMPS[_C_LEN]; ///< The DC Stamp Lookup Table.
+extern const dc_stamp_f DC_STAMPS[_C_LEN];	///< The DC Stamp Lookup Table.
 
 // ac analysis: stamp functions
-typedef error_e (*ac_stamp_f)(sbuf_t *, component_t *, env_t *);
+typedef error_e(*ac_stamp_f) (sbuf_t *, component_t *, env_t *);
 #define COMPONENT(en, sn, av, p) error_e ac_stamp_##sn(sbuf_t *buf, component_t *c, env_t *env);
 #include "component.def"
 #undef COMPONENT
 
 // ac analysis: LUT
-extern const ac_stamp_f AC_STAMPS[_C_LEN]; ///< The AC Stamp Lookup Table.
+extern const ac_stamp_f AC_STAMPS[_C_LEN];	///< The AC Stamp Lookup Table.
 
 /**
  * @brief Set defaults of a component.
@@ -157,14 +157,14 @@ extern const ac_stamp_f AC_STAMPS[_C_LEN]; ///< The AC Stamp Lookup Table.
  *
  * @param component Pointer to the component to set the defaults for.
  */
-void c_defaults(component_t *component);
+void c_defaults(component_t * component);
 
 // non-linear extra functions
-error_e diode_linearize(component_t *c, env_t *env);
-void diode_limit(component_t *c, f64 Vj, f64 *r_Vj);
+error_e diode_linearize(component_t * c, env_t * env);
+void diode_limit(component_t * c, f64 Vj, f64 * r_Vj);
 
-error_e bjt_linearize(component_t *c, env_t *env);
-void bjt_limit(component_t *c, f64 Vbe, f64 Vbc, f64 *r_Vbe, f64 *r_Vce);
+error_e bjt_linearize(component_t * c, env_t * env);
+void bjt_limit(component_t * c, f64 Vbe, f64 Vbc, f64 * r_Vbe, f64 * r_Vce);
 
-error_e mosfet_linearize(component_t *c, env_t *env);
-void mosfet_limit(component_t *c, f64 Vgs, f64 Vds, f64 *r_Vgs, f64 *r_Vds);
+error_e mosfet_linearize(component_t * c, env_t * env);
+void mosfet_limit(component_t * c, f64 Vgs, f64 Vds, f64 * r_Vgs, f64 * r_Vds);

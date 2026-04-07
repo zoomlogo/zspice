@@ -48,39 +48,43 @@
  * @param env The environment of the diode.
  * @returns OK on success.
  */
-error_e diode_linearize(component_t *c, env_t *env) {
-    f64 V_D = c->D.Vj;
-    if (isnan(c->D.V_T))
-        c->D.V_T = env->V_T;
-    f64 V_T = c->D.V_T;
+error_e diode_linearize(component_t *c, env_t *env)
+{
+	f64 V_D = c->D.Vj;
+	if (isnan(c->D.V_T))
+		c->D.V_T = env->V_T;
+	f64 V_T = c->D.V_T;
 
-    f64 eforward = exp(V_D / (c->D.N * V_T));
-    f64 ereverse = 0;
-    if (c->D.V_break < 1e25)
-        ereverse = exp(-(V_D + c->D.V_break) / (c->D.N * V_T));
+	f64 eforward = exp(V_D / (c->D.N * V_T));
+	f64 ereverse = 0;
+	if (c->D.V_break < 1e25)
+		ereverse = exp(-(V_D + c->D.V_break) / (c->D.N * V_T));
 
-    f64 I_D = c->D.Is * (eforward - 1) - (c->D.Is * ereverse);
-    f64 g_eq = (c->D.Is / c->D.N / V_T) * ereverse;
-    f64 g_fw = (c->D.Is / c->D.N / V_T) * eforward;
-    g_eq += g_fw;
-    f64 i_eq = I_D - (g_eq * V_D);
+	f64 I_D = c->D.Is * (eforward - 1) - (c->D.Is * ereverse);
+	f64 g_eq = (c->D.Is / c->D.N / V_T) * ereverse;
+	f64 g_fw = (c->D.Is / c->D.N / V_T) * eforward;
+	g_eq += g_fw;
+	f64 i_eq = I_D - (g_eq * V_D);
 
-    // compute junction capacitance
-    f64 Cj;
-    if (c->D.Vj > 0.5 * c->D.phi) {
-        Cj = c->D.Cj0 * pow(0.5, -(1 + c->D.m)) * (0.5 - 0.5 * c->D.m + c->D.m * c->D.Vj / c->D.phi);
-    } else
-        Cj = c->D.Cj0 / pow(1 - c->D.Vj / c->D.phi, c->D.m);
+	// compute junction capacitance
+	f64 Cj;
+	if (c->D.Vj > 0.5 * c->D.phi) {
+		Cj = c->D.Cj0 * pow(0.5,
+				    -(1 + c->D.m)) * (0.5 - 0.5 * c->D.m +
+						      c->D.m * c->D.Vj /
+						      c->D.phi);
+	} else
+		Cj = c->D.Cj0 / pow(1 - c->D.Vj / c->D.phi, c->D.m);
 
-    // compute diffusion capacitance
-    f64 Cd = c->D.tau * g_fw;
+	// compute diffusion capacitance
+	f64 Cd = c->D.tau * g_fw;
 
-    // save (for AC analysis)
-    c->D.g_eq = g_eq;
-    c->D.i_eq = I_D - (g_eq * V_D);
-    c->D.c_eq = Cj + Cd;
+	// save (for AC analysis)
+	c->D.g_eq = g_eq;
+	c->D.i_eq = I_D - (g_eq * V_D);
+	c->D.c_eq = Cj + Cd;
 
-    return OK;
+	return OK;
 }
 
 /**
@@ -98,14 +102,21 @@ error_e diode_linearize(component_t *c, env_t *env) {
  * @param Vj The new diode voltage guess.
  * @param r_Vj (Output) The limited diode voltage.
  */
-void diode_limit(component_t *c, f64 Vj, f64 *r_Vj) {
-    if (isnan(c->D.Vcrit))
-        c->D.Vcrit = c->D.N * c->D.V_T * log(sqrt(0.5) * c->D.N * c->D.V_T / c->D.Is);
+void diode_limit(component_t *c, f64 Vj, f64 *r_Vj)
+{
+	if (isnan(c->D.Vcrit))
+		c->D.Vcrit =
+		    c->D.N * c->D.V_T * log(sqrt(0.5) * c->D.N * c->D.V_T /
+					    c->D.Is);
 
-    f64 V_break = c->D.V_break;
-    if (Vj < -V_break || c->D.Vj < -V_break) // transform coords → limit → inverse transform coords
-        *r_Vj = -(zjlimit(-(Vj + V_break), -(c->D.Vj + V_break), c->D.V_T, c->D.Vcrit) + V_break);
-    else *r_Vj = zjlimit(Vj, c->D.Vj, c->D.V_T, c->D.Vcrit);
+	f64 V_break = c->D.V_break;
+	if (Vj < -V_break || c->D.Vj < -V_break)	// transform coords → limit → inverse transform coords
+		*r_Vj =
+		    -(zjlimit
+		      (-(Vj + V_break), -(c->D.Vj + V_break), c->D.V_T,
+		       c->D.Vcrit) + V_break);
+	else
+		*r_Vj = zjlimit(Vj, c->D.Vj, c->D.V_T, c->D.Vcrit);
 }
 
 #define A(i, j) MI(buf->A, (i), (j), buf->dim)
@@ -130,35 +141,39 @@ void diode_limit(component_t *c, f64 Vj, f64 *r_Vj) {
  * @param env Simulation environment.
  * @return OK on success.
  */
-error_e dc_stamp_diode(sbuf_t *buf, component_t *c, env_t *env) {
-    usize n0 = c->id0; // anode
-    usize n1 = c->id1; // cathode
+error_e dc_stamp_diode(sbuf_t *buf, component_t *c, env_t *env)
+{
+	usize n0 = c->id0;	// anode
+	usize n1 = c->id1;	// cathode
 
-    f64 g_eq = c->D.g_eq;
-    f64 i_eq = c->D.i_eq;
+	f64 g_eq = c->D.g_eq;
+	f64 i_eq = c->D.i_eq;
 
-    // stamp
-    if (n0 > 0) {
-        A(n0 - 1, n0 - 1) += g_eq;
-        buf->b[n0 - 1] -= i_eq;
-    }
-    if (n1 > 0) {
-        A(n1 - 1, n1 - 1) += g_eq;
-        buf->b[n1  - 1] += i_eq;
-    }
+	// stamp
+	if (n0 > 0) {
+		A(n0 - 1, n0 - 1) += g_eq;
+		buf->b[n0 - 1] -= i_eq;
+	}
+	if (n1 > 0) {
+		A(n1 - 1, n1 - 1) += g_eq;
+		buf->b[n1 - 1] += i_eq;
+	}
 
-    if (n0 > 0 && n1 > 0) {
-        A(n0 - 1, n1 - 1) -= g_eq;
-        A(n1 - 1, n0 - 1) -= g_eq;
-    }
+	if (n0 > 0 && n1 > 0) {
+		A(n0 - 1, n1 - 1) -= g_eq;
+		A(n1 - 1, n0 - 1) -= g_eq;
+	}
 
-    return OK;
+	return OK;
 }
+
 #undef A
 
 #define A(i, j) MI(buf->zA, (i), (j), buf->dim)
-error_e ac_stamp_diode(sbuf_t *buf, component_t *c, env_t *env) {
-    log_error("TODO");
-    return ERR_UNIMPL;
+error_e ac_stamp_diode(sbuf_t *buf, component_t *c, env_t *env)
+{
+	log_error("TODO");
+	return ERR_UNIMPL;
 }
+
 #undef A

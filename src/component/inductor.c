@@ -36,24 +36,26 @@
  * @param env Simulation environment.
  * @return OK on success.
  */
-error_e dc_stamp_inductor(sbuf_t *buf, component_t *c, env_t *env) {
-    usize n0 = c->id0;
-    usize n1 = c->id1;
-    usize nn = c->solver_id;
-    // dc equivalent of inductor is short (or a 0V voltage source :P)
+error_e dc_stamp_inductor(sbuf_t *buf, component_t *c, env_t *env)
+{
+	usize n0 = c->id0;
+	usize n1 = c->id1;
+	usize nn = c->solver_id;
+	// dc equivalent of inductor is short (or a 0V voltage source :P)
 
-    if (n0 > 0) {
-        A(n0 - 1, nn) += 1;
-        A(nn, n0 - 1) += 1;
-    }
+	if (n0 > 0) {
+		A(n0 - 1, nn) += 1;
+		A(nn, n0 - 1) += 1;
+	}
 
-    if (n1 > 0) {
-        A(n1 - 1, nn) -= 1;
-        A(nn, n1 - 1) -= 1;
-    }
+	if (n1 > 0) {
+		A(n1 - 1, nn) -= 1;
+		A(nn, n1 - 1) -= 1;
+	}
 
-    return OK;
+	return OK;
 }
+
 #undef A
 
 #define A(i, j) MI(buf->zA, (i), (j), buf->dim)
@@ -80,25 +82,27 @@ error_e dc_stamp_inductor(sbuf_t *buf, component_t *c, env_t *env) {
  * @param env Simulation environment.
  * @return OK on success.
  */
-error_e ac_stamp_inductor(sbuf_t *buf, component_t *c, env_t *env) {
-    usize n0 = c->id0;
-    usize n1 = c->id1;
-    usize nn = c->solver_id;
+error_e ac_stamp_inductor(sbuf_t *buf, component_t *c, env_t *env)
+{
+	usize n0 = c->id0;
+	usize n1 = c->id1;
+	usize nn = c->solver_id;
 
-    c64 Z = J * env->w * c->L.inductance;
+	c64 Z = J * env->w * c->L.inductance;
 
-    if (n0 > 0) {
-        A(n0 - 1, nn) += 1;
-        A(nn, n0 - 1) += 1;
-    }
+	if (n0 > 0) {
+		A(n0 - 1, nn) += 1;
+		A(nn, n0 - 1) += 1;
+	}
 
-    if (n1 > 0) {
-        A(n1 - 1, nn) -= 1;
-        A(nn, n1 - 1) -= 1;
-    }
+	if (n1 > 0) {
+		A(n1 - 1, nn) -= 1;
+		A(nn, n1 - 1) -= 1;
+	}
 
-    A(nn, nn) -= Z;
+	A(nn, nn) -= Z;
 
-    return OK;
+	return OK;
 }
+
 #undef A

@@ -14,7 +14,6 @@
     X(test_dc) \
     X(test_ac)
 
-
 // define the functions
 #define X(f) void f(void);
 TESTS(X)

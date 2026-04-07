@@ -29,7 +29,7 @@
  */
 typedef enum {
 #define X(n, m) n,
-    ERRORS(X)
+	ERRORS(X)
 #undef X
 } error_e;
 

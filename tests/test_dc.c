@@ -8,61 +8,70 @@
 #include "test.h"
 #include "test_def.h"
 
-static void test_simple_circuit(void) {
-    // make a simple circuit for testing
-    sbuf_t buf;
-    circuit_t *circuit = new_circuit(); if (circuit == NULL) return;
+static void test_simple_circuit(void)
+{
+	// make a simple circuit for testing
+	sbuf_t buf;
+	circuit_t *circuit = new_circuit();
+	if (circuit == NULL)
+		return;
 
-    // 0----[- +]----1
-    // |      v1     |
-    // r4           r1
-    // |             |
-    // 4------r5-----2
-    // |             |
-    // r3           r2
-    // |      v2     |
-    // 5----[- +]----3
-    component_t v1 = { VOLTAGE_SOURCE, 1, 0, .V.dc_offset = 5 };
-    component_t v2 = { VOLTAGE_SOURCE, 3, 5, .V.dc_offset = 5 };
-    component_t r1 = { RESISTOR, 1, 2, .R.resistance = 1000, .R.conductance = NAN };
-    component_t r2 = { RESISTOR, 2, 3, .R.resistance = 680, .R.conductance = NAN };
-    component_t r3 = { RESISTOR, 5, 4, .R.resistance = 3900, .R.conductance = NAN };
-    component_t r4 = { RESISTOR, 4, 0, .R.resistance = 1800, .R.conductance = NAN };
-    component_t r5 = { RESISTOR, 4, 2, .R.resistance = 680, .R.conductance = NAN };
+	// 0----[- +]----1
+	// |      v1     |
+	// r4           r1
+	// |             |
+	// 4------r5-----2
+	// |             |
+	// r3           r2
+	// |      v2     |
+	// 5----[- +]----3
+	component_t v1 = { VOLTAGE_SOURCE, 1, 0,.V.dc_offset = 5 };
+	component_t v2 = { VOLTAGE_SOURCE, 3, 5,.V.dc_offset = 5 };
+	component_t r1 = { RESISTOR, 1, 2,.R.resistance = 1000,.R.conductance =
+		    NAN };
+	component_t r2 = { RESISTOR, 2, 3,.R.resistance = 680,.R.conductance =
+		    NAN };
+	component_t r3 = { RESISTOR, 5, 4,.R.resistance = 3900,.R.conductance =
+		    NAN };
+	component_t r4 = { RESISTOR, 4, 0,.R.resistance = 1800,.R.conductance =
+		    NAN };
+	component_t r5 = { RESISTOR, 4, 2,.R.resistance = 680,.R.conductance =
+		    NAN };
 
-    ASSERT_OKC(c_add_connection(circuit, &r1));
-    ASSERT_OKC(c_add_connection(circuit, &r2));
-    ASSERT_OKC(c_add_connection(circuit, &r3));
-    ASSERT_OKC(c_add_connection(circuit, &r4));
-    ASSERT_OKC(c_add_connection(circuit, &r5));
+	ASSERT_OKC(c_add_connection(circuit, &r1));
+	ASSERT_OKC(c_add_connection(circuit, &r2));
+	ASSERT_OKC(c_add_connection(circuit, &r3));
+	ASSERT_OKC(c_add_connection(circuit, &r4));
+	ASSERT_OKC(c_add_connection(circuit, &r5));
 
-    ASSERT_OKC(c_add_connection(circuit, &v1));
-    ASSERT_OKC(c_add_connection(circuit, &v2));
+	ASSERT_OKC(c_add_connection(circuit, &v1));
+	ASSERT_OKC(c_add_connection(circuit, &v2));
 
-    error_e err = dc_solve_linear(circuit, &buf, NULL);
-    ASSERT(err == ERR_NOT_INIT);
+	error_e err = dc_solve_linear(circuit, &buf, NULL);
+	ASSERT(err == ERR_NOT_INIT);
 
-    ASSERT_OKC(c_calculate_dim(circuit));
-    ASSERT_OKC(b_init(circuit->dim, false, &buf));
+	ASSERT_OKC(c_calculate_dim(circuit));
+	ASSERT_OKC(b_init(circuit->dim, false, &buf));
 
-    ASSERT_OKC(dc_solve_linear(circuit, &buf, NULL));
+	ASSERT_OKC(dc_solve_linear(circuit, &buf, NULL));
 
-    ASSERTF(circuit->nodes[0].potential, 0);
-    ASSERTF(circuit->nodes[1].potential, 5);
-    ASSERTF(circuit->nodes[2].potential, 3.71654);
-    ASSERTF(circuit->nodes[3].potential, 4.250101);
-    ASSERTF(circuit->nodes[4].potential, 2.310227);
-    ASSERTF(circuit->nodes[5].potential, -0.749899);
+	ASSERTF(circuit->nodes[0].potential, 0);
+	ASSERTF(circuit->nodes[1].potential, 5);
+	ASSERTF(circuit->nodes[2].potential, 3.71654);
+	ASSERTF(circuit->nodes[3].potential, 4.250101);
+	ASSERTF(circuit->nodes[4].potential, 2.310227);
+	ASSERTF(circuit->nodes[5].potential, -0.749899);
 
-err:
-    del_circuit(circuit);
-    b_free(&buf);
+ err:
+	del_circuit(circuit);
+	b_free(&buf);
 }
 
-void test_dc(void) {
-    BEGIN_TEST();
+void test_dc(void)
+{
+	BEGIN_TEST();
 
-    test_simple_circuit();
+	test_simple_circuit();
 
-    END_TEST();
+	END_TEST();
 }

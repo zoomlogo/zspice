@@ -5,12 +5,14 @@
 #include "component.h"
 #include "types.h"
 
-component_t *new_component(enum ctype type) {
-    component_t *component = (component_t *) calloc(1, sizeof(component_t));
-    if (component == NULL) return NULL;
+component_t *new_component(enum ctype type)
+{
+	component_t *component = (component_t *) calloc(1, sizeof(component_t));
+	if (component == NULL)
+		return NULL;
 
-    component->type = type;
-    return component;
+	component->type = type;
+	return component;
 }
 
 // dc analysis: LUT
@@ -28,13 +30,14 @@ const ac_stamp_f AC_STAMPS[_C_LEN] = {
 };
 
 // set defaults
-void c_defaults(component_t *component) {
-    switch (component->type) {
+void c_defaults(component_t *component)
+{
+	switch (component->type) {
 #define P(t, x, d) .x = d,
 #define COMPONENT(en, sn, av, p) case en: component->av = (struct sn) { p }; break;
 #include "component.def"
 #undef COMPONENT
 #undef P
-        case _C_LEN: // do nothing
-    }
+	case _C_LEN:		// do nothing
+	}
 }

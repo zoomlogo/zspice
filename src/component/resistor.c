@@ -33,28 +33,32 @@
  * @param env Simulation environment.
  * @return OK on success.
  */
-error_e dc_stamp_resistor(sbuf_t *buf, component_t *c, env_t *env) {
-    usize n0 = c->id0;
-    usize n1 = c->id1;
+error_e dc_stamp_resistor(sbuf_t *buf, component_t *c, env_t *env)
+{
+	usize n0 = c->id0;
+	usize n1 = c->id1;
 
-    if (c->R.resistance == 0)
-        return ERR_INVALID_PARAM;
+	if (c->R.resistance == 0)
+		return ERR_INVALID_PARAM;
 
-    if (isnan(c->R.conductance))
-        c->R.conductance = 1 / c->R.resistance;
+	if (isnan(c->R.conductance))
+		c->R.conductance = 1 / c->R.resistance;
 
-    f64 G = c->R.conductance;
+	f64 G = c->R.conductance;
 
-    if (n0 > 0) A(n0 - 1, n0 - 1) += G;
-    if (n1 > 0) A(n1 - 1, n1 - 1) += G;
+	if (n0 > 0)
+		A(n0 - 1, n0 - 1) += G;
+	if (n1 > 0)
+		A(n1 - 1, n1 - 1) += G;
 
-    if (n0 > 0 && n1 > 0) {
-        A(n0 - 1, n1 - 1) -= G;
-        A(n1 - 1, n0 - 1) -= G;
-    }
+	if (n0 > 0 && n1 > 0) {
+		A(n0 - 1, n1 - 1) -= G;
+		A(n1 - 1, n0 - 1) -= G;
+	}
 
-    return OK;
+	return OK;
 }
+
 #undef A
 
 #define A(i, j) MI(buf->zA, (i), (j), buf->dim)
@@ -80,26 +84,30 @@ error_e dc_stamp_resistor(sbuf_t *buf, component_t *c, env_t *env) {
  * @param env Simulation environment.
  * @return OK on success.
  */
-error_e ac_stamp_resistor(sbuf_t *buf, component_t *c, env_t *env) {
-    usize n0 = c->id0;
-    usize n1 = c->id1;
+error_e ac_stamp_resistor(sbuf_t *buf, component_t *c, env_t *env)
+{
+	usize n0 = c->id0;
+	usize n1 = c->id1;
 
-    if (c->R.resistance == 0)
-        return ERR_INVALID_PARAM;
+	if (c->R.resistance == 0)
+		return ERR_INVALID_PARAM;
 
-    if (isnan(c->R.conductance))
-        c->R.conductance = 1 / c->R.resistance;
+	if (isnan(c->R.conductance))
+		c->R.conductance = 1 / c->R.resistance;
 
-    f64 G = c->R.conductance;
+	f64 G = c->R.conductance;
 
-    if (n0 > 0) A(n0 - 1, n0 - 1) += G;
-    if (n1 > 0) A(n1 - 1, n1 - 1) += G;
+	if (n0 > 0)
+		A(n0 - 1, n0 - 1) += G;
+	if (n1 > 0)
+		A(n1 - 1, n1 - 1) += G;
 
-    if (n0 > 0 && n1 > 0) {
-        A(n0 - 1, n1 - 1) -= G;
-        A(n1 - 1, n0 - 1) -= G;
-    }
+	if (n0 > 0 && n1 > 0) {
+		A(n0 - 1, n1 - 1) -= G;
+		A(n1 - 1, n0 - 1) -= G;
+	}
 
-    return OK;
+	return OK;
 }
+
 #undef A

@@ -6,20 +6,20 @@
 #include "util/error.h"
 
 // Physical constants.
-#define K_BOLTZMANN 1.380649e-23 ///< The Boltzmann constant, \f(k\f).
-#define K_CHARGE 1.602176e-19 ///< The elementary charge, \f(q\f).
+#define K_BOLTZMANN 1.380649e-23	///< The Boltzmann constant, \f(k\f).
+#define K_CHARGE 1.602176e-19	///< The elementary charge, \f(q\f).
 
 /**
  * @brief Stores information about the environment of the circuit.
  */
 typedef struct {
-    // Temperature
-    f64 temperature; ///< Global Temperature, \f(T\f), of the circuit in Kelvin.
-    f64 V_T; ///< The corresponding Thermal Voltage, \f(V_T\f).
+	// Temperature
+	f64 temperature;	///< Global Temperature, \f(T\f), of the circuit in Kelvin.
+	f64 V_T;		///< The corresponding Thermal Voltage, \f(V_T\f).
 
-    // AC analysis
-    f64 w; ///< The angular frequency, \f(\omega\f), for AC analysis.
-    f64 f; ///< The frequency, \f(f\f), for AC analysis.
+	// AC analysis
+	f64 w;			///< The angular frequency, \f(\omega\f), for AC analysis.
+	f64 f;			///< The frequency, \f(f\f), for AC analysis.
 } env_t;
 
 /**
@@ -28,7 +28,7 @@ typedef struct {
  * @param env The environment to initialize.
  * @returns OK on success.
  */
-error_e e_init(env_t *env);
+error_e e_init(env_t * env);
 /**
  * @brief Sets the temperature of an environment.
  *
@@ -39,7 +39,7 @@ error_e e_init(env_t *env);
  * @param T Temperature in degrees Celsius.
  * @returns OK on success.
  */
-error_e e_set_temperature(env_t *env, f64 T);
+error_e e_set_temperature(env_t * env, f64 T);
 /**
  * @brief Set the frequency of the enviroment.
  *
@@ -50,4 +50,4 @@ error_e e_set_temperature(env_t *env, f64 T);
  * @param f The frequency, in Hertz.
  * @returns OK on success.
  */
-error_e e_set_frequency(env_t *env, f64 f);
+error_e e_set_frequency(env_t * env, f64 f);

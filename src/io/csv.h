@@ -12,10 +12,10 @@
  * @brief CSV File type.
  */
 typedef struct {
-    FILE *fptr; ///< `FILE` pointer to the CSV file.
-    usize cols; ///< Number of columns in the CSV file.
-    char **header; ///< The header of the CSV file.
-    usize cloc; ///< Used to determine which column data we are writing.
+	FILE *fptr;		///< `FILE` pointer to the CSV file.
+	usize cols;		///< Number of columns in the CSV file.
+	char **header;		///< The header of the CSV file.
+	usize cloc;		///< Used to determine which column data we are writing.
 } csv_t;
 
 /**
@@ -30,7 +30,7 @@ csv_t *csv_open(const char *filename);
  *
  * @param csv CSV type.
  */
-void csv_close(csv_t *csv);
+void csv_close(csv_t * csv);
 
 /**
  * @brief Add a new column.
@@ -42,14 +42,14 @@ void csv_close(csv_t *csv);
  * @param name Column title.
  * @returns OK on success.
  */
-error_e csv_add_header(csv_t *csv, const char *name);
+error_e csv_add_header(csv_t * csv, const char *name);
 /**
  * @brief Writes the CSV header.
  *
  * @param csv CSV type, with all header added.
  * @returns OK on success.
  */
-error_e csv_write_header(csv_t *csv);
+error_e csv_write_header(csv_t * csv);
 
 /**
  * @brief Write a single data entry.
@@ -60,7 +60,7 @@ error_e csv_write_header(csv_t *csv);
  * @param val Value to write.
  * @returns OK on success.
  */
-error_e csv_write_data(csv_t *csv, const f64 val);
+error_e csv_write_data(csv_t * csv, const f64 val);
 /**
  * @brief Writes a row of data to the CSV file.
  *
@@ -70,4 +70,4 @@ error_e csv_write_data(csv_t *csv, const f64 val);
  * @param row_data The data of the entire row.
  * @returns OK on success.
  */
-error_e csv_write_row(csv_t *csv, const f64 *row_data);
+error_e csv_write_row(csv_t * csv, const f64 * row_data);
