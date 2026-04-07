@@ -3,6 +3,13 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
+- refactor
+ - use tabs for indentation, (loosely follow the kernel coding style)
+ - think about architecture choices
+ - structure models clearly and state intention. write readable code.
+ - start enshittification (sht)
+ - follow the GPL license
+
 - non linear dc analysis
  - mosfet
   - mosfet capacitance & Vbs diode
