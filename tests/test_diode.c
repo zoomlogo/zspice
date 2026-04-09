@@ -1,13 +1,14 @@
 #include <stdio.h>
 
 #include "component/component.h"
+#include "util/log.h"
 
 #include "test_def.h"
-#include "test.h"
+#include "sht_test.h"
 
 void test_diode(void)
 {
-	BEGIN_TEST();
+	TEST_BEGIN();
 
 	// note that the model is incomplete because of missing parameters
 	// which require internal nodes. (this will be handled in the parser step)
@@ -20,17 +21,17 @@ void test_diode(void)
 
 	env_t env = { 0 };
 	e_init(&env);
-	ASSERT_OKR(diode_linearize(&D_1N4148, &env));
+	TEST_EXPECT_RETURN(diode_linearize(&D_1N4148, &env) == OK);
 
-	ASSERTF(D_1N4148.D.i_eq, -0.009581);
-	ASSERTF(D_1N4148.D.g_eq, 0.0174);
+	TEST_EXPECT_FLOAT(D_1N4148.D.i_eq, -0.009581);
+	TEST_EXPECT_FLOAT(D_1N4148.D.g_eq, 0.017341);
 
 	diode_limit(&D_1N4148, 1, &D_1N4148.D.Vj);
-	ASSERT(D_1N4148.D.Vj < 0.7);
+	TEST_EXPECT(D_1N4148.D.Vj < 0.7);
 	diode_limit(&D_1N4148, -2, &D_1N4148.D.Vj);
-	ASSERTF(D_1N4148.D.Vj, -2);
+	TEST_EXPECT_FLOAT(D_1N4148.D.Vj, -2);
 	diode_limit(&D_1N4148, -102, &D_1N4148.D.Vj);
-	ASSERT(D_1N4148.D.Vj > -100);
+	TEST_EXPECT(D_1N4148.D.Vj > -100);
 
-	END_TEST();
+	TEST_END();
 }

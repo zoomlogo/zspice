@@ -3,7 +3,7 @@
 #define SHT_STRIP_PREFIX
 #define TESTS(X)          \
         X(lu)             \
-        X(csv) /*         \
+        X(csv)            \
         X(resistor)       \
         X(capacitor)      \
         X(inductor)       \
@@ -13,7 +13,7 @@
         X(bjt)            \
         X(circuit)        \
         X(dc)             \
-        X(ac) */
+        X(ac)
 
 // define the functions
 #define X(f) void test_##f(void);

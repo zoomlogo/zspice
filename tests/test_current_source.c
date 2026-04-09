@@ -3,10 +3,10 @@
 #include "component/component.h"
 #include "util/error.h"
 
-#include "test.h"
 #include "test_def.h"
+#include "sht_test.h"
 
-static void test_dc_stamp_current_source(void)
+TEST_DEFINE(dc_stamp_current_source)
 {
 	sbuf_t buf;
 	b_init(2, false, &buf);
@@ -14,14 +14,14 @@ static void test_dc_stamp_current_source(void)
 	e_init(&env);
 
 	component_t i = { CURRENT_SOURCE, 1, 0,.I.dc_offset = 5 };
-	ASSERT_OKC(dc_stamp_current_source(&buf, &i, &env));
-	ASSERTF(buf.b[0], 5);
+	TEST_EXPECT_DEFER(dc_stamp_current_source(&buf, &i, &env) == OK);
+	TEST_EXPECT_FLOAT(buf.b[0], 5);
 
- err:
+defer:
 	b_free(&buf);
 }
 
-static void test_ac_stamp_current_source(void)
+TEST_DEFINE(ac_stamp_current_source)
 {
 	sbuf_t buf;
 	b_init(2, true, &buf);
@@ -31,19 +31,20 @@ static void test_ac_stamp_current_source(void)
 
 	component_t i = { CURRENT_SOURCE, 1, 0,.I.max_current = 5,.I.frequency =
 		    NAN,.I.phase_offset = 90 };
-	ASSERT_OKC(ac_stamp_current_source(&buf, &i, &env));
-	ASSERTC(buf.zb[0], 5 * J);
+	TEST_EXPECT_DEFER(ac_stamp_current_source(&buf, &i, &env) == OK);
+	TEST_EXPECT_FLOAT(creal(buf.zb[0]), 0.0);
+	TEST_EXPECT_FLOAT(cimag(buf.zb[0]), 5.0);
 
- err:
+defer:
 	b_free(&buf);
 }
 
 void test_current_source(void)
 {
-	BEGIN_TEST();
+	TEST_BEGIN();
 
-	test_dc_stamp_current_source();
-	test_ac_stamp_current_source();
+	TEST_RUN(dc_stamp_current_source);
+	TEST_RUN(ac_stamp_current_source);
 
-	END_TEST();
+	TEST_END();
 }

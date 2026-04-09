@@ -5,10 +5,10 @@
 #include "component/component.h"
 #include "util/error.h"
 
-#include "test.h"
 #include "test_def.h"
+#include "sht_test.h"
 
-static void test_simple_circuit(void)
+TEST_DEFINE(simple_circuit)
 {
 	// make a simple circuit for testing
 	sbuf_t buf;
@@ -27,51 +27,46 @@ static void test_simple_circuit(void)
 	// 5----[- +]----3
 	component_t v1 = { VOLTAGE_SOURCE, 1, 0,.V.dc_offset = 5 };
 	component_t v2 = { VOLTAGE_SOURCE, 3, 5,.V.dc_offset = 5 };
-	component_t r1 = { RESISTOR, 1, 2,.R.resistance = 1000,.R.conductance =
-		    NAN };
-	component_t r2 = { RESISTOR, 2, 3,.R.resistance = 680,.R.conductance =
-		    NAN };
-	component_t r3 = { RESISTOR, 5, 4,.R.resistance = 3900,.R.conductance =
-		    NAN };
-	component_t r4 = { RESISTOR, 4, 0,.R.resistance = 1800,.R.conductance =
-		    NAN };
-	component_t r5 = { RESISTOR, 4, 2,.R.resistance = 680,.R.conductance =
-		    NAN };
+	component_t r1 = { RESISTOR, 1, 2, .R.resistance = 1000, .R.conductance = NAN };
+	component_t r2 = { RESISTOR, 2, 3, .R.resistance = 680, .R.conductance = NAN };
+	component_t r3 = { RESISTOR, 5, 4, .R.resistance = 3900, .R.conductance = NAN };
+	component_t r4 = { RESISTOR, 4, 0, .R.resistance = 1800, .R.conductance = NAN };
+	component_t r5 = { RESISTOR, 4, 2, .R.resistance = 680, .R.conductance = NAN };
 
-	ASSERT_OKC(c_add_connection(circuit, &r1));
-	ASSERT_OKC(c_add_connection(circuit, &r2));
-	ASSERT_OKC(c_add_connection(circuit, &r3));
-	ASSERT_OKC(c_add_connection(circuit, &r4));
-	ASSERT_OKC(c_add_connection(circuit, &r5));
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &r1) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &r2) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &r3) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &r4) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &r5) == OK);
 
-	ASSERT_OKC(c_add_connection(circuit, &v1));
-	ASSERT_OKC(c_add_connection(circuit, &v2));
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &v1) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &v2) == OK);
 
 	error_e err = dc_solve_linear(circuit, &buf, NULL);
-	ASSERT(err == ERR_NOT_INIT);
+	TEST_EXPECT(err == ERR_NOT_INIT);
 
-	ASSERT_OKC(c_calculate_dim(circuit));
-	ASSERT_OKC(b_init(circuit->dim, false, &buf));
+	TEST_EXPECT_DEFER(c_calculate_dim(circuit) == OK);
+	TEST_EXPECT_DEFER(b_init(circuit->dim, false, &buf) == OK);
 
-	ASSERT_OKC(dc_solve_linear(circuit, &buf, NULL));
+	TEST_EXPECT_DEFER(dc_solve_linear(circuit, &buf, NULL) == OK);
 
-	ASSERTF(circuit->nodes[0].potential, 0);
-	ASSERTF(circuit->nodes[1].potential, 5);
-	ASSERTF(circuit->nodes[2].potential, 3.71654);
-	ASSERTF(circuit->nodes[3].potential, 4.250101);
-	ASSERTF(circuit->nodes[4].potential, 2.310227);
-	ASSERTF(circuit->nodes[5].potential, -0.749899);
+	TEST_EXPECT_FLOAT(circuit->nodes[0].potential, 0);
+	TEST_EXPECT_FLOAT(circuit->nodes[1].potential, 5);
+	TEST_EXPECT_FLOAT(circuit->nodes[2].potential, 3.71654);
+	TEST_EXPECT_FLOAT(circuit->nodes[3].potential, 4.250101);
+	TEST_EXPECT_FLOAT(circuit->nodes[4].potential, 2.310227);
+	TEST_EXPECT_FLOAT(circuit->nodes[5].potential, -0.749899);
 
- err:
+defer:
 	del_circuit(circuit);
 	b_free(&buf);
 }
 
 void test_dc(void)
 {
-	BEGIN_TEST();
+	TEST_BEGIN();
 
-	test_simple_circuit();
+	TEST_RUN(simple_circuit);
 
-	END_TEST();
+	TEST_END();
 }

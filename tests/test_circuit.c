@@ -2,21 +2,21 @@
 #include "component/component.h"
 #include "util/error.h"
 
-#include "test.h"
 #include "test_def.h"
+#include "sht_test.h"
 
-static void test_circuit_instance(void)
+TEST_DEFINE(circuit_init)
 {
 	circuit_t *circuit = new_circuit();
 
-	ASSERT(circuit != NULL);
-	ASSERT(circuit->components != NULL);
-	ASSERT(circuit->nodes != NULL);
+	TEST_EXPECT(circuit != NULL);
+	TEST_EXPECT(circuit->components != NULL);
+	TEST_EXPECT(circuit->nodes != NULL);
 
 	del_circuit(circuit);
 }
 
-static void test_adding_components(void)
+TEST_DEFINE(adding_components)
 {
 	circuit_t *circuit = new_circuit();
 	if (circuit == NULL)
@@ -24,22 +24,22 @@ static void test_adding_components(void)
 
 	component_t comp = { RESISTOR, 0, 1,.R.resistance = 100,.R.conductance =
 		    0.01 };
-	ASSERT_OKC(c_add_connection(circuit, &comp));
-	ASSERT(circuit->component_count == 1);
-	ASSERT(circuit->node_count == 2);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &comp) == OK);
+	TEST_EXPECT(circuit->component_count == 1);
+	TEST_EXPECT(circuit->node_count == 2);
 
 	component_t comp2 = { RESISTOR, 100, 1,.R.resistance =
 		    1000,.R.conductance = 0.001 };
-	ASSERT_OKC(c_add_connection(circuit, &comp2));
-	ASSERT(circuit->component_count == 2);
-	ASSERT(circuit->component_capacity == 4);
-	ASSERT(circuit->node_count == 101);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &comp2) == OK);
+	TEST_EXPECT(circuit->component_count == 2);
+	TEST_EXPECT(circuit->component_capacity == 4);
+	TEST_EXPECT(circuit->node_count == 101);
 
- err:
+defer:
 	del_circuit(circuit);
 }
 
-static void test_dim_compute(void)
+TEST_DEFINE(dim_compute)
 {
 	circuit_t *circuit = new_circuit();
 	if (circuit == NULL)
@@ -50,28 +50,28 @@ static void test_dim_compute(void)
 	component_t r3 = { RESISTOR, 1, 3 };
 	component_t v1 = { VOLTAGE_SOURCE, 1, 0 };
 	component_t v2 = { VOLTAGE_SOURCE, 3, 0 };
-	ASSERT_OKC(c_add_connection(circuit, &r1));
-	ASSERT_OKC(c_add_connection(circuit, &r2));
-	ASSERT_OKC(c_add_connection(circuit, &r3));
-	ASSERT_OKC(c_add_connection(circuit, &v1));
-	ASSERT_OKC(c_add_connection(circuit, &v2));
-	ASSERT(circuit->component_count == 5);
-	ASSERT(circuit->node_count == 4);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &r1) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &r2) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &r3) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &v1) == OK);
+	TEST_EXPECT_DEFER(c_add_connection(circuit, &v2) == OK);
+	TEST_EXPECT(circuit->component_count == 5);
+	TEST_EXPECT(circuit->node_count == 4);
 
-	ASSERT_OKC(c_calculate_dim(circuit));
-	ASSERT(circuit->dim == 5);
+	TEST_EXPECT_DEFER(c_calculate_dim(circuit) == OK);
+	TEST_EXPECT(circuit->dim == 5);
 
- err:
+defer:
 	del_circuit(circuit);
 }
 
 void test_circuit(void)
 {
-	BEGIN_TEST();
+	TEST_BEGIN();
 
-	test_circuit_instance();
-	test_adding_components();
-	test_dim_compute();
+	TEST_RUN(circuit_init);
+	TEST_RUN(adding_components);
+	TEST_RUN(dim_compute);
 
-	END_TEST();
+	TEST_END();
 }

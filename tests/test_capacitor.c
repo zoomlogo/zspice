@@ -3,10 +3,10 @@
 #include "component/component.h"
 #include "util/error.h"
 
-#include "test.h"
 #include "test_def.h"
+#include "sht_test.h"
 
-static void test_dc_stamp_capacitor(void)
+TEST_DEFINE(dc_stamp_capacitor)
 {
 	sbuf_t buf;
 	b_init(2, false, &buf);
@@ -14,16 +14,15 @@ static void test_dc_stamp_capacitor(void)
 	e_init(&env);
 
 	component_t c = { CAPACITOR, 1, 2,.C.capacitance = 0.01 };
-	ASSERT_OKC(dc_stamp_capacitor(&buf, &c, &env));
-	ASSERT(buf.b[0] == 0 && buf.b[1] == 0);
-	ASSERT(buf.A[0] == 0 && buf.A[1] == 0 && buf.A[2] == 0
-	       && buf.A[3] == 0);
+	TEST_EXPECT_DEFER(dc_stamp_capacitor(&buf, &c, &env) == OK);
+	TEST_EXPECT(buf.b[0] == 0 && buf.b[1] == 0);
+	TEST_EXPECT(buf.A[0] == 0 && buf.A[1] == 0 && buf.A[2] == 0 && buf.A[3] == 0);
 
- err:
+defer:
 	b_free(&buf);
 }
 
-static void test_ac_stamp_capacitor(void)
+TEST_DEFINE(ac_stamp_capacitor)
 {
 	sbuf_t buf;
 	b_init(2, true, &buf);
@@ -32,22 +31,26 @@ static void test_ac_stamp_capacitor(void)
 	e_set_frequency(&env, 40);
 
 	component_t c = { CAPACITOR, 1, 2,.C.capacitance = 0.01 };
-	ASSERT_OKC(ac_stamp_capacitor(&buf, &c, &env));
-	ASSERTC(buf.zA[0], J * 2 * M_PI * 40 * 0.01);
-	ASSERTC(buf.zA[1], -J * 2 * M_PI * 40 * 0.01);
-	ASSERTC(buf.zA[2], -J * 2 * M_PI * 40 * 0.01);
-	ASSERTC(buf.zA[3], J * 2 * M_PI * 40 * 0.01);
+	TEST_EXPECT_DEFER(ac_stamp_capacitor(&buf, &c, &env) == OK);
+	TEST_EXPECT_FLOAT(creal(buf.zA[0]), 0.0);
+	TEST_EXPECT_FLOAT(cimag(buf.zA[0]), 2 * M_PI * 40 * 0.01);
+	TEST_EXPECT_FLOAT(creal(buf.zA[1]), 0.0);
+	TEST_EXPECT_FLOAT(cimag(buf.zA[1]), -2 * M_PI * 40 * 0.01);
+	TEST_EXPECT_FLOAT(creal(buf.zA[2]), 0.0);
+	TEST_EXPECT_FLOAT(cimag(buf.zA[2]), -2 * M_PI * 40 * 0.01);
+	TEST_EXPECT_FLOAT(creal(buf.zA[3]), 0.0);
+	TEST_EXPECT_FLOAT(cimag(buf.zA[3]), 2 * M_PI * 40 * 0.01);
 
- err:
+defer:
 	b_free(&buf);
 }
 
 void test_capacitor(void)
 {
-	BEGIN_TEST();
+	TEST_BEGIN();
 
-	test_dc_stamp_capacitor();
-	test_ac_stamp_capacitor();
+	TEST_RUN(dc_stamp_capacitor);
+	TEST_RUN(ac_stamp_capacitor);
 
-	END_TEST();
+	TEST_END();
 }
