@@ -3,11 +3,6 @@ analog circuit simulator
 for the mock-up version check https://codeberg.org/zoomlogo/aacs
 
 todo:
-- refactor
- - think about architecture choices
- - structure models clearly and state intention. write readable code.
- - start enshittification (sht)
-
 - non linear dc analysis
  - mosfet
   - mosfet capacitance & Vbs diode

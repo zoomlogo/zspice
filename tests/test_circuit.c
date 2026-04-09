@@ -22,14 +22,12 @@ TEST_DEFINE(adding_components)
 	if (circuit == NULL)
 		return;
 
-	component_t comp = { RESISTOR, 0, 1,.R.resistance = 100,.R.conductance =
-		    0.01 };
+	component_t comp = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = 0.01 };
 	TEST_EXPECT_DEFER(c_add_connection(circuit, &comp) == OK);
 	TEST_EXPECT(circuit->component_count == 1);
 	TEST_EXPECT(circuit->node_count == 2);
 
-	component_t comp2 = { RESISTOR, 100, 1,.R.resistance =
-		    1000,.R.conductance = 0.001 };
+	component_t comp2 = { RESISTOR, 100, 1, .R.resistance = 1000, .R.conductance = 0.001 };
 	TEST_EXPECT_DEFER(c_add_connection(circuit, &comp2) == OK);
 	TEST_EXPECT(circuit->component_count == 2);
 	TEST_EXPECT(circuit->component_capacity == 4);

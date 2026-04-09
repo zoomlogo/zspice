@@ -13,7 +13,7 @@ TEST_DEFINE(dc_stamp_current_source)
 	env_t env;
 	e_init(&env);
 
-	component_t i = { CURRENT_SOURCE, 1, 0,.I.dc_offset = 5 };
+	component_t i = { CURRENT_SOURCE, 1, 0, .I.dc_offset = 5 };
 	TEST_EXPECT_DEFER(dc_stamp_current_source(&buf, &i, &env) == OK);
 	TEST_EXPECT_FLOAT(buf.b[0], 5);
 
@@ -29,8 +29,7 @@ TEST_DEFINE(ac_stamp_current_source)
 	e_init(&env);
 	e_set_frequency(&env, 40);
 
-	component_t i = { CURRENT_SOURCE, 1, 0,.I.max_current = 5,.I.frequency =
-		    NAN,.I.phase_offset = 90 };
+	component_t i = { CURRENT_SOURCE, 1, 0, .I.max_current = 5, .I.frequency = NAN, .I.phase_offset = 90 };
 	TEST_EXPECT_DEFER(ac_stamp_current_source(&buf, &i, &env) == OK);
 	TEST_EXPECT_FLOAT(creal(buf.zb[0]), 0.0);
 	TEST_EXPECT_FLOAT(cimag(buf.zb[0]), 5.0);

@@ -31,8 +31,7 @@ TEST_DEFINE(ac_stamp_voltage_source)
 	e_init(&env);
 	e_set_frequency(&env, 40);
 
-	component_t v = { VOLTAGE_SOURCE, 1, 0,.solver_id = 2,.V.max_voltage =
-		    5,.V.frequency = NAN,.V.phase_offset = 90 };
+	component_t v = { VOLTAGE_SOURCE, 1, 0, .solver_id = 2, .V.max_voltage = 5, .V.frequency = NAN, .V.phase_offset = 90 };
 	TEST_EXPECT_DEFER(ac_stamp_voltage_source(&buf, &v, &env) == OK);
 	TEST_EXPECT_FLOAT(creal(buf.zb[2]), 0.0);
 	TEST_EXPECT_FLOAT(cimag(buf.zb[2]), 5.0);

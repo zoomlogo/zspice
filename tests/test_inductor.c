@@ -15,7 +15,7 @@ TEST_DEFINE(dc_stamp_inductor)
 	env_t env;
 	e_init(&env);
 
-	component_t l = { INDUCTOR, 1, 0,.solver_id = 2, .L.inductance = 1 };
+	component_t l = { INDUCTOR, 1, 0, .solver_id = 2, .L.inductance = 1 };
 	TEST_EXPECT_DEFER(dc_stamp_inductor(&buf, &l, &env) == OK);
 	TEST_EXPECT_FLOAT(buf.b[2], 0);
 	TEST_EXPECT_FLOAT(buf.A[2], 1);
@@ -33,7 +33,7 @@ TEST_DEFINE(ac_stamp_inductor)
 	e_init(&env);
 	e_set_frequency(&env, 40);
 
-	component_t l = { INDUCTOR, 1, 0,.solver_id = 2,.L.inductance = 1 };
+	component_t l = { INDUCTOR, 1, 0, .solver_id = 2, .L.inductance = 1 };
 	TEST_EXPECT_DEFER(ac_stamp_inductor(&buf, &l, &env) == OK);
 	TEST_EXPECT_FLOAT(creal(buf.zb[2]), 0.0);
 	TEST_EXPECT_FLOAT(cimag(buf.zb[2]), 0.0);

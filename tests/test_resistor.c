@@ -15,8 +15,7 @@ TEST_DEFINE(dc_stamp_resistor)
 	env_t env;
 	e_init(&env);
 
-	component_t r = { RESISTOR, 0, 1,.R.resistance = 100,.R.conductance =
-		    NAN };
+	component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
 	TEST_EXPECT_DEFER(dc_stamp_resistor(&buf, &r, &env) == OK);
 	TEST_EXPECT(buf.b[0] == 0 && buf.b[1] == 0);
 	TEST_EXPECT_FLOAT(buf.A[0], 0.01);
@@ -50,8 +49,7 @@ TEST_DEFINE(ac_stamp_resistor)
 	e_init(&env);
 	e_set_frequency(&env, 40);
 
-	component_t r = { RESISTOR, 0, 1,.R.resistance = 100,.R.conductance =
-		    NAN };
+	component_t r = { RESISTOR, 0, 1, .R.resistance = 100, .R.conductance = NAN };
 	TEST_EXPECT_DEFER(ac_stamp_resistor(&buf, &r, &env) == OK);
 	TEST_EXPECT(buf.zb[0] == 0 && buf.zb[1] == 0);
 	TEST_EXPECT_FLOAT(creal(buf.zA[0]), 0.01);

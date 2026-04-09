@@ -18,16 +18,12 @@ TEST_DEFINE(circuit_ac)
 	if (circuit == NULL)
 		return;
 
-	component_t v1 = { VOLTAGE_SOURCE, 1, 0,.V.max_voltage =
-		    5,.V.frequency = NAN };
-	component_t r1 = { RESISTOR, 1, 2,.R.resistance = 100,.R.conductance =
-		    NAN };
-	component_t r2 = { RESISTOR, 3, 0,.R.resistance = 100,.R.conductance =
-		    NAN };
-	component_t r3 = { RESISTOR, 1, 4,.R.resistance = 10,.R.conductance =
-		    NAN };
-	component_t c1 = { CAPACITOR, 4, 3,.C.capacitance = 1e-6 };
-	component_t l1 = { INDUCTOR, 2, 3,.L.inductance = 0.01 };
+	component_t v1 = { VOLTAGE_SOURCE, 1, 0, .V.max_voltage = 5, .V.frequency = NAN };
+	component_t r1 = { RESISTOR, 1, 2, .R.resistance = 100, .R.conductance = NAN };
+	component_t r2 = { RESISTOR, 3, 0, .R.resistance = 100, .R.conductance = NAN };
+	component_t r3 = { RESISTOR, 1, 4, .R.resistance = 10, .R.conductance = NAN };
+	component_t c1 = { CAPACITOR, 4, 3, .C.capacitance = 1e-6 };
+	component_t l1 = { INDUCTOR, 2, 3, .L.inductance = 0.01 };
 
 	TEST_EXPECT_DEFER(c_add_connection(circuit, &r1) == OK);
 	TEST_EXPECT_DEFER(c_add_connection(circuit, &r2) == OK);
