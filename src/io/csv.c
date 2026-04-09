@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "util/error.h"
-#include "util/log.h"
+#include "util/sht_log.h"
 
 #include "csv.h"
 #include "types.h"

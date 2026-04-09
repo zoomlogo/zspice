@@ -3,7 +3,7 @@
 #include "component/component.h"
 #include "util/error.h"
 #include "util/zmth.h"
-#include "util/log.h"
+#include "util/sht_log.h"
 
 #include "circuit.h"
 #include "environment.h"

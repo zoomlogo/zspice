@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "component/component.h"
-#include "util/log.h"
+#include "util/sht_log.h"
 
 #include "test_def.h"
 #include "sht_test.h"

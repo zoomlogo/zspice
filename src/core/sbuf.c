@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "util/log.h"
+#include "util/sht_log.h"
 
 #include "sbuf.h"
 

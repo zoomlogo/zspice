@@ -30,8 +30,6 @@ bin/
 *.dylib
 
 #ex
-core*
-core
 gmon.out
 perf.data
 perf.data.old

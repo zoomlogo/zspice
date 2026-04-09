@@ -1,7 +1,7 @@
 #include <math.h>
 
 #include "util/error.h"
-#include "util/log.h"
+#include "util/sht_log.h"
 
 #include "environment.h"
 

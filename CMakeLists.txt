@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 project(zspice)
 
+# Strip sht prefixes everywhere.
+add_compile_options(-DSHT_STRIP_PREFIX)
+
 option(ASAN "Enable Debugging with Address Sanitizer." OFF)
 if(ASAN)
     message(STATUS "Building with Address sanitizer...")
-    add_compile_options(-ggdb -fsanitize=address -fno-omit-frame-pointer -DLOG_LEVEL=0)
+    add_compile_options(-ggdb -fsanitize=address -fno-omit-frame-pointer -DSHT_LOG_LEVEL=0)
     add_link_options(-fsanitize=address)
 endif()
 

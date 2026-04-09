@@ -6,7 +6,7 @@
 #include "core/environment.h"
 #include "types.h"
 #include "util/error.h"
-#include "util/log.h"
+#include "util/sht_log.h"
 #include "util/zmth.h"
 
 #include "analysis.h"

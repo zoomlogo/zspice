@@ -6,7 +6,7 @@
 
 #include "core/environment.h"
 #include "util/error.h"
-#include "util/log.h"
+#include "util/sht_log.h"
 #include "util/lu.h"
 #include "util/zmth.h"
 

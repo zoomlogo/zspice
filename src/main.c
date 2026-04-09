@@ -8,7 +8,7 @@
 
 #include "types.h"
 #include "util/error.h"
-#include "util/log.h"
+#include "util/sht_log.h"
 
 i32 main(void)
 {
