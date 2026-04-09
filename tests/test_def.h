@@ -2,8 +2,8 @@
 
 #define SHT_STRIP_PREFIX
 #define TESTS(X)          \
-        X(lu) /*          \
-        X(csv)            \
+        X(lu)             \
+        X(csv) /*         \
         X(resistor)       \
         X(capacitor)      \
         X(inductor)       \

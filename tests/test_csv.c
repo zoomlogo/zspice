@@ -4,27 +4,27 @@
 #include "io/csv.h"
 
 #include "types.h"
-#include "test.h"
 #include "test_def.h"
+#include "sht_test.h"
 
-static inline void test_csv_simple()
+TEST_DEFINE(csv_simple)
 {
 	// open, write, close
 	csv_t *csv = csv_open("test.csv");
-	ASSERT(csv != NULL);
+	TEST_EXPECT_RETURN(csv != NULL);
 
-	ASSERT_OKC(csv_add_header(csv, "i"));
-	ASSERT_OKC(csv_add_header(csv, "f(i)"));
-	ASSERT_OKC(csv_write_header(csv));
+	TEST_EXPECT_DEFER(csv_add_header(csv, "i") == OK);
+	TEST_EXPECT_DEFER(csv_add_header(csv, "f(i)") == OK);
+	TEST_EXPECT_DEFER(csv_write_header(csv) == OK);
 
 	f64 dat[] = { 1, 1 };
-	ASSERT_OKC(csv_write_row(csv, dat));
-	ASSERT_OKC(csv_write_data(csv, 2));
+	TEST_EXPECT_DEFER(csv_write_row(csv, dat) == OK);
+	TEST_EXPECT_DEFER(csv_write_data(csv, 2) == OK);
 
 	error_e err = csv_write_row(csv, dat);
-	ASSERT(err == ERR_IO);
+	TEST_EXPECT(err == ERR_IO);
 
-	ASSERT_OKC(csv_write_data(csv, 4));
+	TEST_EXPECT_DEFER(csv_write_data(csv, 4) == OK);
 	csv_close(csv);
 
 	// dump, delete
@@ -36,15 +36,15 @@ static inline void test_csv_simple()
 	remove("test.csv");
 
 	return;
- err:
+defer:
 	csv_close(csv);
 }
 
 void test_csv()
 {
-	BEGIN_TEST();
+	TEST_BEGIN();
 
-	test_csv_simple();
+	TEST_RUN(csv_simple);
 
-	END_TEST();
+	TEST_END();
 }
