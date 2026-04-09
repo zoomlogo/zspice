@@ -13,7 +13,7 @@ todo:
 - make sweeps return a data struct instead of directly writing csv file
 - add functions to write specific components to that csv file
 - add a function to write that data to csv file
-- add a sweep for values
+- add a sweep for values (e.g. sweep over resistance)
 
 - ac small signal models
  - diode
