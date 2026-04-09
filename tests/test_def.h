@@ -1,20 +1,21 @@
 #pragma once
 
-#define TESTS(X) \
-    X(test_lu) \
-    X(test_csv) \
-    X(test_resistor) \
-    X(test_capacitor) \
-    X(test_inductor) \
-    X(test_voltage_source) \
-    X(test_current_source) \
-    X(test_diode) \
-    X(test_bjt) \
-    X(test_circuit) \
-    X(test_dc) \
-    X(test_ac)
+#define SHT_STRIP_PREFIX
+#define TESTS(X)          \
+        X(lu) /*          \
+        X(csv)            \
+        X(resistor)       \
+        X(capacitor)      \
+        X(inductor)       \
+        X(voltage_source) \
+        X(current_source) \
+        X(diode)          \
+        X(bjt)            \
+        X(circuit)        \
+        X(dc)             \
+        X(ac) */
 
 // define the functions
-#define X(f) void f(void);
+#define X(f) void test_##f(void);
 TESTS(X)
 #undef X

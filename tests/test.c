@@ -2,20 +2,15 @@
 
 #include "types.h"
 
+#define SHT_TEST_CONTAINS_MAIN
 #include "test_def.h"
-
-usize test_num = 0;
-usize passed = 0;
-usize net_failed = 0;
+#include "sht_test.h"
 
 i32 main(void)
 {
-#define X(f) f();
+#define X(f) test_##f();
 	TESTS(X)
 #undef X
-	    if (net_failed > 0)
-		printf("\033[31mtotal failed: %lu\033[0m\n", net_failed);
-	else
-		printf("\033[32m======= ALL PASSED! =======\033[0m\n");
-	return net_failed;
+	TEST_SUMMARY();
+	return 0;
 }

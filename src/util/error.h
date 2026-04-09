@@ -10,17 +10,17 @@
  * enum name as the first parameter and the error message as the
  * second parameter.
  */
-#define ERRORS(X) \
-    X(OK, "ok: operation successful") \
-    X(ERR_INVALID_ARG, "arg: invalid arguments supplied") \
-    X(ERR_INVALID_PARAM, "param: invalid parameters supplied") \
-    X(ERR_MEM_ALLOC, "mem_alloc: failed to allocate sufficient memory") \
-    X(ERR_SINGULAR, "singular: matrix was singular") \
-    X(ERR_NOT_INIT, "not_init: circuit solver matrix not initialized") \
-    X(ERR_DIV_0, "div_0: division by zero") \
-    X(ERR_UNIMPL, "unimpl: not implemented yet") \
-    X(ERR_CONVNC, "convnc: ran out of iterations") \
-    X(ERR_IO, "io: io error")
+#define ERRORS(X)                                                           \
+        X(OK, "ok: operation successful")                                   \
+        X(ERR_INVALID_ARG, "arg: invalid arguments supplied")               \
+        X(ERR_INVALID_PARAM, "param: invalid parameters supplied")          \
+        X(ERR_MEM_ALLOC, "mem_alloc: failed to allocate sufficient memory") \
+        X(ERR_SINGULAR, "singular: matrix was singular")                    \
+        X(ERR_NOT_INIT, "not_init: circuit solver matrix not initialized")  \
+        X(ERR_DIV_0, "div_0: division by zero")                             \
+        X(ERR_UNIMPL, "unimpl: not implemented yet")                        \
+        X(ERR_CONVNC, "convnc: ran out of iterations")                      \
+        X(ERR_IO, "io: io error")
 
 /**
  * @brief The error enum.
