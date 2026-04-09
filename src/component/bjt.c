@@ -94,14 +94,15 @@
  */
 error_e bjt_linearize(component_t *c, env_t *env)
 {
+	if (isnan(c->Q.V_T))
+		c->Q.V_T = env->V_T;
+
 	f64 Vbe = c->Q.Vbe;
 	f64 Vbc = c->Q.Vbc;
 	f64 Bf = c->Q.Bf;
 	f64 Br = c->Q.Br;
 	f64 Nf = c->Q.Nf;
 	f64 Nr = c->Q.Nr;
-	if (isnan(c->Q.V_T))
-		c->Q.V_T = env->V_T;
 	f64 V_T = c->Q.V_T;
 	f64 Is = c->Q.Is;
 	f64 Va = c->Q.Va;
@@ -126,22 +127,20 @@ error_e bjt_linearize(component_t *c, env_t *env)
 	// compute junction capacitances
 	f64 Cje;
 	f64 Cjc;
+
 	if (Vbe > 0.5 * c->Q.phi_e) {
-		Cje =
-		    c->Q.Cj0e * pow(0.5,
-				    -(1 + c->Q.m_e)) * (0.5 - 0.5 * c->Q.m_e +
-							c->Q.m_e * c->Q.Vbe /
-							c->Q.phi_e);
-	} else
+		Cje = c->Q.Cj0e * pow(0.5, -(1 + c->Q.m_e))
+		    * (0.5 - 0.5 * c->Q.m_e + c->Q.m_e * c->Q.Vbe / c->Q.phi_e);
+	} else {
 		Cje = c->Q.Cj0e / pow(1 - Vbe / c->Q.phi_e, c->Q.m_e);
+	}
+
 	if (Vbc > 0.5 * c->Q.phi_c) {
-		Cjc =
-		    c->Q.Cj0c * pow(0.5,
-				    -(1 + c->Q.m_c)) * (0.5 - 0.5 * c->Q.m_c +
-							c->Q.m_c * c->Q.Vbc /
-							c->Q.phi_c);
-	} else
+		Cjc = c->Q.Cj0c * pow(0.5, -(1 + c->Q.m_c))
+		    * (0.5 - 0.5 * c->Q.m_c + c->Q.m_c * c->Q.Vbc / c->Q.phi_c);
+	} else {
 		Cjc = c->Q.Cj0c / pow(1 - Vbc / c->Q.phi_c, c->Q.m_c);
+	}
 
 	// compute (dc) terminal currents
 	c->Q.Ic = I_ct - I_ec / Br;
@@ -179,14 +178,14 @@ error_e bjt_linearize(component_t *c, env_t *env)
  */
 void bjt_limit(component_t *c, f64 Vbe, f64 Vbc, f64 *r_Vbe, f64 *r_Vbc)
 {
-	if (isnan(c->Q.Vcritf))
-		c->Q.Vcritf =
-		    c->Q.Nf * c->Q.V_T * log(sqrt(0.5) * c->Q.Nf * c->Q.V_T /
-					     c->Q.Is);
-	if (isnan(c->Q.Vcritr))
-		c->Q.Vcritr =
-		    c->Q.Nr * c->Q.V_T * log(sqrt(0.5) * c->Q.Nr * c->Q.V_T /
-					     c->Q.Is);
+	if (isnan(c->Q.Vcritf)) {
+		c->Q.Vcritf = c->Q.Nf * c->Q.V_T
+		            * log(sqrt(0.5) * c->Q.Nf * c->Q.V_T / c->Q.Is);
+	}
+	if (isnan(c->Q.Vcritr)) {
+		c->Q.Vcritr = c->Q.Nr * c->Q.V_T
+		            * log(sqrt(0.5) * c->Q.Nr * c->Q.V_T / c->Q.Is);
+	}
 
 	*r_Vbe = zjlimit(Vbe, c->Q.Vbe, c->Q.V_T, c->Q.Vcritf);
 	*r_Vbc = zjlimit(Vbc, c->Q.Vbc, c->Q.V_T, c->Q.Vcritr);
@@ -219,9 +218,9 @@ void bjt_limit(component_t *c, f64 Vbe, f64 Vbc, f64 *r_Vbe, f64 *r_Vbc)
  */
 error_e dc_stamp_bjt(sbuf_t *buf, component_t *c, env_t *env)
 {
-	usize nb = c->id0;	// base
-	usize ne = c->id1;	// emitter
-	usize nc = c->id2;	// collector
+	usize nb = c->id0;    // base
+	usize ne = c->id1;    // emitter
+	usize nc = c->id2;    // collector
 
 	// stamp conductances
 	if (nb > 0) {

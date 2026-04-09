@@ -50,9 +50,10 @@
  */
 error_e diode_linearize(component_t *c, env_t *env)
 {
-	f64 V_D = c->D.Vj;
 	if (isnan(c->D.V_T))
 		c->D.V_T = env->V_T;
+
+	f64 V_D = c->D.Vj;
 	f64 V_T = c->D.V_T;
 
 	f64 eforward = exp(V_D / (c->D.N * V_T));
@@ -69,12 +70,11 @@ error_e diode_linearize(component_t *c, env_t *env)
 	// compute junction capacitance
 	f64 Cj;
 	if (c->D.Vj > 0.5 * c->D.phi) {
-		Cj = c->D.Cj0 * pow(0.5,
-				    -(1 + c->D.m)) * (0.5 - 0.5 * c->D.m +
-						      c->D.m * c->D.Vj /
-						      c->D.phi);
-	} else
+		Cj = c->D.Cj0 * pow(0.5, -(1 + c->D.m))
+		   * (0.5 - 0.5 * c->D.m + c->D.m * c->D.Vj / c->D.phi);
+	} else {
 		Cj = c->D.Cj0 / pow(1 - c->D.Vj / c->D.phi, c->D.m);
+	}
 
 	// compute diffusion capacitance
 	f64 Cd = c->D.tau * g_fw;
@@ -105,18 +105,17 @@ error_e diode_linearize(component_t *c, env_t *env)
 void diode_limit(component_t *c, f64 Vj, f64 *r_Vj)
 {
 	if (isnan(c->D.Vcrit))
-		c->D.Vcrit =
-		    c->D.N * c->D.V_T * log(sqrt(0.5) * c->D.N * c->D.V_T /
-					    c->D.Is);
+		c->D.Vcrit = c->D.N * c->D.V_T
+		           * log(sqrt(0.5) * c->D.N * c->D.V_T / c->D.Is);
 
 	f64 V_break = c->D.V_break;
-	if (Vj < -V_break || c->D.Vj < -V_break)	// transform coords → limit → inverse transform coords
-		*r_Vj =
-		    -(zjlimit
-		      (-(Vj + V_break), -(c->D.Vj + V_break), c->D.V_T,
-		       c->D.Vcrit) + V_break);
-	else
+
+	if (Vj < -V_break || c->D.Vj < -V_break) {
+		// transform coords → limit → inverse transform coords
+		*r_Vj = -(zjlimit(-(Vj + V_break), -(c->D.Vj + V_break), c->D.V_T, c->D.Vcrit) + V_break);
+	} else {
 		*r_Vj = zjlimit(Vj, c->D.Vj, c->D.V_T, c->D.Vcrit);
+	}
 }
 
 #define A(i, j) MI(buf->A, (i), (j), buf->dim)
