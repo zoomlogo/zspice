@@ -99,7 +99,7 @@ error_e dc_solve_non_linear(circuit_t *circuit, sbuf_t *buffer, env_t *env)
 		if (dc_check_convergence(circuit)) {
 			did_converge = true;
 			log_debug("converged in %zu iterations", k);
-			break;	// converged
+			break;  // converged
 		}
 	}
 

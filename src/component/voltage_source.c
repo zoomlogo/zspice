@@ -104,9 +104,9 @@ error_e ac_stamp_voltage_source(sbuf_t *buf, component_t *c, env_t *env)
 		c->V.dc_offset = 0;
 
 	c64 V;
-	if (isnan(c->V.frequency))	// sweep source
+	if (isnan(c->V.frequency))  // sweep source
 		V = c->V.max_voltage * cexp(J * M_PI * c->V.phase_offset / 180);
-	else			// fixed frequency source shorted
+	else                        // fixed frequency source shorted
 		V = 0;
 
 	if (n0 > 0) {

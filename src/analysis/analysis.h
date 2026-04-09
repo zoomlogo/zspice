@@ -17,9 +17,9 @@
  * @brief The different types of frequency sweeps.
  */
 typedef enum {
-	SWEEP_LINEAR,		///< Standard Linear Sweep.
-	SWEEP_DECADE,		///< Standard Logarithmic Decade Sweep.
-	SWEEP_OCTAVE		///< Standard Logarithmic Octave Sweep.
+	SWEEP_LINEAR,  ///< Standard Linear Sweep.
+	SWEEP_DECADE,  ///< Standard Logarithmic Decade Sweep.
+	SWEEP_OCTAVE,  ///< Standard Logarithmic Octave Sweep.
 } sweep_type_e;
 
 /**
@@ -27,16 +27,16 @@ typedef enum {
  */
 typedef struct {
 	// param part
-	sweep_type_e sweep_type;	///< The sweep type.
-	usize sweeped_component_id;	///< The voltage source to sweep.
-	f64 start_voltage;	///< Start voltage.
-	f64 stop_voltage;	///< Stop voltage.
-	usize steps;		///< Number of steps.
+	sweep_type_e sweep_type;     ///< The sweep type.
+	usize sweeped_component_id;  ///< The voltage source to sweep.
+	f64 start_voltage;           ///< Start voltage.
+	f64 stop_voltage;            ///< Stop voltage.
+	usize steps;                 ///< Number of steps.
 
 	// io part
-	const char *filename;	///< Output CSV filename.
-	usize *node_ids;	///< The list of node ids to output.
-	usize n;		///< The length of `node_ids`.
+	const char *filename;  ///< Output CSV filename.
+	usize *node_ids;       ///< The list of node ids to output.
+	usize n;               ///< The length of `node_ids`.
 } dc_sweep_params_t;
 
 /**
@@ -44,16 +44,16 @@ typedef struct {
  */
 typedef struct {
 	// param part
-	sweep_type_e sweep_type;	///< The sweep type.
-	f64 start_frequency;	///< Start frequency.
-	f64 stop_frequency;	///< Stop frequency.
-	usize steps;		///< Number of steps.
+	sweep_type_e sweep_type;  ///< The sweep type.
+	f64 start_frequency;      ///< Start frequency.
+	f64 stop_frequency;       ///< Stop frequency.
+	usize steps;              ///< Number of steps.
 
 	// io part
-	const char *filename;	///< Output CSV filename.
-	usize *node_ids;	///< The list of node ids to output.
-	usize n;		///< The length of `node_ids`.
-	usize ref_node_id;	///< The id of the reference node to compute the gain w.r.t..
+	const char *filename;  ///< Output CSV filename.
+	usize *node_ids;       ///< The list of node ids to output.
+	usize n;               ///< The length of `node_ids`.
+	usize ref_node_id;     ///< The id of the reference node to compute the gain w.r.t..
 } ac_sweep_params_t;
 
 /**

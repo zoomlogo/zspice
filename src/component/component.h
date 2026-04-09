@@ -21,7 +21,7 @@ enum ctype {
 #define COMPONENT(en, sn, av, p) en,
 #include "component.def"
 #undef COMPONENT
-	_C_LEN			//!< The total number of component types.
+	_C_LEN  //!< The total number of component types.
 };
 
 /**
@@ -60,7 +60,7 @@ enum ctype {
  * and the physical parameters as an anonymous union.
  */
 typedef struct {
-	enum ctype type;	//!< The type of component stored.
+	enum ctype type;  //!< The type of component stored.
 
     /**
      * @brief ID of the (generally) positive node.
@@ -138,7 +138,7 @@ typedef error_e(*dc_stamp_f) (sbuf_t *, component_t *, env_t *);
 #undef COMPONENT
 
 // dc analysis: LUT
-extern const dc_stamp_f DC_STAMPS[_C_LEN];	///< The DC Stamp Lookup Table.
+extern const dc_stamp_f DC_STAMPS[_C_LEN];  ///< The DC Stamp Lookup Table.
 
 // ac analysis: stamp functions
 typedef error_e(*ac_stamp_f) (sbuf_t *, component_t *, env_t *);
@@ -147,7 +147,7 @@ typedef error_e(*ac_stamp_f) (sbuf_t *, component_t *, env_t *);
 #undef COMPONENT
 
 // ac analysis: LUT
-extern const ac_stamp_f AC_STAMPS[_C_LEN];	///< The AC Stamp Lookup Table.
+extern const ac_stamp_f AC_STAMPS[_C_LEN];  ///< The AC Stamp Lookup Table.
 
 /**
  * @brief Set defaults of a component.

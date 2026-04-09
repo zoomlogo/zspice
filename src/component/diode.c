@@ -142,8 +142,8 @@ void diode_limit(component_t *c, f64 Vj, f64 *r_Vj)
  */
 error_e dc_stamp_diode(sbuf_t *buf, component_t *c, env_t *env)
 {
-	usize n0 = c->id0;	// anode
-	usize n1 = c->id1;	// cathode
+	usize n0 = c->id0;  // anode
+	usize n1 = c->id1;  // cathode
 
 	f64 g_eq = c->D.g_eq;
 	f64 i_eq = c->D.i_eq;

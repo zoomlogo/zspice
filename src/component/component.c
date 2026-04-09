@@ -38,6 +38,6 @@ void c_defaults(component_t *component)
 #include "component.def"
 #undef COMPONENT
 #undef P
-	case _C_LEN:		// do nothing
+	case _C_LEN:  // do nothing
 	}
 }

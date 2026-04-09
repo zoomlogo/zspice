@@ -7,7 +7,7 @@
 
 #include "types.h"
 
-#define MIN_TOL 1e-12		///< Tolerance below which quantities will be considered 0.
+#define MIN_TOL 1e-12    ///< Tolerance below which quantities will be considered 0.
 
 /**
  * @brief Maximum of x, y.
@@ -36,7 +36,7 @@ static inline bool zalmost_zero(f64 x)
 static inline f64 zlog10(f64 x)
 {
 	if (zalmost_zero(x))
-		return -12;	// log10(1e-12)
+		return -12;  // log10(1e-12)
 	return log10(x);
 }
 

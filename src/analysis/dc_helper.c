@@ -48,8 +48,8 @@ error_e dc_update_guesses(circuit_t *circuit, sbuf_t *buffer)
 			// compute new junction voltage
 			f64 Vj = V_anode - V_cathode;
 
-			c->D._Vj = c->D.Vj;	// store the old value
-			diode_limit(c, Vj, &c->D.Vj);	// overwrite
+			c->D._Vj = c->D.Vj;  // store the old value
+			diode_limit(c, Vj, &c->D.Vj);  // overwrite
 		} else if (c->type == BJT) {
 			usize n0 = c->id0;
 			usize n1 = c->id1;

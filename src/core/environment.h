@@ -6,20 +6,20 @@
 #include "util/error.h"
 
 // Physical constants.
-#define K_BOLTZMANN 1.380649e-23	///< The Boltzmann constant, \f(k\f).
-#define K_CHARGE 1.602176e-19	///< The elementary charge, \f(q\f).
+#define K_BOLTZMANN 1.380649e-23  ///< The Boltzmann constant, \f(k\f).
+#define K_CHARGE 1.602176e-19     ///< The elementary charge, \f(q\f).
 
 /**
  * @brief Stores information about the environment of the circuit.
  */
 typedef struct {
 	// Temperature
-	f64 temperature;	///< Global Temperature, \f(T\f), of the circuit in Kelvin.
-	f64 V_T;		///< The corresponding Thermal Voltage, \f(V_T\f).
+	f64 temperature;  ///< Global Temperature, \f(T\f), of the circuit in Kelvin.
+	f64 V_T;          ///< The corresponding Thermal Voltage, \f(V_T\f).
 
 	// AC analysis
-	f64 w;			///< The angular frequency, \f(\omega\f), for AC analysis.
-	f64 f;			///< The frequency, \f(f\f), for AC analysis.
+	f64 w;  ///< The angular frequency, \f(\omega\f), for AC analysis.
+	f64 f;  ///< The frequency, \f(f\f), for AC analysis.
 } env_t;
 
 /**

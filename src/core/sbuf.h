@@ -11,15 +11,15 @@
  * @brief Stores the matrix which is to be solved.
  */
 typedef struct {
-	usize dim;		///< The dimension of the matrix / vectors involved.
+	usize dim;  ///< The dimension of the matrix / vectors involved.
 
 	// DC.
-	f64 *A;			///< DC/Transient analysis. dim×dim matrix
-	f64 *b;			///< DC/Transient analysis. dim vector
+	f64 *A;  ///< DC/Transient analysis. dim×dim matrix
+	f64 *b;  ///< DC/Transient analysis. dim vector
 
 	// AC.
-	c64 *zA;		///< AC analysis. dim×dim matrix.
-	c64 *zb;		///< AC analysis. dim vector.
+	c64 *zA;  ///< AC analysis. dim×dim matrix.
+	c64 *zb;  ///< AC analysis. dim vector.
 } sbuf_t;
 
 /**

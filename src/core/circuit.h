@@ -13,15 +13,15 @@
  * @brief Stores circuits as a collection of nodes and components.
  */
 typedef struct {
-	usize node_count;	///< The number of nodes present.
-	node_t *nodes;		///< Dynamic array of the nodes.
+	usize node_count;    ///< The number of nodes present.
+	node_t *nodes;       ///< Dynamic array of the nodes.
 
-	usize component_capacity;	///< Space allocated for the components.
-	usize component_count;	///< Number of components present.
-	component_t *components;	///< Dynamic array of components.
+	usize component_capacity;  ///< Space allocated for the components.
+	usize component_count;     ///< Number of components present.
+	component_t *components;   ///< Dynamic array of components.
 
-	usize dim;		///< The number of unknowns in the circuit.
-	env_t default_env;	///< The default simulation environment.
+	usize dim;          ///< The number of unknowns in the circuit.
+	env_t default_env;  ///< The default simulation environment.
 } circuit_t;
 
 /**

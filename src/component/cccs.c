@@ -36,7 +36,7 @@ error_e dc_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env)
 {
 	usize n0 = c->id0;
 	usize n1 = c->id1;
-	usize ni = c->id2;	// current index
+	usize ni = c->id2;  // current index
 
 	if (ni == 0)
 		return ERR_INVALID_PARAM;
@@ -85,7 +85,7 @@ error_e ac_stamp_cccs(sbuf_t *buf, component_t *c, env_t *env)
 {
 	usize n0 = c->id0;
 	usize n1 = c->id1;
-	usize ni = c->id2;	// current index
+	usize ni = c->id2;  // current index
 
 	if (ni == 0)
 		return ERR_INVALID_PARAM;

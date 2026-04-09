@@ -12,10 +12,10 @@
  * @brief CSV File type.
  */
 typedef struct {
-	FILE *fptr;		///< `FILE` pointer to the CSV file.
-	usize cols;		///< Number of columns in the CSV file.
-	char **header;		///< The header of the CSV file.
-	usize cloc;		///< Used to determine which column data we are writing.
+	FILE *fptr;             ///< `FILE` pointer to the CSV file.
+	usize cols;             ///< Number of columns in the CSV file.
+	char **header;          ///< The header of the CSV file.
+	usize cloc;             ///< Used to determine which column data we are writing.
 } csv_t;
 
 /**

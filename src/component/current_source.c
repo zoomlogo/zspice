@@ -87,9 +87,9 @@ error_e ac_stamp_current_source(sbuf_t *buf, component_t *c, env_t *env)
 		c->I.dc_offset = 0;
 
 	c64 I;
-	if (isnan(c->I.frequency))	// sweep source
+	if (isnan(c->I.frequency))  // sweep source
 		I = c->I.max_current * cexp(J * M_PI * c->I.phase_offset / 180);
-	else			// fixed frequency source shorted
+	else                        // fixed frequency source shorted
 		I = 0;
 
 	if (n0 > 0)
